@@ -24,9 +24,13 @@ type SlideDef = {
   lines: LineDef[]
   speakerNotes: string
   interactionHint?: string
+  /** Giant low-opacity numeral used by algorithm template slides (14-18). */
+  watermark?: string
+  /** Override impact/text-only alignment when needed by the spec. */
+  layout?: 'center' | 'left'
 }
 
-const BANNER_HEIGHT = '38vh'
+const BANNER_HEIGHT = '40vh'
 
 function NarrativeSlide({
   def,
@@ -40,7 +44,7 @@ function NarrativeSlide({
   const isDark = def.mode === 'cinematic' || def.background === '#0F172A' || def.background === '#000000'
 
   const textBlock = (
-    <div className="space-y-3">
+    <div className={def.mode === 'impact' ? 'space-y-4' : 'space-y-3'}>
       {def.lines.map((line, idx) => (
         <BuildStep
           key={`${def.id}-line-${idx}`}
@@ -75,7 +79,7 @@ function NarrativeSlide({
         description={def.imageDescription}
         className="w-full h-full"
         vignette={false}
-        objectFit="contain"
+        objectFit="cover"
       />
       <div
         className="absolute inset-x-0 bottom-0 pointer-events-none"
@@ -88,10 +92,17 @@ function NarrativeSlide({
   ) : null
 
   const contentArea = (
-    <div className={`flex-1 flex flex-col justify-center px-10 py-6 sm:px-12 sm:py-8 ${isDark ? 'text-white' : 'text-obsidian'}`}>
-      {textBlock}
+    <div className={`relative flex-1 min-h-0 flex flex-col px-10 py-8 sm:px-12 sm:py-10 ${isDark ? 'text-white' : 'text-obsidian'}`}>
+      {def.watermark ? (
+        <span className="absolute left-4 sm:left-6 top-0 font-playfair text-[11rem] sm:text-[13rem] leading-none text-ember/10 pointer-events-none select-none">
+          {def.watermark}
+        </span>
+      ) : null}
+      <div className="flex-1 flex items-center">
+        <div className={`w-full max-w-5xl ${def.watermark ? 'pl-14 sm:pl-20' : ''}`}>{textBlock}</div>
+      </div>
       {def.caption ? (
-        <p className="mt-4 text-sm text-slate-400 font-sans">{def.caption}</p>
+        <p className="mt-auto pt-4 text-sm text-slate-400 font-sans">{def.caption}</p>
       ) : null}
     </div>
   )
@@ -105,6 +116,7 @@ function NarrativeSlide({
           description={def.imageDescription}
           className="absolute inset-0"
           vignette={true}
+          objectFit="cover"
         />
         <div
           className="absolute inset-0 pointer-events-none"
@@ -114,10 +126,10 @@ function NarrativeSlide({
         />
         <div className="absolute bottom-0 left-0 right-0 h-52 bg-black/95 pointer-events-none" />
         <div className="absolute bottom-0 left-0 right-0 p-10 sm:p-12 flex flex-col justify-end min-h-0">
-          <div className={isDark ? 'text-white' : 'text-obsidian'}>
+          <div className={`${isDark ? 'text-white' : 'text-obsidian'} max-w-5xl`}>
             {textBlock}
             {def.caption ? (
-              <p className="mt-4 text-sm text-slate-400 font-sans">{def.caption}</p>
+              <p className="mt-4 text-sm text-slate-300 font-sans">{def.caption}</p>
             ) : null}
           </div>
         </div>
@@ -139,7 +151,7 @@ function NarrativeSlide({
           />
         </div>
         <div className="flex-shrink-0 border-t border-slate-200/60 px-10 py-6 bg-bone text-obsidian">
-          {textBlock}
+          <div className="max-w-5xl">{textBlock}</div>
           {def.caption ? (
             <p className="mt-3 text-sm text-slate-500 font-sans">{def.caption}</p>
           ) : null}
@@ -160,8 +172,11 @@ function NarrativeSlide({
     )
   }
 
+  const textOnlyLeft = def.layout === 'left'
   return (
-    <div className={`relative w-full h-full flex items-center justify-center text-center p-14 ${isDark ? '' : 'text-obsidian'}`}>
+    <div
+      className={`relative w-full h-full flex justify-center p-12 sm:p-14 ${textOnlyLeft ? 'items-start text-left' : 'items-center text-center'} ${isDark ? '' : 'text-obsidian'}`}
+    >
       {hasBackgroundImage && (
         <div
           className="absolute inset-0 bg-cover bg-center"
@@ -171,7 +186,7 @@ function NarrativeSlide({
           }}
         />
       )}
-      <div className="relative z-10 max-w-5xl">{textBlock}</div>
+      <div className={`relative z-10 max-w-5xl ${textOnlyLeft ? 'pt-10' : ''}`}>{textBlock}</div>
     </div>
   )
 }
@@ -206,7 +221,7 @@ const mainSlideDefs: SlideDef[] = [
     lines: [
       {
         text: 'Who designed this?',
-        className: 'font-sans text-2xl text-white/70',
+        className: 'font-sans text-[18px] text-white/55',
       },
     ],
     speakerNotes:
@@ -222,7 +237,7 @@ const mainSlideDefs: SlideDef[] = [
     lines: [
       {
         text: 'Who designed this?',
-        className: 'font-sans text-2xl text-white/70',
+        className: 'font-sans text-[18px] text-white/55',
       },
     ],
     speakerNotes:
@@ -267,7 +282,7 @@ const mainSlideDefs: SlideDef[] = [
     imageDescription: 'HMS Beagle against vast coast',
     lines: [
       {
-        text: 'HMS Beagle · 1831–1836',
+        text: 'HMS Beagle - 1831-1836',
         className: 'font-playfair text-4xl text-white',
       },
       {
@@ -494,6 +509,7 @@ const mainSlideDefs: SlideDef[] = [
     mode: 'impact',
     background: '#0F172A',
     act: 1,
+    layout: 'left',
     lines: [
       {
         text: 'natural_selection.exe',
@@ -519,9 +535,10 @@ const mainSlideDefs: SlideDef[] = [
     act: 1,
     image: '/images/generated-image (4).png',
     imageDescription: 'Row of finch silhouettes, beak variation',
+    watermark: '1',
     lines: [
       {
-        text: '1 · Variation exists',
+        text: 'Variation exists',
         className: 'font-mono text-4xl text-obsidian',
       },
       {
@@ -538,9 +555,10 @@ const mainSlideDefs: SlideDef[] = [
     act: 1,
     image: '/images/generated-image (11).png',
     imageDescription: 'Parent-offspring resemblance',
+    watermark: '2',
     lines: [
       {
-        text: '2 · Traits are heritable',
+        text: 'Traits are heritable',
         className: 'font-mono text-4xl text-obsidian',
       },
       {
@@ -557,10 +575,11 @@ const mainSlideDefs: SlideDef[] = [
     act: 1,
     image: '/images/generated-image (12).png',
     imageDescription: 'Sea turtle hatchlings moving to ocean',
+    watermark: '3',
     interactionHint: 'Ask cod question.',
     lines: [
       {
-        text: '3 · More are born than can survive',
+        text: 'More are born than can survive',
         className: 'font-mono text-4xl text-obsidian',
       },
       {
@@ -578,9 +597,10 @@ const mainSlideDefs: SlideDef[] = [
     act: 1,
     image: '/images/generated-image (13).png',
     imageDescription: 'Peppered moth camouflaged on bark',
+    watermark: '4',
     lines: [
       {
-        text: '4 · Survival is not random',
+        text: 'Survival is not random',
         className: 'font-mono text-4xl text-obsidian',
       },
       {
@@ -598,9 +618,10 @@ const mainSlideDefs: SlideDef[] = [
     image: '/images/slide18-time.jpg',
     imageDescription: 'Grand Canyon strata close-up',
     imageAsMain: true,
+    watermark: '5',
     lines: [
       {
-        text: '5 · Sufficient time',
+        text: 'Sufficient time',
         className: 'font-mono text-4xl text-obsidian',
       },
       {
@@ -845,7 +866,7 @@ const mainSlideDefs: SlideDef[] = [
     act: 3,
     lines: [
       {
-        text: '1867 · Fleeming Jenkin:',
+        text: '1867 - Fleeming Jenkin:',
         className: 'font-playfair text-5xl text-ember',
       },
       {
@@ -905,7 +926,7 @@ const mainSlideDefs: SlideDef[] = [
         className: 'font-playfair text-5xl text-white',
       },
     ],
-    speakerNotes: 'Speak quietly. Hold 3–4 seconds of silence after line 2.',
+    speakerNotes: 'Speak quietly. Hold 3-4 seconds of silence after line 2.',
   },
   {
     id: 'slide-31-monastery',
@@ -917,7 +938,7 @@ const mainSlideDefs: SlideDef[] = [
     interactionHint: 'Show of hands: did Darwin read Mendel?',
     lines: [
       {
-        text: 'Brno, Moravia · 1856–1863',
+        text: 'Brno, Moravia - 1856-1863',
         className: 'font-sans text-2xl text-white italic',
       },
     ],
@@ -957,26 +978,26 @@ const mainSlideDefs: SlideDef[] = [
     act: 4,
     lines: [
       {
-        text: '1866 · Mendel publishes. Almost nobody reads it.',
+        text: '1866 - Mendel publishes. Almost nobody reads it.',
         className: 'font-sans text-3xl text-white',
       },
       {
-        text: '1867 · Jenkin publishes the critique.',
+        text: '1867 - Jenkin publishes the critique.',
         step: 1,
         className: 'font-sans text-3xl text-white',
       },
       {
-        text: '1882 · Darwin dies. Never read Mendel.',
+        text: '1882 - Darwin dies. Never read Mendel.',
         step: 2,
         className: 'font-sans text-3xl text-white',
       },
       {
-        text: '1884 · Mendel dies. "My time will come."',
+        text: '1884 - Mendel dies. "My time will come."',
         step: 3,
         className: 'font-sans text-3xl text-ember italic',
       },
       {
-        text: '1900 · Rediscovered. The halves finally meet.',
+        text: '1900 - Rediscovered. The halves finally meet.',
         step: 4,
         className: 'font-playfair text-5xl text-ember',
       },
@@ -990,10 +1011,10 @@ const mainSlideDefs: SlideDef[] = [
     background: '#FAF9F6',
     act: 4,
     image: '/images/generated-image (16).png',
-    imageDescription: "Modern Synthesis: Darwin's Algorithm + Mendel's Mechanics → The Modern Synthesis",
+    imageDescription: "Modern Synthesis: Darwin's algorithm + Mendel's mechanics -> modern synthesis",
     lines: [
       {
-        text: "Darwin's algorithm + Mendel's mechanics = Modern Synthesis",
+        text: "Darwin's algorithm + Mendel's mechanics = modern synthesis",
         className: 'font-playfair text-4xl text-obsidian',
       },
       {
@@ -1018,7 +1039,7 @@ const mainSlideDefs: SlideDef[] = [
     imageDescription: 'Cinematic DNA helix',
     lines: [
       {
-        text: 'A · T · C · G',
+        text: 'A - T - C - G',
         className: 'font-mono text-6xl tracking-[0.4em] text-ember',
       },
       {
@@ -1042,7 +1063,7 @@ const mainSlideDefs: SlideDef[] = [
         className: 'font-playfair text-4xl text-obsidian',
       },
       {
-        text: 'Harmful · Neutral · Beneficial',
+        text: 'Harmful - Neutral - Beneficial',
         className: 'font-sans text-2xl text-obsidian',
       },
       {
@@ -1209,7 +1230,7 @@ const mainSlideDefs: SlideDef[] = [
         className: 'font-playfair text-4xl text-obsidian',
       },
       {
-        text: 'Antibiotic resistance · COVID variants · cancer resistance',
+        text: 'Antibiotic resistance - COVID variants - cancer resistance',
         step: 1,
         className: 'font-sans text-3xl text-ember',
       },
@@ -1262,6 +1283,10 @@ const mainSlideDefs: SlideDef[] = [
       {
         text: 'have been, and are being, evolved."',
         className: 'font-playfair text-5xl italic text-white',
+      },
+      {
+        text: '- On the Origin of Species, final sentence, 1859',
+        className: 'font-sans text-base text-ember',
       },
     ],
     speakerNotes: 'Read slowly. Let quote do the work.',
@@ -1384,4 +1409,5 @@ const appendixDefs: SlideDef[] = [
 export const mainSlides: SlideConfig[] = mainSlideDefs.map(buildSlide)
 export const appendixSlides: SlideConfig[] = appendixDefs.map(buildSlide)
 export const slides: SlideConfig[] = [...mainSlides, ...appendixSlides]
+export { mainSlideDefs, appendixDefs } // for PPTX export script
 

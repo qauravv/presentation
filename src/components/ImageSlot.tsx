@@ -24,6 +24,7 @@ export function ImageSlot({
   objectFit = 'cover',
 }: ImageSlotProps) {
   const hasImage = src && src.length > 0
+  const objectFitClass = objectFit === 'contain' ? 'object-contain' : 'object-cover'
 
   return (
     <div
@@ -35,13 +36,16 @@ export function ImageSlot({
           <img
             src={src}
             alt={description ?? ''}
-            className={`w-full h-full object-${objectFit}`}
+            className={`w-full h-full ${objectFitClass} object-center`}
+            draggable={false}
           />
           {vignette && (
             <div
               className="absolute inset-0 pointer-events-none"
               style={{
-                boxShadow: 'inset 0 0 15% 5% rgba(0,0,0,0.5)',
+                // Spec asks for a subtle vignette (~5%) on photo-heavy slides.
+                background:
+                  'radial-gradient(ellipse at center, rgba(0,0,0,0) 62%, rgba(0,0,0,0.18) 100%)',
               }}
             />
           )}
