@@ -147,19 +147,6 @@ export function PresentationEngine({ slides }: PresentationEngineProps) {
         )}
       </div>
 
-      {currentSlide.interactionHint ? (
-        <div className="fixed top-6 right-6 z-20 rounded-full border border-ember/60 bg-black/35 px-4 py-2 text-sm text-ember animate-pulse">
-          Interaction cue: {currentSlide.interactionHint}
-        </div>
-      ) : null}
-
-      <div className="fixed top-6 left-6 z-20 rounded-lg bg-black/30 border border-slate-700 px-3 py-2 text-xs text-slate-300">
-        <span className="mr-3">Arrows/Space: navigate</span>
-        <span className="mr-3">S: notes</span>
-        <span className="mr-3">F: fullscreen</span>
-        <span className="mr-3">G: jump</span>
-        <span>A: appendix {appendixMode ? 'on' : 'off'}</span>
-      </div>
     </div>
   )
 }
