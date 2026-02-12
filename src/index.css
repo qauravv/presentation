@@ -1,0 +1,48 @@
+@import '@fontsource/playfair-display/400.css';
+@import '@fontsource/playfair-display/500.css';
+@import '@fontsource/playfair-display/600.css';
+@import '@fontsource/playfair-display/700.css';
+@import '@fontsource/playfair-display/400-italic.css';
+@import '@fontsource/inter/400.css';
+@import '@fontsource/inter/500.css';
+@import '@fontsource/inter/600.css';
+@import '@fontsource/jetbrains-mono/400.css';
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    font-family: 'Inter', Calibri, sans-serif;
+  }
+  body {
+    @apply bg-obsidian text-white antialiased;
+    margin: 0;
+    min-height: 100vh;
+    overflow: hidden;
+  }
+  #root {
+    min-height: 100vh;
+  }
+}
+
+/* Subtle canvas grain for naturalist-journal slides */
+.presentation-canvas {
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+}
+
+/* Museum exhibit: clean, no grain */
+.presentation-museum {
+  /* Optional: very subtle border for "case" feel handled by components */
+}
+
+/* Stripped, cold for The Flaw section */
+.presentation-stripped {
+  /* Minimal; emptiness is the design */
+}
+
+/* Modern science magazine */
+.presentation-modern {
+  /* Clean; no extra texture */
+}
