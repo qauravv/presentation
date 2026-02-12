@@ -75,6 +75,7 @@ function NarrativeSlide({
         description={def.imageDescription}
         className="w-full h-full"
         vignette={false}
+        objectFit="contain"
       />
       <div
         className="absolute inset-x-0 bottom-0 pointer-events-none"
