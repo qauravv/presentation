@@ -479,7 +479,7 @@ const mainSlideDefs: SlideDef[] = [
       },
     ],
     speakerNotes:
-      "Hit the line clean: you don't need a designer, you need death and time.",
+      "Hit the line clean: you don't need a designer, you just need death.",
   },
   {
     id: 'slide-12-tooth-fairy-test',
@@ -673,30 +673,81 @@ const mainSlideDefs: SlideDef[] = [
     speakerNotes: 'Clarify misconception quickly; avoid over-explaining.',
   },
   {
-    id: 'slide-21-no-direction',
-    mode: 'impact',
-    background: '#0F172A',
-    act: 1,
+    id: 'slide-21-eye-evolution',
+    mode: 'teaching',
+    background: '#FAF9F6',
+    act: 2,
+    image: '/images/slide38-eye-stages.svg',
+    imageDescription: 'Five-stage eye evolution progression',
+    imageAsMain: true,
+    interactionHint: 'Ask: What good is half an eye?',
     lines: [
       {
-        text: 'Natural selection has no direction. No goal. No foresight.',
-        className: 'font-playfair text-4xl text-white',
+        text: 'Flat patch → cup → pinhole → lens → camera eye',
+        className: 'font-playfair text-4xl text-obsidian',
       },
       {
-        text: 'Replay life and humans likely never appear.',
+        text: 'Each is a fully functional eye for its level of complexity.',
+        step: 1,
+        className: 'font-sans text-2xl text-ember',
+      },
+      {
+        text: '~400,000 generations.',
+        step: 2,
+        className: 'font-sans text-2xl text-obsidian',
+      },
+    ],
+    speakerNotes:
+      'What good is half an eye? Genuinely — anyone want to try to answer that before I do? Take 1–2 attempts. Then walk through the stages. Each stage is fully functional. Light detection → direction → crude image → focused image → high resolution.',
+  },
+  {
+    id: 'slide-22-eye-conclusion',
+    mode: 'impact',
+    background: '#FAF9F6',
+    act: 2,
+    lines: [
+      {
+        text: 'Eyes evolved independently 40+ times.',
+        className: 'font-playfair text-4xl text-obsidian',
+      },
+      {
+        text: 'The eye is not evidence against evolution.',
         step: 1,
         className: 'font-playfair text-4xl text-ember',
       },
       {
-        text: 'Darwin replaced stories with a testable mechanism.',
-        step: 2,
-        className: 'font-sans text-2xl text-slate-300',
+        text: 'It is almost an inevitability.',
+        step: 1,
+        className: 'font-playfair text-4xl text-ember',
       },
     ],
-    speakerNotes: 'Drive contingency hard.',
+    speakerNotes:
+      'After showing the stages: The eye isn\'t evidence against evolution. It\'s almost an inevitability. [3 seconds silence.]',
   },
   {
-    id: 'slide-22-fossil-record',
+    id: 'slide-23-eye-transition',
+    mode: 'impact',
+    background: '#0F172A',
+    act: 2,
+    lines: [
+      {
+        text: 'The mechanism works.',
+        className: 'font-sans text-3xl text-white/85',
+      },
+      {
+        text: 'The eye proves it.',
+        className: 'font-sans text-3xl text-white/85',
+      },
+      {
+        text: 'Now: the evidence.',
+        step: 1,
+        className: 'font-playfair text-5xl text-ember',
+      },
+    ],
+    speakerNotes: 'Transition from mechanism to evidence. Keep momentum.',
+  },
+  {
+    id: 'slide-24-fossil-record',
     mode: 'teaching',
     background: '#FAF9F6',
     act: 2,
@@ -721,7 +772,7 @@ const mainSlideDefs: SlideDef[] = [
     speakerNotes: 'Forensic tone: multiple independent lines, same verdict.',
   },
   {
-    id: 'slide-23-comparative-anatomy',
+    id: 'slide-25-comparative-anatomy',
     mode: 'teaching',
     background: '#FAF9F6',
     act: 2,
@@ -751,7 +802,7 @@ const mainSlideDefs: SlideDef[] = [
     speakerNotes: 'Layer homology, vestigial, convergence in that order.',
   },
   {
-    id: 'slide-24-real-time-evolution',
+    id: 'slide-26-real-time-evolution',
     mode: 'teaching',
     background: '#FAF9F6',
     act: 2,
@@ -772,7 +823,7 @@ const mainSlideDefs: SlideDef[] = [
         className: 'font-sans text-2xl text-obsidian',
       },
       {
-        text: "Grants' finch measurements.",
+        text: "The Grants measured the same finches [partner] showed you — generation by generation.",
         step: 2,
         className: 'font-sans text-2xl text-obsidian',
       },
@@ -782,10 +833,10 @@ const mainSlideDefs: SlideDef[] = [
         className: 'font-playfair text-3xl text-ember',
       },
     ],
-    speakerNotes: 'Keep pace brisk and empirical.',
+    speakerNotes: 'Keep pace brisk and empirical. Add partner callback: The Grants measured the same finches [partner] showed you.',
   },
   {
-    id: 'slide-25-problem',
+    id: 'slide-27-problem',
     mode: 'impact',
     background: '#FAF9F6',
     act: 2,
@@ -808,7 +859,87 @@ const mainSlideDefs: SlideDef[] = [
     speakerNotes: 'Lower voice. Prepare for emotional drop.',
   },
   {
-    id: 'slide-26-blending',
+    id: 'slide-28-wallace-letter',
+    mode: 'cinematic',
+    background: '#0F172A',
+    act: 3,
+    image: '/images/generated-image (20).png',
+    imageDescription: 'Alfred Russel Wallace portrait, 19th-century style, field-weathered',
+    interactionHint: 'Ask: What do you think the letter says?',
+    lines: [
+      {
+        text: '1858. Darwin gets a letter from Indonesia.',
+        className: 'font-playfair text-4xl text-white',
+      },
+      {
+        text: 'A young naturalist has independently figured out...',
+        step: 1,
+        className: 'font-sans text-2xl text-slate-300',
+      },
+      {
+        text: 'what do you think the letter says?',
+        step: 1,
+        className: 'font-playfair text-3xl text-ember',
+      },
+    ],
+    speakerNotes:
+      '1858. Darwin gets a letter from Indonesia. A young naturalist has independently figured out... what do you think the letter says? Let the room guess.',
+  },
+  {
+    id: 'slide-29-joint-presentation',
+    mode: 'impact',
+    background: '#0F172A',
+    act: 3,
+    lines: [
+      {
+        text: 'Alfred Russel Wallace',
+        className: 'font-playfair text-5xl text-ember',
+      },
+      {
+        text: 'Same theory. Same mechanism. Independent discovery.',
+        step: 1,
+        className: 'font-sans text-2xl text-white',
+      },
+      {
+        text: 'July 1, 1858: Joint presentation at Linnean Society.',
+        step: 2,
+        className: 'font-sans text-2xl text-slate-300',
+      },
+      {
+        text: 'Both papers read together. Neither man present.',
+        step: 2,
+        className: 'font-sans text-2xl text-slate-300',
+      },
+    ],
+    speakerNotes:
+      'Alfred Russel Wallace. Same theory. Same mechanism. Independent discovery. July 1, 1858: Joint presentation at Linnean Society. Both papers read together. Neither man present. Darwin\'s son had died. Wallace was still in Indonesia.',
+  },
+  {
+    id: 'slide-30-resolution',
+    mode: 'impact',
+    background: '#FAF9F6',
+    act: 3,
+    lines: [
+      {
+        text: 'The science belongs to both of them.',
+        className: 'font-playfair text-5xl text-ember',
+      },
+      {
+        text: 'Darwin had 20 years of evidence. Wallace had the same insight.',
+        step: 1,
+        className: 'font-sans text-2xl text-obsidian',
+      },
+      {
+        text: 'Two men. One idea. Independent paths.',
+        step: 2,
+        className: 'font-sans text-2xl text-obsidian',
+      },
+    ],
+    speakerNotes:
+      'The science belongs to both of them. Darwin had 20 years of evidence. Wallace had the same insight. Two men. One idea. Independent paths.',
+  },
+  {
+    id: 'slide-31-blending-problem',
     mode: 'teaching',
     background: '#FAF9F6',
     act: 3,
@@ -823,69 +954,57 @@ const mainSlideDefs: SlideDef[] = [
         text: 'Traits mix like paint. Every generation averages out.',
         className: 'font-sans text-2xl text-obsidian',
       },
-    ],
-    speakerNotes: 'Keep this simple; setup for the fatal math.',
-  },
-  {
-    id: 'slide-27-fatal',
-    mode: 'impact',
-    background: '#FAF9F6',
-    act: 3,
-    lines: [
       {
         text: 'Beneficial mutation appears.',
-        className: 'font-sans text-3xl text-obsidian',
-      },
-      {
-        text: 'Halved by mating.',
         step: 1,
-        className: 'font-sans text-3xl text-obsidian',
+        className: 'font-sans text-2xl text-obsidian',
       },
       {
-        text: 'Halved again.',
+        text: 'Halved by mating. Halved again. Gone.',
         step: 2,
-        className: 'font-sans text-3xl text-obsidian',
+        className: 'font-playfair text-3xl text-signal-red',
       },
       {
-        text: 'Gone.',
+        text: '1867 - Fleeming Jenkin proves: under blending, natural selection cannot work.',
         step: 3,
-        className: 'font-playfair text-6xl text-signal-red',
+        className: 'font-sans text-2xl text-obsidian',
       },
       {
-        text: 'Selection has nothing to select.',
-        step: 3,
+        text: 'Charles Darwin died in 1882. He never solved this problem.',
+        step: 4,
         className: 'font-playfair text-4xl text-ember',
       },
     ],
-    speakerNotes: 'One click per dilution stage. Let collapse sink in.',
+    speakerNotes:
+      'Blending inheritance. Traits mix like paint. Beneficial mutation appears. Halved by mating. Halved again. Gone. 1867 - Fleeming Jenkin proves mathematically: under blending, natural selection cannot work. Darwin spent 20 years trying workarounds. None held. He died knowing his life\'s work had a hole he couldn\'t fix. [3-4 seconds silence.]',
   },
   {
-    id: 'slide-28-jenkin',
-    mode: 'impact',
-    background: '#FAF9F6',
+    id: 'slide-32-monastery',
+    mode: 'cinematic',
+    background: '#0F172A',
     act: 3,
+    image: '/images/slide31-monastery.jpg',
+    imageDescription: 'Monastery garden with pea plants',
     lines: [
       {
-        text: '1867 - Fleeming Jenkin:',
-        className: 'font-playfair text-5xl text-ember',
+        text: 'Brno, Moravia - 1856-1863',
+        className: 'font-sans text-2xl text-white italic',
       },
       {
-        text: 'Under blending inheritance, natural selection cannot work.',
-        className: 'font-playfair text-4xl text-obsidian',
-      },
-      {
-        text: 'Darwin: one of the most valuable criticisms I have ever received.',
+        text: 'Meanwhile, a monk counts pea plants.',
         step: 1,
-        className: 'font-sans text-2xl text-slate-600 italic',
+        className: 'font-sans text-2xl text-slate-300',
       },
     ],
-    speakerNotes: 'Use the Victorian understatement joke once, then move.',
+    speakerNotes:
+      'Meanwhile. While Darwin is tormented in England, a monk in what\'s now the Czech Republic is counting pea plants. For eight years. Failed his teaching exam. Twice. Lot of free time.',
   },
   {
-    id: 'slide-29-digital-analog',
+    id: 'slide-33-coin-paint',
     mode: 'impact',
     background: '#0F172A',
     act: 3,
+    interactionHint: 'Physical prop: coin and murky water.',
     lines: [
       {
         text: 'WHAT DARWIN NEEDED: DIGITAL',
@@ -905,130 +1024,54 @@ const mainSlideDefs: SlideDef[] = [
         step: 1,
         className: 'font-playfair text-4xl text-white',
       },
+      {
+        text: 'Inheritance is not paint. It is coins.',
+        step: 2,
+        className: 'font-playfair text-5xl text-ember',
+      },
     ],
-    interactionHint: 'Physical prop: coin and murky water.',
     speakerNotes:
-      'Use the coin prop here. This is tactile memory anchor.',
+      'Darwin needed THIS [flip coin] — discrete, either-or, the information survives intact. Everyone assumed THIS [hold up murky water] — paint. Once it blends, the red is gone forever. Mendel showed: inheritance is not paint. It is coins. Traits can hide, then return unchanged. Variation is preserved across generations.',
   },
   {
-    id: 'slide-30-lowest-point',
+    id: 'slide-34-timeline',
     mode: 'impact',
     background: '#0F172A',
     act: 3,
-    lines: [
-      {
-        text: 'Charles Darwin died in 1882.',
-        className: 'font-playfair text-5xl text-white',
-      },
-      {
-        text: 'He never solved this problem.',
-        step: 1,
-        className: 'font-playfair text-5xl text-white',
-      },
-    ],
-    speakerNotes: 'Speak quietly. Hold 3-4 seconds of silence after line 2.',
-  },
-  {
-    id: 'slide-31-monastery',
-    mode: 'cinematic',
-    background: '#0F172A',
-    act: 3,
-    image: '/images/slide31-monastery.jpg',
-    imageDescription: 'Monastery garden with pea plants',
     interactionHint: 'Show of hands: did Darwin read Mendel?',
     lines: [
       {
-        text: 'Brno, Moravia - 1856-1863',
-        className: 'font-sans text-2xl text-white italic',
+        text: 'Quick — who thinks Darwin ever read Mendel\'s paper?',
+        className: 'font-playfair text-4xl text-ember',
       },
-    ],
-    speakerNotes:
-      'Ask the room if Darwin read Mendel. Reveal no: they never connected.',
-  },
-  {
-    id: 'slide-32-mendel',
-    mode: 'teaching',
-    background: '#FAF9F6',
-    act: 4,
-    image: '/images/slide32-mendel.jpg',
-    imageDescription: 'Tall/short pea inheritance diagram',
-    imageAsMain: true,
-    lines: [
-      {
-        text: 'Inheritance is not paint. It is coins.',
-        className: 'font-playfair text-5xl text-ember',
-      },
-      {
-        text: 'Traits can hide, then return unchanged.',
-        step: 1,
-        className: 'font-sans text-2xl text-obsidian',
-      },
-      {
-        text: 'Variation is preserved across generations.',
-        step: 1,
-        className: 'font-sans text-2xl text-obsidian',
-      },
-    ],
-    speakerNotes: 'This is the rescue beat: relief + vindication.',
-  },
-  {
-    id: 'slide-33-tragedy-timeline',
-    mode: 'impact',
-    background: '#0F172A',
-    act: 4,
-    lines: [
       {
         text: '1866 - Mendel publishes. Almost nobody reads it.',
+        step: 1,
         className: 'font-sans text-3xl text-white',
       },
       {
         text: '1867 - Jenkin publishes the critique.',
-        step: 1,
-        className: 'font-sans text-3xl text-white',
-      },
-      {
-        text: '1882 - Darwin dies. Never read Mendel.',
         step: 2,
         className: 'font-sans text-3xl text-white',
       },
       {
-        text: '1884 - Mendel dies. "My time will come."',
+        text: '1882 - Darwin dies. Never read Mendel.',
         step: 3,
+        className: 'font-sans text-3xl text-white',
+      },
+      {
+        text: '1884 - Mendel dies. "My time will come."',
+        step: 4,
         className: 'font-sans text-3xl text-ember italic',
       },
       {
         text: '1900 - Rediscovered. The halves finally meet.',
-        step: 4,
+        step: 5,
         className: 'font-playfair text-5xl text-ember',
       },
     ],
     speakerNotes:
-      'One click per year. Do not rush. Mandatory silence after the quote.',
-  },
-  {
-    id: 'slide-34-modern-synthesis',
-    mode: 'teaching',
-    background: '#FAF9F6',
-    act: 4,
-    image: '/images/generated-image (16).png',
-    imageDescription: "Modern Synthesis: Darwin's algorithm + Mendel's mechanics -> modern synthesis",
-    lines: [
-      {
-        text: "Darwin's algorithm + Mendel's mechanics = modern synthesis",
-        className: 'font-playfair text-4xl text-obsidian',
-      },
-      {
-        text: 'Genes were still abstract.',
-        step: 1,
-        className: 'font-sans text-2xl text-obsidian',
-      },
-      {
-        text: '1953: DNA reveals the physical substrate.',
-        step: 1,
-        className: 'font-sans text-2xl text-ember',
-      },
-    ],
-    speakerNotes: "Mention Franklin's contribution.",
+      'Quick — show of hands. Who thinks Darwin ever read Mendel\'s paper? Pause. Count. Nobody should have raised their hand. He never saw it. [click] 1866. Mendel publishes in a regional journal. Forty copies sent out. Almost nobody reads it. [click] 1867. Jenkin publishes the critique that haunts Darwin for the rest of his life. The answer to Darwin\'s problem existed ONE YEAR before the question was formally asked. [click] 1882. Darwin dies. Never saw the paper. [click] 1884. Mendel dies. He told a colleague: "My time will come." [3 seconds silence.] [click] 1900. Rediscovered. By three scientists, independently, in the same year. The two most important biologists of the century solved complementary halves of the same puzzle. And they never knew about each other.',
   },
   {
     id: 'slide-35-dna',
@@ -1050,7 +1093,7 @@ const mainSlideDefs: SlideDef[] = [
     speakerNotes: 'Speed round. 30 seconds max.',
   },
   {
-    id: 'slide-36-mutation-bomb',
+    id: 'slide-36-mutation',
     mode: 'teaching',
     background: '#FAF9F6',
     act: 4,
@@ -1071,199 +1114,50 @@ const mainSlideDefs: SlideDef[] = [
         step: 1,
         className: 'font-sans text-2xl text-obsidian',
       },
+    ],
+    speakerNotes:
+      'Mutation creates all new variation. Three kinds: harmful, neutral, beneficial. Human/chimp DNA similarity: 98.7%. Common ancestry confirmed at the molecular level.',
+  },
+  {
+    id: 'slide-37-rice-joke',
+    mode: 'impact',
+    background: '#FAF9F6',
+    act: 4,
+    lines: [
       {
         text: 'Humans ~20k genes. Rice ~37k genes.',
-        step: 2,
-        className: 'font-playfair text-3xl text-ember',
-      },
-    ],
-    speakerNotes:
-      'Let the rice joke breathe before asking what really differs.',
-  },
-  {
-    id: 'slide-37a-regulatory',
-    mode: 'teaching',
-    background: '#FAF9F6',
-    act: 4,
-    image: '/images/slide37a-regulatory.jpg',
-    imageDescription: 'Regulatory genes and Antennapedia mutant',
-    imageAsMain: true,
-    lines: [
-      {
-        text: 'Not different genes. Different switches.',
-        className: 'font-playfair text-5xl text-ember',
-      },
-      {
-        text: 'Master regulatory genes control where and when expression happens.',
-        className: 'font-sans text-2xl text-obsidian',
-      },
-      {
-        text: 'Mutate one address label: legs can grow from a fly head.',
-        step: 1,
-        className: 'font-sans text-2xl text-obsidian',
-      },
-    ],
-    speakerNotes: 'Use the address-label metaphor.',
-  },
-  {
-    id: 'slide-37b-pax6',
-    mode: 'impact',
-    background: '#0F172A',
-    act: 4,
-    interactionHint: 'Prediction game before reveal.',
-    lines: [
-      {
-        text: 'They took the eye gene from a mouse.',
-        className: 'font-sans text-4xl text-white',
-      },
-      {
-        text: 'They put it into a fruit fly embryo.',
-        step: 1,
-        className: 'font-sans text-4xl text-white',
-      },
-      {
-        text: 'The fly grew an eye.',
-        step: 2,
-        className: 'font-playfair text-7xl text-ember',
-      },
-      {
-        text: '500 million years of divergence. The instruction set still works.',
-        step: 3,
-        className: 'font-sans text-2xl text-white/70',
-      },
-    ],
-    speakerNotes:
-      'Take predictions before revealing slide. Mandatory silence before and after reveal.',
-  },
-  {
-    id: 'slide-38-eye-evolution',
-    mode: 'teaching',
-    background: '#FAF9F6',
-    act: 4,
-    image: '/images/slide38-eye-stages.svg',
-    imageDescription: 'Five-stage eye evolution progression',
-    imageAsMain: true,
-    lines: [
-      {
-        text: 'Flat patch -> cup -> pinhole -> lens -> camera eye',
         className: 'font-playfair text-4xl text-obsidian',
       },
       {
-        text: '~400,000 generations.',
+        text: 'You are, genetically, simpler than what you had for lunch.',
         step: 1,
-        className: 'font-sans text-2xl text-obsidian',
-      },
-      {
-        text: 'Eyes evolved independently 40+ times.',
-        step: 2,
-        className: 'font-sans text-2xl text-ember',
-      },
-      {
-        text: 'The eye is not evidence against evolution.',
-        step: 3,
-        className: 'font-playfair text-4xl text-ember',
-      },
-    ],
-    speakerNotes: 'Close loop back to slide 1.',
-  },
-  {
-    id: 'slide-39-same-bricks',
-    mode: 'impact',
-    background: '#0F172A',
-    act: 4,
-    lines: [
-      {
-        text: '40+ independent origins of eyes.',
-        className: 'font-playfair text-4xl text-white',
-      },
-      {
-        text: 'Same ancient switch: Pax6.',
-        step: 1,
-        className: 'font-playfair text-4xl text-ember',
-      },
-      {
-        text: 'Evolution rewires expression timing and location.',
-        step: 2,
-        className: 'font-sans text-3xl text-white',
-      },
-      {
-        text: 'Same bricks. Different instruction manual.',
-        step: 3,
-        className: 'font-playfair text-5xl italic text-ember',
-      },
-    ],
-    speakerNotes: 'Deliver as the evo-devo thesis line.',
-  },
-  {
-    id: 'slide-40-callback',
-    mode: 'teaching',
-    background: '#FAF9F6',
-    act: 4,
-    image: '/images/slide40-callback.png',
-    imageDescription: 'Finch beak callback visual',
-    imageAsMain: true,
-    lines: [
-      {
-        text: "Remember the finch beaks your partner showed?",
-        className: 'font-sans text-3xl text-obsidian',
-      },
-      {
-        text: 'Same logic, one level deeper.',
         className: 'font-playfair text-5xl text-ember',
       },
-      {
-        text: 'Same genes. Different switches.',
-        step: 1,
-        className: 'font-sans text-3xl text-obsidian',
-      },
     ],
-    speakerNotes: 'Reconnect both halves of seminar explicitly.',
+    speakerNotes:
+      'Humans have about 20,000 genes. Rice has 37,000. [pause for laughter] You are, genetically, simpler than what you had for lunch. Don\'t talk over the laugh.',
   },
   {
-    id: 'slide-41-beyond-darwin',
+    id: 'slide-38-modern-relevance',
     mode: 'impact',
     background: '#FAF9F6',
-    act: 5,
+    act: 4,
     lines: [
-      {
-        text: 'Epigenetics and horizontal gene transfer expand Darwin.',
-        className: 'font-playfair text-4xl text-obsidian',
-      },
       {
         text: 'Antibiotic resistance - COVID variants - cancer resistance',
-        step: 1,
         className: 'font-sans text-3xl text-ember',
       },
       {
         text: 'Natural selection is not history. It is the news.',
-        step: 2,
+        step: 1,
         className: 'font-playfair text-5xl text-ember',
       },
     ],
-    speakerNotes: 'Fast overview, clinically relevant.',
+    speakerNotes:
+      'Antibiotic resistance — bacteria outevolving our drugs. COVID variants — natural selection on a global stage, we watched it live. Cancer — tumors evolving drug resistance inside your body using Darwin\'s exact algorithm. Evolution isn\'t chapter 12 in a textbook. It\'s the most urgent science happening in hospitals right now. Natural selection isn\'t history. It\'s the news.',
   },
   {
-    id: 'slide-42-universal-code',
-    mode: 'teaching',
-    background: '#FAF9F6',
-    act: 5,
-    image: '/images/slide42-codon-wheel.jpg',
-    imageDescription: 'Codon wheel / genetic code table',
-    imageAsMain: true,
-    lines: [
-      {
-        text: 'Every living cell reads from the same dictionary.',
-        className: 'font-playfair text-4xl text-obsidian',
-      },
-      {
-        text: 'Bacteria. Trees. Whales. You.',
-        className: 'font-sans text-3xl text-obsidian',
-      },
-    ],
-    speakerNotes: 'One code implies one history.',
-  },
-  {
-    id: 'slide-43-darwin-words',
+    id: 'slide-39-close',
     mode: 'impact',
     background: '#0F172A',
     act: 5,
@@ -1274,62 +1168,59 @@ const mainSlideDefs: SlideDef[] = [
       },
       {
         text: 'endless forms most beautiful',
+        step: 1,
         className: 'font-playfair text-5xl italic text-white',
       },
       {
         text: 'and most wonderful',
+        step: 2,
         className: 'font-playfair text-5xl italic text-white',
       },
       {
         text: 'have been, and are being, evolved."',
+        step: 3,
         className: 'font-playfair text-5xl italic text-white',
       },
       {
-        text: '- On the Origin of Species, final sentence, 1859',
-        className: 'font-sans text-base text-ember',
+        text: 'Every living cell reads from the same dictionary.',
+        step: 4,
+        className: 'font-sans text-2xl text-white',
+      },
+      {
+        text: 'And none of it was inevitable.',
+        step: 5,
+        className: 'font-playfair text-5xl text-ember',
       },
     ],
-    speakerNotes: 'Read slowly. Let quote do the work.',
+    speakerNotes:
+      'After 500 pages of death, extinction, and the demolition of every comforting story about where we come from — Darwin ended with this. He insisted on the grandeur. [click] The unity of life: every cell, same code. The probability of that arising independently more than once is essentially zero. One dictionary. Written once. [click] And to be clear about scope: evolution explains adaptation and diversity. It does NOT explain where the first cell came from. It doesn\'t explain consciousness. Good theories know their boundaries. [click] But within its scope, the implication is this: there is no ladder. No goal. No endpoint. Just branching, driven by accidents that happened to work. [click] And none of it was inevitable. [3 seconds silence.]',
   },
   {
-    id: 'slide-44-close',
+    id: 'slide-40-qa',
     mode: 'impact',
     background: '#0F172A',
     act: 5,
     interactionHint: 'Close with: What surprised you?',
     lines: [
       {
-        text: 'The toolkit is older than Darwin imagined.',
-        className: 'font-playfair text-4xl text-white',
-      },
-      {
-        text: 'The unity is deeper than anyone expected.',
-        step: 1,
-        className: 'font-playfair text-4xl text-white',
-      },
-      {
-        text: 'The creativity is stranger.',
-        step: 2,
-        className: 'font-playfair text-4xl text-white',
-      },
-      {
-        text: 'And none of it was inevitable.',
-        step: 3,
-        className: 'font-playfair text-5xl text-ember',
-      },
-      {
-        text: 'Every branch, including ours, is an algorithmic accident that worked.',
-        step: 4,
-        className: 'font-sans text-3xl text-slate-300',
-      },
-      {
         text: 'What surprised you?',
-        step: 5,
-        className: 'font-playfair text-6xl text-ember',
+        className: 'font-playfair text-4xl text-ember',
+      },
+      {
+        text: 'What didn\'t land?',
+        className: 'font-sans text-2xl text-white',
+      },
+      {
+        text: 'What do you want to push back on?',
+        className: 'font-sans text-2xl text-white',
+      },
+      {
+        text: 'THE DANGEROUS IDEA',
+        className: 'font-playfair text-base text-slate-400/35',
       },
     ],
     speakerNotes:
-      'Slowest pace of the talk. Final question replaces \"any questions\".',
+      'That\'s the story. [4 seconds silence. Eye contact around the room.] What surprised you? [If silence > 5 seconds: "[Name], you reacted during the eye section — what were you thinking?"]',
   },
 ]
 
