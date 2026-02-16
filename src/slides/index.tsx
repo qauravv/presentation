@@ -220,12 +220,17 @@ const mainSlideDefs: SlideDef[] = [
     imageDescription: 'Extreme macro human iris, amber-green heterochromia',
     lines: [
       {
-        text: 'Who designed this?',
-        className: 'font-sans text-[18px] text-white/55',
+        text: 'Look closely.',
+        className: 'font-playfair text-4xl italic text-white/70',
+      },
+      {
+        text: 'No one designed this.',
+        step: 1,
+        className: 'font-sans text-lg tracking-widest uppercase text-ember/80',
       },
     ],
     speakerNotes:
-      "Open by making the eye feel engineered. Hold eye contact. Let the question hang before speaking.",
+      "Let the image sit for 3 full seconds before speaking. Say 'Look closely' — pause — then click to reveal the provocation. Don't explain yet.",
   },
   {
     id: 'slide-02-canyon',
