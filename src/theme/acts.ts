@@ -1,64 +1,68 @@
 /**
- * Act-based visual configuration. The presentation "evolves" through these eras.
+ * Section-based visual configuration for the Darwin presentation.
+ * Maps sections 1–6 to their palette and heading font.
  */
-export type ActId = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7
+export type ActId = 1 | 2 | 3 | 4 | 5 | 6
+
+export type PaletteMode = 'darwin' | 'modern' | 'resolution' | 'checkpoint'
 
 export interface ActConfig {
   id: ActId
   name: string
-  /** CSS class for slide container background texture / feel */
+  palette: PaletteMode
+  headingFont: 'serif' | 'sans'
+  /** Kept for engine backward compat */
   slideClass: string
-  /** Emphasis colors for this act */
   accent: string
 }
 
 export const acts: Record<ActId, ActConfig> = {
-  0: {
-    id: 0,
-    name: 'The Question',
-    slideClass: 'bg-black',
-    accent: 'ember',
-  },
   1: {
     id: 1,
-    name: "Darwin's Theory",
-    slideClass: 'bg-bone presentation-canvas',
-    accent: 'ember',
+    name: 'Bridge + Frame',
+    palette: 'darwin',
+    headingFont: 'serif',
+    slideClass: 'bg-darwin-cream',
+    accent: 'darwin-amber',
   },
   2: {
     id: 2,
-    name: 'The Eye + Evidence',
-    slideClass: 'bg-bone presentation-museum',
-    accent: 'ember',
+    name: "Darwin's Logic",
+    palette: 'darwin',
+    headingFont: 'serif',
+    slideClass: 'bg-darwin-cream',
+    accent: 'darwin-amber',
   },
   3: {
     id: 3,
-    name: 'Wallace + Inheritance',
-    slideClass: 'bg-bone presentation-stripped',
-    accent: 'ember',
+    name: 'The Eye',
+    palette: 'darwin',
+    headingFont: 'serif',
+    slideClass: 'bg-darwin-cream',
+    accent: 'darwin-amber',
   },
   4: {
     id: 4,
-    name: 'DNA + Modern',
-    slideClass: 'bg-bone presentation-modern',
-    accent: 'moss',
+    name: 'The Evidence',
+    palette: 'darwin',
+    headingFont: 'serif',
+    slideClass: 'bg-darwin-cream',
+    accent: 'darwin-amber',
   },
   5: {
     id: 5,
-    name: 'Close',
-    slideClass: 'bg-obsidian',
-    accent: 'ember',
+    name: 'Inheritance',
+    palette: 'modern',
+    headingFont: 'sans',
+    slideClass: 'bg-modern-cool-white',
+    accent: 'modern-teal',
   },
   6: {
     id: 6,
-    name: 'Appendix',
-    slideClass: 'bg-bone',
-    accent: 'slate',
-  },
-  7: {
-    id: 7,
-    name: 'Obsidian',
-    slideClass: 'bg-obsidian',
-    accent: 'ember',
+    name: 'Close',
+    palette: 'resolution',
+    headingFont: 'serif',
+    slideClass: 'bg-darwin-cream',
+    accent: 'uni-gold',
   },
 }

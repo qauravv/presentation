@@ -1,136 +1,159 @@
-import { BuildStep } from '../components/BuildStep'
-import type { SlideConfig, SlideProps, SlideMode } from '../types'
-import type { ActId } from '../theme/acts'
+import type { SlideConfig, SlideProps, DarwinSlideDef, TemplateBContent, TemplateCContent, TemplateEContent, TemplateFContent, DeckVersion, CompressionTag } from '../types'
+import { section1 } from './data/section1'
+import { section2 } from './data/section2'
+import { section3 } from './data/section3'
+import { section4 } from './data/section4'
+import { section5 } from './data/section5'
+import { section6 } from './data/section6'
+import { TemplateA } from './templates/TemplateA'
+import { TemplateB } from './templates/TemplateB'
+import { TemplateC } from './templates/TemplateC'
+import { TemplateD } from './templates/TemplateD'
+import { TemplateE } from './templates/TemplateE'
+import { TemplateF } from './templates/TemplateF'
 
-type LineDef = {
-  text: string
-  step?: number
-  className?: string
+/* ── All 46 Darwin slide definitions ── */
+
+const allDarwinSlides: DarwinSlideDef[] = [
+  ...section1,
+  ...section2,
+  ...section3,
+  ...section4,
+  ...section5,
+  ...section6,
+]
+
+/* ── Template component map ── */
+
+const templateComponents: Record<
+  string,
+  React.ComponentType<{ def: DarwinSlideDef; step: number }>
+> = {
+  A: TemplateA,
+  B: TemplateB,
+  C: TemplateC,
+  D: TemplateD,
+  E: TemplateE,
+  F: TemplateF,
 }
 
-type SlideDef = {
-  id: string
-  mode: SlideMode
-  background: string
-  act: ActId
-  lines: LineDef[]
-  speakerNotes: string
-  interactionHint?: string
+/* ── Compute total build steps from content ── */
+
+function computeTotalSteps(def: DarwinSlideDef): number {
+  const content = def.content
+
+  switch (content.type) {
+    case 'A':
+      return 1
+
+    case 'B': {
+      const bc = content as TemplateBContent
+      let maxStep = 0
+      for (const block of bc.blocks) {
+        const s = 'step' in block ? (block.step ?? 0) : 0
+        if (s > maxStep) maxStep = s
+      }
+      return maxStep + 1
+    }
+
+    case 'C': {
+      const cc = content as TemplateCContent
+      if (cc.checkpointReveal?.isOpenEnded) return 1
+      return cc.checkpointReveal ? 3 : 1
+    }
+
+    case 'D':
+      return 3
+
+    case 'E': {
+      const ec = content as TemplateEContent
+      let steps = 1
+      if (ec.panels && ec.panels.length > 1) steps = 2
+      if (ec.caption) steps = Math.max(steps, ec.panels ? 3 : 2)
+      return steps
+    }
+
+    case 'F': {
+      const fc = content as TemplateFContent
+      return fc.lines.length > 1 ? 2 : 1
+    }
+  }
 }
 
-function StarterSlide({
-  def,
-  step,
-}: {
-  def: SlideDef
-  step: number
-}) {
-  const isDark =
-    def.mode === 'cinematic' ||
-    def.background === '#0F172A' ||
-    def.background === '#000000'
+/* ── Build SlideConfig from DarwinSlideDef ── */
 
-  return (
-    <div className="w-full h-full flex items-center justify-center p-12 sm:p-14">
-      <div className="w-full max-w-5xl space-y-5 text-center">
-        {def.lines.map((line, idx) => (
-          <BuildStep
-            key={`${def.id}-line-${idx}`}
-            step={line.step ?? 0}
-            currentStep={step}
-            duration={0.55}
-          >
-            <p
-              className={
-                line.className ??
-                (isDark
-                  ? 'font-playfair text-5xl text-white leading-tight'
-                  : 'font-playfair text-5xl text-obsidian leading-tight')
-              }
-            >
-              {line.text}
-            </p>
-          </BuildStep>
-        ))}
-      </div>
-    </div>
-  )
-}
-
-function buildSlide(def: SlideDef): SlideConfig {
-  const totalSteps =
-    Math.max(0, ...def.lines.map((line) => line.step ?? 0)) + 1
+export function buildDarwinSlide(def: DarwinSlideDef): SlideConfig {
+  const TemplateComponent = templateComponents[def.template]!
+  const totalSteps = computeTotalSteps(def)
 
   const component = ({ step, isActive }: SlideProps) => (
-    <StarterSlide def={def} step={isActive ? step : 0} />
+    <TemplateComponent def={def} step={isActive ? step : 0} />
   )
 
   return {
     id: def.id,
-    mode: def.mode,
-    background: def.background,
+    mode: 'teaching',
+    background: '#FAF9F6',
     totalSteps,
     component,
     speakerNotes: def.speakerNotes,
-    act: def.act,
-    interactionHint: def.interactionHint,
+    act: def.section,
+    palette: def.palette,
+    compressionTag: def.compressionTag,
   }
 }
 
-const mainSlideDefs: SlideDef[] = [
-  {
-    id: 'slide-01-title',
-    mode: 'impact',
-    background: '#0F172A',
-    act: 0,
-    lines: [
-      {
-        text: 'NEW PRESENTATION',
-        className: 'font-playfair text-6xl text-white',
-      },
-      {
-        text: 'Your subtitle goes here',
-        step: 1,
-        className: 'font-sans text-2xl text-slate-300',
-      },
-    ],
-    speakerNotes:
-      'Starter title slide after reset. Replace with your new topic and opening line.',
-  },
-  {
-    id: 'slide-02-agenda',
-    mode: 'teaching',
-    background: '#FAF9F6',
-    act: 1,
-    lines: [
-      {
-        text: 'Agenda',
-        className: 'font-playfair text-5xl text-obsidian',
-      },
-      {
-        text: '1) Point one',
-        step: 1,
-        className: 'font-sans text-3xl text-obsidian',
-      },
-      {
-        text: '2) Point two',
-        step: 2,
-        className: 'font-sans text-3xl text-obsidian',
-      },
-      {
-        text: '3) Point three',
-        step: 3,
-        className: 'font-sans text-3xl text-obsidian',
-      },
-    ],
-    speakerNotes:
-      'Starter structure slide. Replace each point with your new section plan.',
-  },
-]
+/* ── Deck compression filter ── */
 
-const appendixDefs: SlideDef[] = []
+const DECK_C_CUT_TAGS: CompressionTag[] = ['CUT1', 'CUT2', 'CUT3', 'OPTIONAL']
+const EMERGENCY_REMOVE_IDS = ['slide-3.7', 'slide-6.6', 'slide-4.3']
 
-export const mainSlides: SlideConfig[] = mainSlideDefs.map(buildSlide)
-export const appendixSlides: SlideConfig[] = appendixDefs.map(buildSlide)
+export function filterSlidesByDeck(
+  defs: DarwinSlideDef[],
+  deck: DeckVersion
+): DarwinSlideDef[] {
+  if (deck === 'A' || deck === 'B') return defs.slice()
+
+  const filtered: DarwinSlideDef[] = []
+
+  for (const d of defs) {
+    let shouldCut = false
+
+    if (deck === 'C' || deck === 'EMERGENCY') {
+      if (DECK_C_CUT_TAGS.includes(d.compressionTag)) shouldCut = true
+    }
+
+    if (deck === 'EMERGENCY') {
+      if (EMERGENCY_REMOVE_IDS.includes(d.id)) shouldCut = true
+    }
+
+    if (shouldCut) {
+      if (d.verbalBackup && d.verbalBackup.length > 0 && filtered.length > 0) {
+        const prev = filtered[filtered.length - 1]!
+        filtered[filtered.length - 1] = {
+          ...prev,
+          speakerNotes:
+            prev.speakerNotes +
+            '\n\n📋 VERBAL BACKUP (cut slide ' +
+            d.slideNum +
+            '): ' +
+            d.verbalBackup,
+        } as DarwinSlideDef
+      }
+    } else {
+      filtered.push(Object.assign({}, d))
+    }
+  }
+
+  return filtered
+}
+
+/* ── Exports (compatible with engine + PPTX script) ── */
+
+export const darwinSlideDefs = allDarwinSlides
+export const mainSlideDefs = allDarwinSlides
+export const appendixDefs: DarwinSlideDef[] = []
+
+export const mainSlides: SlideConfig[] = allDarwinSlides.map(buildDarwinSlide)
+export const appendixSlides: SlideConfig[] = []
 export const slides: SlideConfig[] = [...mainSlides, ...appendixSlides]
-export { mainSlideDefs, appendixDefs } // for PPTX export script

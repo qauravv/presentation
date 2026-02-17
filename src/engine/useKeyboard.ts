@@ -7,6 +7,7 @@ export interface UseKeyboardOptions {
   onToggleFullscreen?: () => void
   onGoToSlide?: () => void
   onToggleAppendix?: () => void
+  onCycleDeck?: () => void
   onEscape?: () => void
   enabled?: boolean
 }
@@ -18,6 +19,7 @@ export function useKeyboard({
   onToggleFullscreen,
   onGoToSlide,
   onToggleAppendix,
+  onCycleDeck,
   onEscape,
   enabled = true,
 }: UseKeyboardOptions) {
@@ -57,6 +59,11 @@ export function useKeyboard({
           e.preventDefault()
           onToggleAppendix?.()
           break
+        case 'd':
+        case 'D':
+          e.preventDefault()
+          onCycleDeck?.()
+          break
         case 'Escape':
           e.preventDefault()
           onEscape?.()
@@ -76,6 +83,7 @@ export function useKeyboard({
       onToggleFullscreen,
       onGoToSlide,
       onToggleAppendix,
+      onCycleDeck,
       onEscape,
     ]
   )

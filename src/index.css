@@ -12,12 +12,85 @@
 @tailwind components;
 @tailwind utilities;
 
+/* ══════════════════════════════════════════════
+   DARWIN PRESENTATION — DESIGN SYSTEM
+   Museum exhibition meets academic elegance
+   ══════════════════════════════════════════════ */
+
+/* ── Color Palette Variables ── */
+:root {
+  --darwin-navy: #1E3A5F;
+  --darwin-amber: #D4A574;
+  --darwin-gold: #C9A961;
+  --darwin-charcoal: #2D2D2D;
+  --darwin-cream: #F5F1E8;
+
+  --modern-teal: #2A9D8F;
+  --modern-cool-blue: #457B9D;
+  --modern-cyan: #06D6A0;
+  --modern-dark-slate: #264653;
+  --modern-cool-white: #F7F9FB;
+
+  --uni-orange: #E76F51;
+  --uni-green: #52B788;
+  --uni-red: #E63946;
+  --uni-gold-highlight: #FFB703;
+}
+
+/* ── Active Palette Variables (switched via data-palette) ── */
+
+:root,
+[data-palette="darwin"] {
+  --slide-bg: var(--darwin-cream);
+  --slide-text: var(--darwin-charcoal);
+  --slide-heading: var(--darwin-navy);
+  --slide-accent: var(--darwin-amber);
+  --slide-accent2: var(--darwin-gold);
+  --heading-font: 'Playfair Display', Georgia, serif;
+  --progress-accent: var(--darwin-amber);
+}
+
+[data-palette="modern"] {
+  --slide-bg: var(--modern-cool-white);
+  --slide-text: var(--modern-dark-slate);
+  --slide-heading: var(--modern-teal);
+  --slide-accent: var(--modern-cool-blue);
+  --slide-accent2: var(--modern-cyan);
+  --heading-font: 'Inter', Calibri, sans-serif;
+  --progress-accent: var(--modern-cool-blue);
+}
+
+[data-palette="resolution"] {
+  --slide-bg: var(--darwin-cream);
+  --slide-text: var(--darwin-charcoal);
+  --slide-heading: var(--darwin-navy);
+  --slide-accent: var(--uni-gold-highlight);
+  --slide-accent2: var(--darwin-gold);
+  --heading-font: 'Playfair Display', Georgia, serif;
+  --progress-accent: var(--uni-gold-highlight);
+}
+
+[data-palette="checkpoint"] {
+  --slide-bg: var(--darwin-cream);
+  --slide-text: var(--darwin-charcoal);
+  --slide-heading: var(--uni-orange);
+  --slide-accent: var(--uni-orange);
+  --slide-accent2: var(--darwin-gold);
+  --heading-font: 'Inter', Calibri, sans-serif;
+  --progress-accent: var(--uni-orange);
+}
+
+/* ── Base Styles ── */
 @layer base {
   html {
     font-family: 'Inter', Calibri, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
   body {
-    @apply bg-obsidian text-white antialiased;
+    @apply antialiased;
+    background-color: var(--darwin-cream);
+    color: var(--darwin-charcoal);
     margin: 0;
     min-height: 100vh;
     overflow: hidden;
@@ -27,22 +100,225 @@
   }
 }
 
-/* Subtle canvas grain for naturalist-journal slides */
-.presentation-canvas {
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+/* ── Typography Utilities ── */
+.font-heading {
+  font-family: var(--heading-font);
 }
 
-/* Museum exhibit: clean, no grain */
-.presentation-museum {
-  /* Optional: very subtle border for "case" feel handled by components */
+/* ── Slide Backgrounds ── */
+.slide-palette-bg {
+  background-color: var(--slide-bg);
+  color: var(--slide-text);
 }
 
-/* Stripped, cold for The Flaw section */
-.presentation-stripped {
-  /* Minimal; emptiness is the design */
+/* Paper texture for Darwin-era sections */
+[data-palette="darwin"] .slide-palette-bg,
+[data-palette="resolution"] .slide-palette-bg {
+  background-image:
+    url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.015'/%3E%3C/svg%3E");
+  background-color: var(--slide-bg);
 }
 
-/* Modern science magazine */
-.presentation-modern {
-  /* Clean; no extra texture */
+/* ── Checkpoint Styles ── */
+.checkpoint-header {
+  background-color: var(--uni-orange);
+  color: white;
+}
+
+/* ── Gold Highlight Box ── */
+.gold-box {
+  background: linear-gradient(135deg, #FFB703 0%, #F5A623 100%);
+  color: var(--darwin-charcoal);
+  padding: 1rem 2rem;
+  border-radius: 0.5rem;
+  font-weight: 700;
+  box-shadow:
+    0 4px 14px rgba(255, 183, 3, 0.3),
+    0 2px 6px rgba(0, 0, 0, 0.08);
+}
+
+/* ── Gradient for slide 5.1 temporal transition ── */
+.gradient-temporal-transition {
+  background: linear-gradient(
+    to right,
+    var(--darwin-cream) 0%,
+    var(--darwin-cream) 25%,
+    #EDE9E0 40%,
+    #E8ECF0 60%,
+    var(--modern-cool-white) 75%,
+    var(--modern-cool-white) 100%
+  );
+}
+
+/* Animated sweep version */
+.gradient-temporal-transition.animate-sweep {
+  background-size: 200% 100%;
+  background-position: 0% 0%;
+  animation: gradient-sweep 2s ease-out forwards;
+}
+
+@keyframes gradient-sweep {
+  from { background-position: 100% 0%; }
+  to { background-position: 0% 0%; }
+}
+
+/* ── Watermark for 6.4 callback ── */
+.watermark-flowchart {
+  position: absolute;
+  inset: 0;
+  opacity: 0.12;
+  pointer-events: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ── Checkpoint Discussion Pulsing Dot ── */
+.checkpoint-pulse-dot {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: var(--uni-orange);
+  animation: checkpoint-pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes checkpoint-pulse {
+  0%, 100% {
+    opacity: 0.4;
+    transform: scale(0.9);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.2);
+  }
+}
+
+/* ── Build Step Animations ── */
+@keyframes build-fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes build-fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* ── Deck Flash Notification ── */
+.animate-fade-in {
+  animation: fade-in 0.3s ease-out;
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -8px);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
+}
+
+/* ── Checkpoint Card Hover ── */
+.checkpoint-card {
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.checkpoint-card:hover {
+  border-color: rgba(45, 45, 45, 0.25);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+}
+
+/* ── Correct/Wrong Reveal Animations ── */
+@keyframes reveal-correct {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.02); }
+  100% { transform: scale(1); }
+}
+
+@keyframes reveal-wrong {
+  0% { transform: scale(1); opacity: 1; }
+  100% { transform: scale(0.98); opacity: 0.7; }
+}
+
+.reveal-correct {
+  animation: reveal-correct 0.5s ease-out;
+}
+
+.reveal-wrong {
+  animation: reveal-wrong 0.4s ease-out forwards;
+}
+
+/* ── Gold Underline for Callback ── */
+.gold-underline {
+  text-decoration: underline;
+  text-decoration-color: var(--uni-gold-highlight);
+  text-underline-offset: 4px;
+  text-decoration-thickness: 3px;
+}
+
+/* ── Thin Accent Line Utility ── */
+.accent-line-bottom {
+  position: relative;
+}
+.accent-line-bottom::after {
+  content: '';
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background-color: var(--slide-accent);
+  border-radius: 1px;
+}
+
+/* ── Presenter View Kbd ── */
+kbd {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.7em;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 3px;
+  padding: 1px 5px;
+}
+
+/* ── SVG Component Styles ── */
+.svg-flowchart-box {
+  transition: opacity 0.3s ease;
+}
+
+/* ── Numbered Badge ── */
+.number-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+  background-color: var(--slide-heading);
+  color: white;
+  font-weight: 600;
+  font-size: 0.875rem;
+  flex-shrink: 0;
+}
+
+/* ── Section Footer ── */
+.slide-footer {
+  font-size: 0.625rem;
+  opacity: 0.4;
+  letter-spacing: 0.02em;
+}
+
+/* ── Progress Bar palette-aware ── */
+.progress-bar-fill {
+  background-color: var(--progress-accent, var(--darwin-amber));
+  transition: width 0.3s ease-out, background-color 0.5s ease;
 }
