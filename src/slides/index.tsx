@@ -11,6 +11,23 @@ import { TemplateC } from './templates/TemplateC'
 import { TemplateD } from './templates/TemplateD'
 import { TemplateE } from './templates/TemplateE'
 import { TemplateF } from './templates/TemplateF'
+import { Slide4_1 } from './templates/section4/Slide4_1'
+import { Slide4_2 } from './templates/section4/Slide4_2'
+import { Slide4_3 } from './templates/section4/Slide4_3'
+import { Slide4_4 } from './templates/section4/Slide4_4'
+import { Slide4_5 } from './templates/section4/Slide4_5'
+import { Slide4_6 } from './templates/section4/Slide4_6'
+import { Slide4_7 } from './templates/section4/Slide4_7'
+import { Slide4_8 } from './templates/section4/Slide4_8'
+import { Slide4_9 } from './templates/section4/Slide4_9'
+import { Slide4_10 } from './templates/section4/Slide4_10'
+import { Slide5_1 } from './templates/section5/Slide5_1'
+import { Slide5_2 } from './templates/section5/Slide5_2'
+import { Slide5_3 } from './templates/section5/Slide5_3'
+import { Slide5_4 } from './templates/section5/Slide5_4'
+import { Slide5_5 } from './templates/section5/Slide5_5'
+import { Slide5_6 } from './templates/section5/Slide5_6'
+import { Slide5_7 } from './templates/section5/Slide5_7'
 
 /* ── All 46 Darwin slide definitions ── */
 
@@ -56,11 +73,13 @@ function computeTotalSteps(def: DarwinSlideDef): number {
   if (def.id === 'slide-4.9') return 1  // capture cards appear
 
   /* Section 5 custom-treated slides */
-  if (def.id === 'slide-5.1') return 3  // serif line → transitional line → modern line + era badges
-  if (def.id === 'slide-5.2') return 3  // framing text → visual + bold text → gold box + footnote
-  if (def.id === 'slide-5.4') return 3  // Mendel events → Jenkin/Darwin + gap → rediscovered + narrative
-  if (def.id === 'slide-5.5') return 3  // framing text → bridge connects → key phrase gold box
-  if (def.id === 'slide-5.7') return 2  // reveal panel → closing line
+  if (def.id === 'slide-5.1') return 3
+  if (def.id === 'slide-5.2') return 3
+  if (def.id === 'slide-5.3') return 2
+  if (def.id === 'slide-5.4') return 2
+  if (def.id === 'slide-5.5') return 3
+  if (def.id === 'slide-5.6') return 1
+  if (def.id === 'slide-5.7') return 2
 
   const content = def.content
 
@@ -107,6 +126,329 @@ function computeTotalSteps(def: DarwinSlideDef): number {
 export function buildDarwinSlide(def: DarwinSlideDef): SlideConfig {
   const TemplateComponent = templateComponents[def.template]!
   const totalSteps = computeTotalSteps(def)
+
+  if (def.id === 'slide-4.1') {
+    const component = ({ step, isActive }: SlideProps) => (
+      <Slide4_1 def={def} step={isActive ? step : 0} />
+    )
+
+    return {
+      id: def.id,
+      title: def.title,
+      mode: 'teaching',
+      background: '#1E3A5F',
+      totalSteps,
+      component,
+      speakerNotes: def.speakerNotes,
+      act: def.section,
+      palette: def.palette,
+      compressionTag: def.compressionTag,
+    }
+  }
+
+  if (def.id === 'slide-4.2') {
+    const component = ({ step, isActive }: SlideProps) => (
+      <Slide4_2 def={def} step={isActive ? step : 0} />
+    )
+
+    return {
+      id: def.id,
+      title: def.title,
+      mode: 'teaching',
+      background: '#F5F1E8',
+      totalSteps,
+      component,
+      speakerNotes: def.speakerNotes,
+      act: def.section,
+      palette: def.palette,
+      compressionTag: def.compressionTag,
+    }
+  }
+
+  if (def.id === 'slide-4.3') {
+    const component = ({ step, isActive }: SlideProps) => (
+      <Slide4_3 def={def} step={isActive ? step : 0} />
+    )
+
+    return {
+      id: def.id,
+      title: def.title,
+      mode: 'teaching',
+      background: '#F5F1E8',
+      totalSteps,
+      component,
+      speakerNotes: def.speakerNotes,
+      act: def.section,
+      palette: def.palette,
+      compressionTag: def.compressionTag,
+    }
+  }
+
+  if (def.id === 'slide-4.4') {
+    const component = ({ step, isActive }: SlideProps) => (
+      <Slide4_4 def={def} step={isActive ? step : 0} />
+    )
+
+    return {
+      id: def.id,
+      title: def.title,
+      mode: 'teaching',
+      background: '#0D1B2A',
+      totalSteps,
+      component,
+      speakerNotes: def.speakerNotes,
+      act: def.section,
+      palette: def.palette,
+      compressionTag: def.compressionTag,
+    }
+  }
+
+  if (def.id === 'slide-4.5') {
+    const component = ({ step, isActive }: SlideProps) => (
+      <Slide4_5 def={def} step={isActive ? step : 0} />
+    )
+
+    return {
+      id: def.id,
+      title: def.title,
+      mode: 'teaching',
+      background: '#F5F1E8',
+      totalSteps,
+      component,
+      speakerNotes: def.speakerNotes,
+      act: def.section,
+      palette: def.palette,
+      compressionTag: def.compressionTag,
+    }
+  }
+
+  if (def.id === 'slide-4.6') {
+    const component = ({ step, isActive }: SlideProps) => (
+      <Slide4_6 def={def} step={isActive ? step : 0} />
+    )
+
+    return {
+      id: def.id,
+      title: def.title,
+      mode: 'teaching',
+      background: '#F5F1E8',
+      totalSteps,
+      component,
+      speakerNotes: def.speakerNotes,
+      act: def.section,
+      palette: def.palette,
+      compressionTag: def.compressionTag,
+    }
+  }
+
+  if (def.id === 'slide-4.7') {
+    const component = ({ step, isActive }: SlideProps) => (
+      <Slide4_7 def={def} step={isActive ? step : 0} />
+    )
+
+    return {
+      id: def.id,
+      title: def.title,
+      mode: 'teaching',
+      background: '#F5F1E8',
+      totalSteps,
+      component,
+      speakerNotes: def.speakerNotes,
+      act: def.section,
+      palette: def.palette,
+      compressionTag: def.compressionTag,
+    }
+  }
+
+  if (def.id === 'slide-4.8') {
+    const component = ({ step, isActive }: SlideProps) => (
+      <Slide4_8 def={def} step={isActive ? step : 0} />
+    )
+
+    return {
+      id: def.id,
+      title: def.title,
+      mode: 'teaching',
+      background: '#F5F1E8',
+      totalSteps,
+      component,
+      speakerNotes: def.speakerNotes,
+      act: def.section,
+      palette: def.palette,
+      compressionTag: def.compressionTag,
+    }
+  }
+
+  if (def.id === 'slide-4.9') {
+    const component = ({ step, isActive }: SlideProps) => (
+      <Slide4_9 def={def} step={isActive ? step : 0} />
+    )
+
+    return {
+      id: def.id,
+      title: def.title,
+      mode: 'teaching',
+      background: '#F5F1E8',
+      totalSteps,
+      component,
+      speakerNotes: def.speakerNotes,
+      act: def.section,
+      palette: def.palette,
+      compressionTag: def.compressionTag,
+    }
+  }
+
+  if (def.id === 'slide-4.10') {
+    const component = ({ step, isActive }: SlideProps) => (
+      <Slide4_10 def={def} step={isActive ? step : 0} />
+    )
+
+    return {
+      id: def.id,
+      title: def.title,
+      mode: 'teaching',
+      background: '#F5F1E8',
+      totalSteps,
+      component,
+      speakerNotes: def.speakerNotes,
+      act: def.section,
+      palette: def.palette,
+      compressionTag: def.compressionTag,
+    }
+  }
+
+  if (def.id === 'slide-5.1') {
+    const component = ({ step, isActive }: SlideProps) => (
+      <Slide5_1 def={def} step={isActive ? step : 0} />
+    )
+
+    return {
+      id: def.id,
+      title: def.title,
+      mode: 'teaching',
+      background: '#F5F1E8',
+      totalSteps,
+      component,
+      speakerNotes: def.speakerNotes,
+      act: def.section,
+      palette: def.palette,
+      compressionTag: def.compressionTag,
+    }
+  }
+
+  if (def.id === 'slide-5.2') {
+    const component = ({ step, isActive }: SlideProps) => (
+      <Slide5_2 def={def} step={isActive ? step : 0} />
+    )
+
+    return {
+      id: def.id,
+      title: def.title,
+      mode: 'teaching',
+      background: '#F7F9FB',
+      totalSteps,
+      component,
+      speakerNotes: def.speakerNotes,
+      act: def.section,
+      palette: def.palette,
+      compressionTag: def.compressionTag,
+    }
+  }
+
+  if (def.id === 'slide-5.3') {
+    const component = ({ step, isActive }: SlideProps) => (
+      <Slide5_3 def={def} step={isActive ? step : 0} />
+    )
+
+    return {
+      id: def.id,
+      title: def.title,
+      mode: 'teaching',
+      background: '#F7F9FB',
+      totalSteps,
+      component,
+      speakerNotes: def.speakerNotes,
+      act: def.section,
+      palette: def.palette,
+      compressionTag: def.compressionTag,
+    }
+  }
+
+  if (def.id === 'slide-5.4') {
+    const component = ({ step, isActive }: SlideProps) => (
+      <Slide5_4 def={def} step={isActive ? step : 0} />
+    )
+
+    return {
+      id: def.id,
+      title: def.title,
+      mode: 'teaching',
+      background: '#F7F9FB',
+      totalSteps,
+      component,
+      speakerNotes: def.speakerNotes,
+      act: def.section,
+      palette: def.palette,
+      compressionTag: def.compressionTag,
+    }
+  }
+
+  if (def.id === 'slide-5.5') {
+    const component = ({ step, isActive }: SlideProps) => (
+      <Slide5_5 def={def} step={isActive ? step : 0} />
+    )
+
+    return {
+      id: def.id,
+      title: def.title,
+      mode: 'teaching',
+      background: '#1E3A5F',
+      totalSteps,
+      component,
+      speakerNotes: def.speakerNotes,
+      act: def.section,
+      palette: def.palette,
+      compressionTag: def.compressionTag,
+    }
+  }
+
+  if (def.id === 'slide-5.6') {
+    const component = ({ step, isActive }: SlideProps) => (
+      <Slide5_6 def={def} step={isActive ? step : 0} />
+    )
+
+    return {
+      id: def.id,
+      title: def.title,
+      mode: 'teaching',
+      background: '#F7F9FB',
+      totalSteps,
+      component,
+      speakerNotes: def.speakerNotes,
+      act: def.section,
+      palette: def.palette,
+      compressionTag: def.compressionTag,
+    }
+  }
+
+  if (def.id === 'slide-5.7') {
+    const component = ({ step, isActive }: SlideProps) => (
+      <Slide5_7 def={def} step={isActive ? step : 0} />
+    )
+
+    return {
+      id: def.id,
+      title: def.title,
+      mode: 'teaching',
+      background: '#F7F9FB',
+      totalSteps,
+      component,
+      speakerNotes: def.speakerNotes,
+      act: def.section,
+      palette: def.palette,
+      compressionTag: def.compressionTag,
+    }
+  }
 
   const component = ({ step, isActive }: SlideProps) => (
     <TemplateComponent def={def} step={isActive ? step : 0} />

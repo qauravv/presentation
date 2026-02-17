@@ -11,8 +11,14 @@ import { MicroMacroScale } from '../../components/visuals/MicroMacroScale'
 import { PaintMixingDissolver } from '../../components/visuals/PaintMixingDissolver'
 import { MendelDarwinTimeline } from '../../components/visuals/MendelDarwinTimeline'
 import { ModernSynthesisBridge } from '../../components/visuals/ModernSynthesisBridge'
+import { MisconceptionNegations } from '../../components/visuals/section2/MisconceptionNegations'
+import { GiraffeCompare } from '../../components/visuals/section2/GiraffeCompare'
+import { KeyDistinctionSplit } from '../../components/visuals/section2/KeyDistinctionSplit'
+import { ComponentStack } from '../../components/visuals/section2/ComponentStack'
 import { DiagnosticRevealPanel } from '../../components/visuals/DiagnosticRevealPanel'
 import { GeneticCodeVisual } from '../../components/visuals/GeneticCodeVisual'
+import { MechanismPreview } from '../../components/visuals/section2/MechanismPreview'
+import { EyeObjectionHero } from '../../components/visuals/section3/EyeObjectionHero'
 
 interface Props {
   def: DarwinSlideDef
@@ -29,62 +35,81 @@ export function TemplateB({ def, step }: Props) {
 
   /* ── Slide 3.1 dramatic inverted treatment — "The Objection" ── */
   if (def.id === 'slide-3.1') {
+    return <EyeObjectionHero step={step} />
+  }
+
+  /* ── Slide 2.3, 2.4, 2.5: The Argument Stack ── */
+  if (def.id === 'slide-2.3' || def.id === 'slide-2.4' || def.id === 'slide-2.5') {
     return (
-      <div className="w-full h-full flex flex-col relative" data-palette={def.palette}>
+      <div className="w-full h-full flex flex-col relative texture-paper" data-palette={def.palette}>
         {def.showMiniFlowchart && <MiniFlowchart highlight={def.miniFlowchartHighlight} />}
         <div
           className="shrink-0 flex items-center"
-          style={{ minHeight: '14%', backgroundColor: '#1E3A5F', padding: '0 6%' }}
+          style={{ minHeight: '14%', backgroundColor: 'var(--darwin-navy)', padding: '0 18% 0 6%' }}
         >
           <h2 className="text-2xl sm:text-3xl lg:text-4xl font-heading font-semibold text-white leading-snug tracking-[-0.01em]">
             {titleText}
           </h2>
         </div>
+        <div className="flex-1 min-h-0 relative overflow-y-auto">
+          <ComponentStack slideId={def.id as any} step={step} />
+        </div>
+      </div>
+    )
+  }
+
+  /* ── Slide 2.6: Key Distinction (Custom Visual) ── */
+  if (def.id === 'slide-2.6') {
+    return (
+      <div className="w-full h-full flex flex-col relative texture-paper" data-palette={def.palette}>
         <div
-          className="flex-1 min-h-0 flex flex-col items-center justify-center"
-          style={{
-            background: 'radial-gradient(ellipse at 50% 40%, #24466B 0%, #1E3A5F 40%, #162E4C 100%)',
-            padding: '0 8%',
-          }}
+          className="shrink-0 flex items-center"
+          style={{ minHeight: '14%', backgroundColor: 'var(--darwin-navy)', padding: '0 6%' }}
         >
-          <BuildStep step={0} currentStep={step} duration={0.7}>
-            <div
-              className="relative max-w-4xl"
-              style={{ padding: '2.5rem 3rem' }}
-            >
-              <span
-                aria-hidden
-                className="absolute left-2 -top-1 font-heading select-none"
-                style={{ fontSize: '5rem', color: 'rgba(201, 169, 97, 0.35)', lineHeight: 1 }}
-              >
-                &ldquo;
-              </span>
-              <p
-                className="text-[1.6rem] sm:text-[2rem] lg:text-[2.2rem] leading-[1.45] font-heading font-medium italic text-center"
-                style={{ color: '#F5F1E8', textShadow: '0 2px 12px rgba(0,0,0,0.18)' }}
-              >
-                {content.blocks[0] && 'text' in content.blocks[0] ? content.blocks[0].text : ''}
-              </p>
-              <span
-                aria-hidden
-                className="absolute right-2 -bottom-3 font-heading select-none"
-                style={{ fontSize: '4rem', color: 'rgba(201, 169, 97, 0.35)', lineHeight: 1 }}
-              >
-                &rdquo;
-              </span>
-            </div>
-          </BuildStep>
-          <BuildStep step={1} currentStep={step} duration={0.4} delay={0.15}>
-            <div className="w-28 h-[2px] mx-auto my-6" style={{ backgroundColor: '#C9A961' }} />
-          </BuildStep>
-          <BuildStep step={1} currentStep={step} duration={0.5} delay={0.1}>
-            <p
-              className="text-[1.2rem] sm:text-[1.4rem] leading-relaxed text-center max-w-3xl"
-              style={{ color: '#F5F1E8', opacity: 0.82 }}
-            >
-              {content.blocks[1] && 'text' in content.blocks[1] ? content.blocks[1].text : ''}
-            </p>
-          </BuildStep>
+          <h2 className="text-2xl sm:text-3xl lg:text-4xl font-heading font-semibold text-white leading-snug tracking-[-0.01em]">
+            {titleText}
+          </h2>
+        </div>
+        <div className="flex-1 min-h-0 relative p-6 sm:p-10">
+          <KeyDistinctionSplit step={step} />
+        </div>
+      </div>
+    )
+  }
+
+  /* ── Slide 2.9: Giraffe Explanation (Custom Visual) ── */
+  if (def.id === 'slide-2.9') {
+    return (
+      <div className="w-full h-full flex flex-col relative texture-paper" data-palette={def.palette}>
+        <div
+          className="shrink-0 flex items-center"
+          style={{ minHeight: '14%', backgroundColor: 'var(--darwin-navy)', padding: '0 6%' }}
+        >
+          <h2 className="text-2xl sm:text-3xl lg:text-4xl font-heading font-semibold text-white leading-snug tracking-[-0.01em]">
+            {titleText}
+          </h2>
+        </div>
+        <div className="flex-1 min-h-0 relative p-6">
+          <GiraffeCompare step={step} />
+        </div>
+      </div>
+    )
+  }
+
+  /* ── Slide 2.11: Misconceptions (Custom Visual) ── */
+  if (def.id === 'slide-2.11') {
+    return (
+      <div className="w-full h-full flex flex-col relative texture-paper" data-palette={def.palette}>
+        <div
+          className="shrink-0 flex items-center"
+          style={{ minHeight: '14%', backgroundColor: 'var(--darwin-navy)', padding: '0 6%' }}
+        >
+          <h2 className="text-2xl sm:text-3xl lg:text-4xl font-heading font-semibold text-white leading-snug tracking-[-0.01em]">
+            {titleText}
+          </h2>
+        </div>
+        <div className="flex-1 min-h-0 relative p-6">
+          <MisconceptionNegations step={step} />
         </div>
       </div>
     )
@@ -93,42 +118,17 @@ export function TemplateB({ def, step }: Props) {
   /* ── Slide 2.1 dramatic inverted treatment ── */
   if (def.id === 'slide-2.1') {
     return (
-      <div className="w-full h-full flex flex-col relative" data-palette={def.palette}>
+      <div className="w-full h-full flex flex-col relative texture-paper" data-palette={def.palette}>
         <div
           className="shrink-0 flex items-center"
-          style={{ minHeight: '14%', backgroundColor: '#1E3A5F', padding: '0 6%' }}
+          style={{ minHeight: '14%', backgroundColor: 'var(--darwin-navy)', padding: '0 6%' }}
         >
           <h2 className="text-2xl sm:text-3xl lg:text-4xl font-heading font-semibold text-white leading-snug tracking-[-0.01em]">
             {titleText}
           </h2>
         </div>
-        <div
-          className="flex-1 min-h-0 flex items-center justify-center"
-          style={{
-            background: 'radial-gradient(ellipse at center, #1E3A5F 0%, #162E4C 100%)',
-          }}
-        >
-          <div className="text-center px-[8%] max-w-4xl">
-            <BuildStep step={0} currentStep={step} duration={0.6}>
-              <p
-                className="text-[1.95rem] sm:text-[2.35rem] leading-[1.35] font-heading font-medium tracking-wide"
-                style={{ color: '#F5F1E8', textShadow: '0 2px 12px rgba(0,0,0,0.15)' }}
-              >
-                {content.blocks[0] && 'text' in content.blocks[0] ? content.blocks[0].text : ''}
-              </p>
-            </BuildStep>
-            <BuildStep step={1} currentStep={step} duration={0.4} delay={0.15}>
-              <div className="w-24 h-[2px] mx-auto my-8" style={{ backgroundColor: '#C9A961' }} />
-            </BuildStep>
-            <BuildStep step={1} currentStep={step} duration={0.5} delay={0.1}>
-              <p
-                className="text-[1.3rem] sm:text-[1.5rem] leading-relaxed"
-                style={{ color: '#F5F1E8', opacity: 0.85 }}
-              >
-                {content.blocks[1] && 'text' in content.blocks[1] ? content.blocks[1].text : ''}
-              </p>
-            </BuildStep>
-          </div>
+        <div className="flex-1 min-h-0 relative">
+          <MechanismPreview step={step} />
         </div>
       </div>
     )

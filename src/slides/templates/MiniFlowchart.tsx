@@ -80,6 +80,7 @@ export function MiniFlowchart({ highlight }: { highlight?: number[] }) {
  * Full-size mechanism flowchart for slide 2.2.
  * Staggered spatial layout with curved amber arrows. Build-step animation.
  * THE most important visual in the seminar — referenced on 39 of 46 slides.
+ * UPGRADED: Museum poster aesthetic.
  */
 export function FullFlowchart({ step = 0 }: { step?: number }) {
   const boxes = [
@@ -90,32 +91,36 @@ export function FullFlowchart({ step = 0 }: { step?: number }) {
     { line1: 'POPULATION SHIFTS', line2: 'over time' },
   ]
 
-  const boxW = 300
-  const boxH = 56
-  const gap = 32
-  const svgW = 460
+  const boxW = 280
+  const boxH = 64
+  const gap = 36
+  const svgW = 500
   const svgCx = svgW / 2
-  const offsets = [-28, 28, -28, 28, -28]
-  const totalH = boxes.length * boxH + (boxes.length - 1) * gap + 8
+  const offsets = [-40, 40, -40, 40, -40]
+  const totalH = boxes.length * boxH + (boxes.length - 1) * gap + 20
 
   return (
     <div className="w-full flex flex-col items-center">
       <svg
         viewBox={`0 0 ${svgW} ${totalH}`}
         className="w-full"
-        style={{ maxWidth: '520px', maxHeight: '65vh' }}
+        style={{ maxWidth: '580px', maxHeight: '70vh', filter: 'drop-shadow(0 10px 20px rgba(0,0,0,0.1))' }}
       >
         <defs>
-          <marker id="flow-arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto">
-            <path d="M1,1 L9,5 L1,9" fill="#D4A574" />
+          <marker id="flow-arrow-lg" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto">
+            <path d="M1,1 L11,6 L1,11" fill="#D69E66" />
           </marker>
-          <filter id="box-shadow">
-            <feDropShadow dx="0" dy="3" stdDeviation="4" floodOpacity="0.12" />
+          <filter id="box-shadow-lg">
+            <feDropShadow dx="0" dy="4" stdDeviation="6" floodOpacity="0.15" />
           </filter>
+          <linearGradient id="box-gradient" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stopColor="#1B3254" />
+            <stop offset="100%" stopColor="#152642" />
+          </linearGradient>
         </defs>
 
         {boxes.map((box, i) => {
-          const y = i * (boxH + gap) + 4
+          const y = i * (boxH + gap) + 10
           const cx = svgCx + offsets[i]!
           const bx = cx - boxW / 2
           const visible = step >= i
@@ -123,46 +128,52 @@ export function FullFlowchart({ step = 0 }: { step?: number }) {
           let arrowPath = ''
           if (i < boxes.length - 1) {
             const nextCx = svgCx + offsets[i + 1]!
-            const aY1 = y + boxH + 2
-            const aY2 = y + boxH + gap - 4
+            const aY1 = y + boxH
+            const aY2 = y + boxH + gap
             const midY = (aY1 + aY2) / 2
-            arrowPath = `M${cx},${aY1} Q${cx},${midY} ${nextCx},${aY2}`
+            // Organic curve
+            arrowPath = `M${cx},${aY1} C${cx},${midY} ${nextCx},${midY} ${nextCx},${aY2}`
           }
 
           return (
             <motion.g
               key={i}
-              initial={{ opacity: 0, y: 12 }}
-              animate={{ opacity: visible ? 1 : 0, y: visible ? 0 : 12 }}
-              transition={{ duration: 0.42, ease: [0.25, 0.1, 0.25, 1] }}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: visible ? 1 : 0, y: visible ? 0 : 20 }}
+              transition={{ duration: 0.5, ease: [0.25, 0.1, 0.25, 1] }}
             >
               <rect
                 x={bx}
                 y={y}
                 width={boxW}
                 height={boxH}
-                rx={10}
-                fill="#1E3A5F"
-                filter="url(#box-shadow)"
+                rx={12}
+                fill="url(#box-gradient)"
+                filter="url(#box-shadow-lg)"
+                stroke="rgba(255,255,255,0.1)"
+                strokeWidth="1"
               />
               <text
                 x={cx}
-                y={y + 22}
+                y={y + 26}
                 textAnchor="middle"
-                fill="#F5F1E8"
-                fontSize="14"
+                fill="#D69E66"
+                fontSize="13"
+                fontWeight="600"
                 fontFamily="Inter, sans-serif"
+                letterSpacing="0.05em"
               >
                 {box.line1}
               </text>
               <text
                 x={cx}
-                y={y + 42}
+                y={y + 50}
                 textAnchor="middle"
-                fill="#F5F1E8"
-                fontSize="17"
+                fill="#F2EFE7"
+                fontSize="19"
                 fontWeight="700"
-                fontFamily="Inter, sans-serif"
+                fontFamily="Playfair Display, serif"
+                letterSpacing="0.02em"
               >
                 {box.line2}
               </text>
@@ -170,12 +181,12 @@ export function FullFlowchart({ step = 0 }: { step?: number }) {
                 <motion.path
                   d={arrowPath}
                   fill="none"
-                  stroke="#D4A574"
+                  stroke="#D69E66"
                   strokeWidth="3"
-                  markerEnd="url(#flow-arrow)"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: step >= i + 1 ? 1 : 0 }}
-                  transition={{ duration: 0.35 }}
+                  markerEnd="url(#flow-arrow-lg)"
+                  initial={{ pathLength: 0, opacity: 0 }}
+                  animate={{ pathLength: step >= i + 1 ? 1 : 0, opacity: step >= i + 1 ? 1 : 0 }}
+                  transition={{ duration: 0.5, delay: 0.1 }}
                 />
               )}
             </motion.g>
@@ -185,17 +196,17 @@ export function FullFlowchart({ step = 0 }: { step?: number }) {
 
       {/* Caption — the most important recurring phrase in the seminar */}
       <motion.div
-        className="mt-5 text-center"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: step >= 5 ? 1 : 0 }}
-        transition={{ duration: 0.5 }}
+        className="mt-8 text-center"
+        initial={{ opacity: 0, y: 10 }}
+        animate={{ opacity: step >= 5 ? 1 : 0, y: step >= 5 ? 0 : 10 }}
+        transition={{ duration: 0.6 }}
       >
         <span
-          className="inline-block text-xl sm:text-2xl font-bold tracking-wide"
+          className="inline-block text-xl sm:text-2xl font-bold tracking-wide font-heading"
           style={{
-            color: '#2D2D2D',
-            borderBottom: '2px solid #C9A961',
-            paddingBottom: '6px',
+            color: '#262626',
+            borderBottom: '3px solid #C2A153',
+            paddingBottom: '8px',
           }}
         >
           Undirected input → Environmentally biased output
