@@ -15,7 +15,7 @@ export function ContentBlockRenderer({ blocks, step }: Props) {
           step={block.type === 'footnote' ? 0 : (block.step ?? 0)}
           currentStep={step}
           duration={0.4}
-          delay={idx * 0.06}
+          delay={idx * 0.12}
         >
           <BlockContent block={block} />
         </BuildStep>
@@ -67,16 +67,56 @@ function BlockContent({ block }: { block: ContentBlock }) {
 
 function TextRenderer({ text, style }: { text: string; style?: string }) {
   const classes: Record<string, string> = {
-    normal: 'text-[1.35rem] leading-[1.6] text-slide-text',
-    bold: 'text-[1.35rem] leading-[1.6] text-slide-text font-bold',
-    italic: 'text-[1.2rem] leading-[1.6] text-slide-text/75 italic border-l-2 border-slide-accent/40 pl-4',
+    normal: 'text-[1.32rem] leading-[1.62] text-slide-text',
+    bold: 'text-[1.32rem] leading-[1.62] text-slide-text font-bold',
+    italic: 'text-[1.28rem] leading-[1.62] text-slide-text/78 italic border-l-2 border-slide-accent/45 pl-4',
     large: 'text-[1.5rem] sm:text-[1.75rem] leading-relaxed text-slide-text',
     small: 'text-[1rem] leading-relaxed text-slide-text/65',
     muted: 'text-[0.95rem] leading-relaxed text-slide-text/45',
     'large-bold': 'text-[1.5rem] sm:text-[1.75rem] leading-relaxed text-slide-text font-bold',
-    'centered-large': 'text-[1.75rem] sm:text-[2.25rem] leading-snug text-slide-text text-center font-heading font-medium',
+    'centered-large': 'text-[1.9rem] sm:text-[2.35rem] leading-snug text-slide-text text-center font-heading font-medium',
+    thesis:
+      'text-[1.95rem] sm:text-[2.35rem] leading-[1.35] text-slide-text font-heading font-medium bg-white/45 border-l-4 border-slide-accent rounded-r-lg px-6 py-5',
   }
-  return <p className={classes[style ?? 'normal'] ?? classes.normal}>{text}</p>
+  if (text === '160+ years of searching. No such discovery verified.') {
+    return (
+      <p className="text-[1.55rem] sm:text-[1.85rem] leading-[1.5] font-bold text-slide-heading bg-white/55 rounded-lg px-5 py-4 border-l-4 border-slide-accent">
+        {text}
+      </p>
+    )
+  }
+
+  if (text.includes("If you chose B, you're in good company")) {
+    return (
+      <p className="text-[1.22rem] sm:text-[1.35rem] leading-[1.6] italic font-medium text-slide-text bg-white/50 border border-slide-accent/35 rounded-lg px-4 py-3">
+        {text}
+      </p>
+    )
+  }
+
+  return <p className={classes[style ?? 'normal'] ?? classes.normal}>{renderNoNamesEmphasis(text)}</p>
+}
+
+function renderNoNamesEmphasis(text: string) {
+  const needle = 'no names'
+  const lower = text.toLowerCase()
+  const idx = lower.indexOf(needle)
+  if (idx === -1) return text
+  const before = text.slice(0, idx)
+  const match = text.slice(idx, idx + needle.length)
+  const after = text.slice(idx + needle.length)
+  return (
+    <>
+      {before}
+      <span
+        className="inline-flex items-center rounded-full px-2 py-0.5 ml-1 mr-1"
+        style={{ backgroundColor: 'color-mix(in srgb, var(--slide-accent) 22%, transparent)' }}
+      >
+        <strong>{match}</strong>
+      </span>
+      {after}
+    </>
+  )
 }
 
 function BulletsRenderer({ items, ordered }: { items: string[]; ordered?: boolean }) {
@@ -84,7 +124,7 @@ function BulletsRenderer({ items, ordered }: { items: string[]; ordered?: boolea
     return (
       <ol className="space-y-3 pl-0 list-none counter-reset-custom">
         {items.map((item, i) => (
-          <li key={i} className="flex items-start gap-3 text-[1.2rem] text-slide-text leading-relaxed">
+          <li key={i} className="flex items-start gap-3 text-[1.3rem] text-slide-text leading-relaxed">
             <span className="shrink-0 w-6 h-6 rounded-full bg-slide-heading/10 text-slide-heading text-sm font-semibold flex items-center justify-center mt-0.5">
               {i + 1}
             </span>
@@ -98,7 +138,7 @@ function BulletsRenderer({ items, ordered }: { items: string[]; ordered?: boolea
   return (
     <ul className="space-y-3 pl-0 list-none">
       {items.map((item, i) => (
-        <li key={i} className="flex items-start gap-3 text-[1.2rem] text-slide-text leading-relaxed">
+        <li key={i} className="flex items-start gap-3 text-[1.3rem] text-slide-text leading-relaxed">
           <span className="shrink-0 w-1.5 h-1.5 rounded-full bg-slide-accent mt-2.5" />
           <span>{item}</span>
         </li>
@@ -136,16 +176,30 @@ function QuoteRenderer({ text, attribution, boxed }: { text: string; attribution
   if (boxed) {
     return (
       <div
-        className="rounded-xl"
+        className="rounded-xl relative overflow-hidden"
         style={{
-          border: '2px solid var(--slide-accent)',
-          backgroundColor: 'color-mix(in srgb, var(--slide-accent) 5%, transparent)',
-          padding: '1.5rem 2rem',
+          border: '3px solid color-mix(in srgb, var(--slide-accent) 45%, white)',
+          backgroundColor: 'color-mix(in srgb, var(--slide-accent) 8%, white)',
+          padding: '1.75rem 2.25rem',
         }}
       >
+        <span
+          aria-hidden
+          className="absolute left-4 top-1 font-heading"
+          style={{ fontSize: '3.2rem', color: 'color-mix(in srgb, var(--slide-accent) 65%, transparent)', lineHeight: 1 }}
+        >
+          &ldquo;
+        </span>
         <p className="text-[1.25rem] sm:text-[1.4rem] italic text-slide-text leading-relaxed font-heading">
-          &ldquo;{text}&rdquo;
+          {text}
         </p>
+        <span
+          aria-hidden
+          className="absolute right-5 bottom-0 font-heading"
+          style={{ fontSize: '2.6rem', color: 'color-mix(in srgb, var(--slide-accent) 55%, transparent)', lineHeight: 1 }}
+        >
+          &rdquo;
+        </span>
         {attribution && (
           <p className="mt-3 text-sm text-slide-text/55 font-sans">— {attribution}</p>
         )}
@@ -206,23 +260,24 @@ function TwoColumnRenderer({
 
   return (
     <div className="flex flex-col items-center gap-5">
-      <div className="grid grid-cols-2 gap-6 w-full">
+      <div className="grid grid-cols-2 gap-6 w-full items-stretch">
         {[left, right].map((side, i) => (
           <div
             key={i}
-            className="rounded-xl"
+            className="rounded-xl h-full flex flex-col"
             style={{
               border: `2px solid ${borderColor(side.color)}`,
               backgroundColor: bgColor(side.color),
-              padding: '1.5rem',
+              padding: '1.4rem 1.3rem',
+              minHeight: '17rem',
             }}
           >
-            <h3 className={`text-xl sm:text-2xl font-bold ${headingColor(side.color)} mb-3`}>
+            <h3 className={`text-[1.2rem] sm:text-[1.5rem] font-bold ${headingColor(side.color)} mb-3 leading-snug`}>
               {side.heading}
             </h3>
-            <div className="space-y-2">
+            <div className="space-y-2 mt-auto">
               {side.items.map((item, j) => (
-                <p key={j} className="text-[1.05rem] text-slide-text leading-relaxed">{item}</p>
+                <p key={j} className="text-[1.12rem] text-slide-text leading-relaxed">{item}</p>
               ))}
             </div>
           </div>
@@ -257,9 +312,18 @@ function RevealRenderer({
             item.emphasis ? 'ring-2 ring-uni-red/30' : ''
           }`}
           style={{
-            border: item.correct ? '2px solid #52B788' : '1px solid #CBD5E1',
-            backgroundColor: item.correct ? 'rgba(82, 183, 136, 0.06)' : 'rgba(241, 245, 249, 0.6)',
+            border: item.correct
+              ? '2px solid #52B788'
+              : item.emphasis
+                ? '2px solid rgba(230, 57, 70, 0.45)'
+                : '1px solid #CBD5E1',
+            backgroundColor: item.correct
+              ? 'rgba(82, 183, 136, 0.08)'
+              : item.emphasis
+                ? 'rgba(230, 57, 70, 0.09)'
+                : 'rgba(241, 245, 249, 0.55)',
             padding: '1rem 1.25rem',
+            opacity: item.correct || item.emphasis ? 1 : 0.86,
           }}
         >
           <span className={`font-bold text-lg shrink-0 mt-0.5 ${item.correct ? 'text-uni-green' : 'text-uni-red'}`}>
@@ -267,7 +331,7 @@ function RevealRenderer({
           </span>
           <div className="flex-1">
             <span className="font-bold text-slide-text">{item.label}: </span>
-            <span className={`text-slide-text ${item.emphasis ? 'font-semibold' : ''}`}>{item.text}</span>
+            <span className={`text-slide-text ${item.emphasis ? 'font-semibold text-[1.06em]' : ''}`}>{item.text}</span>
           </div>
         </div>
       ))}

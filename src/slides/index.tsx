@@ -40,6 +40,10 @@ const templateComponents: Record<
 /* ── Compute total build steps from content ── */
 
 function computeTotalSteps(def: DarwinSlideDef): number {
+  if (def.id === 'slide-2.2') return 6
+  if (def.id === 'slide-3.3' || def.id === 'slide-6.3') return 1
+  if (def.id === 'slide-6.4') return 4
+
   const content = def.content
 
   switch (content.type) {
@@ -92,6 +96,7 @@ export function buildDarwinSlide(def: DarwinSlideDef): SlideConfig {
 
   return {
     id: def.id,
+    title: def.title,
     mode: 'teaching',
     background: '#FAF9F6',
     totalSteps,
@@ -106,7 +111,7 @@ export function buildDarwinSlide(def: DarwinSlideDef): SlideConfig {
 /* ── Deck compression filter ── */
 
 const DECK_C_CUT_TAGS: CompressionTag[] = ['CUT1', 'CUT2', 'CUT3', 'OPTIONAL']
-const EMERGENCY_REMOVE_IDS = ['slide-3.7', 'slide-6.6', 'slide-4.3']
+const EMERGENCY_REMOVE_IDS = ['slide-3.7', 'slide-6.6']
 
 export function filterSlidesByDeck(
   defs: DarwinSlideDef[],

@@ -18,7 +18,7 @@ export function TemplateF({ def, step }: Props) {
   const isCallback = content.specialBg === 'watermark-callback'
 
   const bgClass = isGradient
-    ? 'gradient-temporal-transition'
+    ? 'gradient-temporal-transition animate-sweep'
     : isCallback
       ? ''
       : 'slide-palette-bg'
@@ -33,13 +33,23 @@ export function TemplateF({ def, step }: Props) {
       }}
     >
       {/* Watermark flowchart for callback slide 6.4 */}
-      {isCallback && <FlowchartWatermark />}
+      {isCallback && (
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: step >= 1 ? 1 : 0 }}
+          transition={{ duration: 0.4 }}
+        >
+          <FlowchartWatermark />
+        </motion.div>
+      )}
 
       {/* Centered text content */}
       <div className="max-w-4xl w-full text-center relative z-10"
            style={{ display: 'flex', flexDirection: 'column', gap: '1.75rem', alignItems: 'center' }}>
         {content.lines.map((line, i) => {
-          const isVisible = i === 0 || step >= 1
+          const isVisible = isCallback
+            ? (i === 0 ? step >= 0 : step >= 3)
+            : i === 0 || step >= 1
 
           const colorStyle = isCallback
             ? { color: 'var(--darwin-navy)' }
@@ -47,24 +57,34 @@ export function TemplateF({ def, step }: Props) {
               ? { color: 'var(--darwin-charcoal)' }
               : { color: 'var(--slide-text)' }
 
+          const lineColorStyle =
+            def.id === 'slide-3.7' && i === 0
+              ? { color: 'var(--darwin-amber)' }
+              : def.id === 'slide-1.1' && i === 2
+                ? { color: 'var(--darwin-amber)' }
+                : !isCallback && line.style === 'italic'
+                  ? { color: 'var(--slide-accent)' }
+                  : {}
+
           return (
             <motion.div
               key={i}
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: isVisible ? 1 : 0, y: isVisible ? 0 : 10 }}
               transition={{
-                duration: isCallback ? 0.6 : 0.45,
-                delay: isCallback ? (i === 0 ? 0.2 : 0.8) : (i > 0 ? 0.15 : 0),
+                duration: isCallback ? (i === 0 ? 0.6 : 0.4) : 0.45,
+                delay: isCallback ? 0 : (i > 0 ? 0.15 : 0),
                 ease: [0.25, 0.1, 0.25, 1],
               }}
             >
-              <p className={`${lineStyle(line.style, isCallback)} leading-relaxed`}
+              <p className={`${lineStyle(line.style, isCallback, def.id, i)} leading-relaxed`}
                  style={{
                    ...colorStyle,
+                   ...lineColorStyle,
                    ...(isCallback && i === 0 ? { fontFamily: "'Playfair Display', Georgia, serif" } : {}),
                  }}>
                 {isCallback && i === 0 ? (
-                  <CallbackQuote text={line.text} />
+                  <CallbackQuote text={line.text} highlightActive={step >= 2} />
                 ) : (
                   line.text
                 )}
@@ -73,22 +93,11 @@ export function TemplateF({ def, step }: Props) {
           )
         })}
       </div>
-
-      {/* Gold accent bar for callback */}
-      {isCallback && (
-        <motion.div
-          initial={{ scaleX: 0 }}
-          animate={{ scaleX: step >= 1 ? 1 : 0 }}
-          transition={{ duration: 0.8, delay: 1.2, ease: [0.25, 0.1, 0.25, 1] }}
-          className="absolute bottom-0 left-0 right-0 h-1 origin-left"
-          style={{ backgroundColor: 'var(--uni-gold-highlight)' }}
-        />
-      )}
     </div>
   )
 }
 
-function CallbackQuote({ text }: { text: string }) {
+function CallbackQuote({ text, highlightActive }: { text: string; highlightActive: boolean }) {
   const goldPhrase = 'endless forms most beautiful'
   const idx = text.toLowerCase().indexOf(goldPhrase)
   if (idx === -1) return <>{text}</>
@@ -100,17 +109,23 @@ function CallbackQuote({ text }: { text: string }) {
   return (
     <>
       {before}
-      <span className="gold-underline">{match}</span>
+      <span className={highlightActive ? 'gold-underline' : ''}>{match}</span>
       {after}
     </>
   )
 }
 
-function lineStyle(style?: string, isCallback?: boolean): string {
+function lineStyle(style?: string, isCallback?: boolean, slideId?: string, lineIndex?: number): string {
+  if (slideId === 'slide-1.1') {
+    if (lineIndex === 0) return 'text-[1.8rem] sm:text-[2.2rem] lg:text-[2.45rem] font-heading font-medium'
+    if (lineIndex === 1) return 'text-[1.35rem] sm:text-[1.6rem] lg:text-[1.9rem] font-sans'
+    return 'text-[1.25rem] sm:text-[1.45rem] lg:text-[1.65rem] font-sans italic'
+  }
+
   if (isCallback) {
     switch (style) {
       case 'large':
-        return 'text-3xl sm:text-4xl lg:text-5xl font-heading font-semibold italic'
+        return 'text-[2.2rem] sm:text-[2.8rem] lg:text-[3.2rem] font-heading font-semibold italic'
       case 'medium':
         return 'text-lg sm:text-xl lg:text-2xl font-sans font-normal'
       default:

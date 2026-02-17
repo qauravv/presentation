@@ -67,6 +67,7 @@ interface SpeakerNotesProps {
   totalSlides?: number
   slideIndex?: number
   nextSlide?: SlideConfig | null
+  nextSlideTitle?: string | null
 }
 
 export function SpeakerNotes({
@@ -79,6 +80,7 @@ export function SpeakerNotes({
   totalSlides = 0,
   slideIndex = 0,
   nextSlide,
+  nextSlideTitle = null,
 }: SpeakerNotesProps) {
   const [activeAlert, setActiveAlert] = useState<number | null>(null)
   const [dismissedAlerts, setDismissedAlerts] = useState<Set<number>>(new Set())
@@ -119,18 +121,12 @@ export function SpeakerNotes({
         : 'text-uni-red'
 
   return (
-    <div
-      className="fixed inset-0 z-50 flex items-end justify-center bg-black/80 backdrop-blur-sm"
-      role="dialog"
-      aria-label="Presenter view"
-      onClick={onClose}
-    >
+    <div className="fixed inset-0 z-50 pointer-events-none" role="dialog" aria-label="Presenter view">
       <div
-        className="w-full max-w-5xl max-h-[65vh] bg-obsidian border-t border-slate-700 shadow-2xl flex flex-col"
-        onClick={(e) => e.stopPropagation()}
+        className="absolute right-4 top-4 bottom-4 w-[min(96vw,760px)] bg-obsidian/94 border border-slate-700 shadow-2xl rounded-2xl flex flex-col overflow-hidden pointer-events-auto"
       >
         {/* Top bar: timer, deck version, alert */}
-        <div className="flex items-center justify-between px-6 py-3 border-b border-slate-700/50 shrink-0">
+        <div className="flex items-center justify-between px-5 py-3 border-b border-slate-700/50 shrink-0">
           {/* Timer */}
           <div className="flex items-center gap-3">
             <span className={`text-2xl font-mono font-bold ${timerColor}`}>
@@ -151,19 +147,27 @@ export function SpeakerNotes({
             </span>
           </div>
 
-          {/* Compression tag badge */}
-          {tagStyle && (
-            <span
-              className={`${tagStyle.bg} ${tagStyle.text} px-3 py-1 rounded-full text-xs font-bold`}
+          <div className="flex items-center gap-2">
+            {/* Compression tag badge */}
+            {tagStyle && (
+              <span
+                className={`${tagStyle.bg} ${tagStyle.text} px-3 py-1 rounded-full text-xs font-bold`}
+              >
+                {tagStyle.label}
+              </span>
+            )}
+            <button
+              className="text-slate-300 hover:text-white text-xs px-2 py-1 border border-slate-600 rounded"
+              onClick={onClose}
             >
-              {tagStyle.label}
-            </span>
-          )}
+              Esc
+            </button>
+          </div>
         </div>
 
         {/* Decision point alert */}
         {activeAlert !== null && (
-          <div className="px-6 py-3 bg-yellow-900/40 border-b border-yellow-700/50 shrink-0">
+          <div className="px-5 py-3 bg-yellow-900/40 border-b border-yellow-700/50 shrink-0">
             <div className="flex items-start justify-between gap-4">
               <div>
                 <p className="text-yellow-300 font-bold text-sm flex items-center gap-2">
@@ -191,7 +195,7 @@ export function SpeakerNotes({
         {/* Main content: notes + next preview */}
         <div className="flex flex-1 min-h-0 overflow-hidden">
           {/* Speaker notes (left, scrollable) */}
-          <div className="flex-1 overflow-y-auto p-6">
+          <div className="flex-1 overflow-y-auto p-5">
             <p className="text-bone font-sans text-base leading-relaxed whitespace-pre-wrap">
               {notes}
             </p>
@@ -220,9 +224,9 @@ export function SpeakerNotes({
                 <p className="text-slate-600 text-xs">End of deck</p>
               </div>
             )}
-            {nextSlide && (
-              <p className="text-slate-500 text-xs text-center truncate w-full">
-                {nextSlide.id}
+            {nextSlideTitle && (
+              <p className="text-slate-400 text-xs text-center leading-relaxed">
+                {nextSlideTitle}
               </p>
             )}
 

@@ -154,7 +154,7 @@
 .gradient-temporal-transition.animate-sweep {
   background-size: 200% 100%;
   background-position: 0% 0%;
-  animation: gradient-sweep 2s ease-out forwards;
+  animation: gradient-sweep 1.5s ease-out forwards;
 }
 
 @keyframes gradient-sweep {
@@ -166,7 +166,7 @@
 .watermark-flowchart {
   position: absolute;
   inset: 0;
-  opacity: 0.12;
+  opacity: 0.15;
   pointer-events: none;
   display: flex;
   align-items: center;
@@ -263,6 +263,7 @@
   text-decoration-color: var(--uni-gold-highlight);
   text-underline-offset: 4px;
   text-decoration-thickness: 3px;
+  text-shadow: 0 0 10px rgba(255, 183, 3, 0.24);
 }
 
 /* ── Thin Accent Line Utility ── */

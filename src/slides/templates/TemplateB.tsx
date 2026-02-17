@@ -15,6 +15,7 @@ interface Props {
  */
 export function TemplateB({ def, step }: Props) {
   const content = def.content as TemplateBContent
+  const titleText = content.titleBar ?? def.title
 
   return (
     <div
@@ -25,25 +26,23 @@ export function TemplateB({ def, step }: Props) {
       {def.showMiniFlowchart && <MiniFlowchart />}
 
       {/* Title bar (16% height, strong horizontal band) */}
-      {content.titleBar && (
-        <div
-          className="shrink-0 flex items-center"
-          style={{
-            minHeight: '16%',
-            backgroundColor: 'var(--slide-heading)',
-            padding: '0 6%',
-          }}
-        >
-          <h2 className="text-2xl sm:text-3xl lg:text-4xl font-heading font-semibold text-white leading-snug tracking-[-0.01em]">
-            {content.titleBar}
-          </h2>
-        </div>
-      )}
+      <div
+        className="shrink-0 flex items-center"
+        style={{
+          minHeight: '16%',
+          backgroundColor: 'var(--slide-heading)',
+          padding: def.showMiniFlowchart ? '0 18% 0 6%' : '0 6%',
+        }}
+      >
+        <h2 className="text-2xl sm:text-3xl lg:text-4xl font-heading font-semibold text-white leading-snug tracking-[-0.01em]">
+          {titleText}
+        </h2>
+      </div>
 
       {/* Content area with generous padding */}
       <div
-        className="flex-1 overflow-y-auto"
-        style={{ padding: '2rem 6% 1.5rem' }}
+        className="flex-1 min-h-0 overflow-hidden"
+        style={{ padding: def.showMiniFlowchart ? '2.1rem 18% 1.4rem 6%' : '2.1rem 6% 1.4rem' }}
       >
         <div className="max-w-5xl mx-auto space-y-5 sm:space-y-6">
           <ContentBlockRenderer blocks={content.blocks} step={step} />
@@ -61,29 +60,6 @@ export function TemplateB({ def, step }: Props) {
           )}
         </div>
       </div>
-
-      {/* Refined footer */}
-      <div
-        className="shrink-0 flex justify-between items-center slide-footer"
-        style={{ padding: '0.5rem 6%' }}
-      >
-        <span className="font-sans">
-          {def.section} · {sectionName(def.section)}
-        </span>
-        <span className="font-sans">{def.slideNum}</span>
-      </div>
     </div>
   )
-}
-
-function sectionName(section: number): string {
-  const names: Record<number, string> = {
-    1: 'Bridge + Frame',
-    2: "Darwin's Logic",
-    3: 'The Eye',
-    4: 'The Evidence',
-    5: 'Inheritance',
-    6: 'Close',
-  }
-  return names[section] ?? ''
 }

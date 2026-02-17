@@ -128,11 +128,17 @@ export function PresentationEngine({ slides: _fallbackSlides }: PresentationEngi
   }
 
   const actConfig = acts[currentSlide.act]
-  const isCallbackSlide = currentSlide.id === 'slide-6.4'
+  const currentDef = filteredDefs[slideIndex]
+  const nextDef = filteredDefs[slideIndex + 1] ?? null
+  const nextSlide = activeSlides[slideIndex + 1] ?? null
+  const isCallbackSlide =
+    currentSlide.id === 'slide-6.4' ||
+    currentDef?.slideNum === '6.4' ||
+    ((currentDef?.content as { type?: string; specialBg?: string } | undefined)?.type === 'F' &&
+      (currentDef?.content as { type?: string; specialBg?: string } | undefined)?.specialBg ===
+        'watermark-callback')
 
   const SlideComponent = currentSlide.component
-  const currentDef = filteredDefs[slideIndex]
-  const nextSlide = activeSlides[slideIndex + 1] ?? null
 
   return (
     <div className="relative w-full h-screen flex flex-col"
@@ -221,6 +227,7 @@ export function PresentationEngine({ slides: _fallbackSlides }: PresentationEngi
         totalSlides={totalSlides}
         slideIndex={slideIndex}
         nextSlide={nextSlide}
+        nextSlideTitle={nextDef ? `${nextDef.slideNum} · ${nextDef.title}` : null}
       />
 
       {/* Deck flash notification */}

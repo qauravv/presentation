@@ -22,7 +22,7 @@ export const section2: DarwinSlideDef[] = [
         {
           type: 'text',
           text: 'If traits vary, some variation is heritable, and different traits lead to different numbers of surviving offspring, then populations will change over time.',
-          style: 'centered-large',
+          style: 'thesis',
           step: 0,
         },
         {
