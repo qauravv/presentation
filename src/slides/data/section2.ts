@@ -77,6 +77,7 @@ export const section2: DarwinSlideDef[] = [
     timing: 75,
     compressionTag: 'CORE',
     showMiniFlowchart: true,
+    miniFlowchartHighlight: [1, 2],
     speakerNotes:
       'Components 1–2 on this slide, 3–4 on next. Breaking into two slides prevents cognitive overload. Keep Darwin-era framing: no genetic language.',
     content: {
@@ -125,6 +126,7 @@ export const section2: DarwinSlideDef[] = [
     timing: 75,
     compressionTag: 'CORE',
     showMiniFlowchart: true,
+    miniFlowchartHighlight: [3, 4],
     speakerNotes:
       'These build on previous slide. Component 4 is the crux: "not random with respect to heritable traits." Emphasize this phrase. It distinguishes selection from pure chance.',
     content: {
@@ -170,6 +172,7 @@ export const section2: DarwinSlideDef[] = [
     timing: 60,
     compressionTag: 'CORE',
     showMiniFlowchart: true,
+    miniFlowchartHighlight: [5],
     speakerNotes:
       'This is the payoff of 2.3–2.4. Short slide. Let it land. The italic line does the heavy anti-teleological lifting. "No process guided" = the core distinction students need.',
     content: {

@@ -1,141 +1,382 @@
+import { motion } from 'framer-motion'
+
+interface Props {
+  step: number
+}
+
 /**
  * EyeStages — Used on slide 3.3
  * Five panels showing progressively complex eye cross-sections.
- * NO ARROWS between panels. Each is visually ISOLATED.
- * "Complete functional system" label under each.
- * SVG-based for crispness.
+ * Rich SVG illustrations with gradients, fills, and layered anatomy.
+ * NO ARROWS between panels — each is visually ISOLATED.
+ * "Complete functional system" badge under each.
+ * Step-based staggered reveal animation.
  */
-export function EyeStages() {
+export function EyeStages({ step }: Props) {
   const stages = [
-    { title: 'Light-sensitive patch', draw: drawPatch },
-    { title: 'Cup shape', draw: drawCup },
-    { title: 'Pinhole', draw: drawPinhole },
-    { title: 'Lens', draw: drawLens },
-    { title: 'Camera-type eye', draw: drawCameraEye },
+    {
+      title: 'Light-sensitive patch',
+      description: 'Detects predator\'s shadow.',
+      draw: drawPatch,
+    },
+    {
+      title: 'Cup shape',
+      description: 'Registers light direction.',
+      draw: drawCup,
+    },
+    {
+      title: 'Pinhole',
+      description: 'Detects shape + movement.',
+      draw: drawPinhole,
+    },
+    {
+      title: 'Lens',
+      description: 'Sharp images. Navigation.',
+      draw: drawLens,
+    },
+    {
+      title: 'Camera-type eye',
+      description: 'Adjustable focus + iris.',
+      draw: drawCameraEye,
+    },
   ]
 
   return (
-    <div className="w-full">
-      <div className="grid grid-cols-5 gap-3 sm:gap-4">
+    <div className="w-full flex flex-col items-center gap-3">
+      <div className="grid grid-cols-5 gap-3 sm:gap-4 lg:gap-5 w-full">
         {stages.map((stage, i) => (
-          <div key={i} className="flex flex-col items-center">
-            {/* SVG diagram */}
+          <motion.div
+            key={i}
+            initial={{ opacity: 0, y: 14 }}
+            animate={{ opacity: step >= 0 ? 1 : 0, y: step >= 0 ? 0 : 14 }}
+            transition={{
+              duration: 0.5,
+              delay: i * 0.15,
+              ease: [0.25, 0.1, 0.25, 1],
+            }}
+            className="flex flex-col items-center"
+          >
+            {/* SVG diagram panel */}
             <div
-              className="w-full aspect-square rounded-xl flex items-center justify-center"
+              className="w-full rounded-xl flex items-center justify-center overflow-hidden"
               style={{
-                backgroundColor: 'rgba(255, 255, 255, 0.6)',
-                border: '1px solid rgba(30, 58, 95, 0.1)',
+                aspectRatio: '1 / 1.15',
+                background: 'linear-gradient(180deg, rgba(255,255,255,0.75) 0%, rgba(245,241,232,0.6) 100%)',
+                border: '1.5px solid rgba(30, 58, 95, 0.12)',
+                boxShadow: '0 2px 8px rgba(30, 58, 95, 0.06), inset 0 1px 0 rgba(255,255,255,0.8)',
               }}
             >
-              <svg viewBox="0 0 100 100" className="w-[85%] h-[85%]">
-                {stage.draw()}
+              <svg viewBox="0 0 120 130" className="w-[90%] h-[90%]">
+                <defs>
+                  {/* Shared gradient definitions */}
+                  <linearGradient id={`tissue-${i}`} x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stopColor="#1E3A5F" stopOpacity="0.85" />
+                    <stop offset="100%" stopColor="#1E3A5F" stopOpacity="0.55" />
+                  </linearGradient>
+                  <linearGradient id={`receptor-${i}`} x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stopColor="#D4A574" />
+                    <stop offset="100%" stopColor="#C9A961" />
+                  </linearGradient>
+                  <radialGradient id={`lens-glow-${i}`} cx="50%" cy="50%" r="50%">
+                    <stop offset="0%" stopColor="#D4A574" stopOpacity="0.25" />
+                    <stop offset="100%" stopColor="#D4A574" stopOpacity="0.02" />
+                  </radialGradient>
+                  <linearGradient id={`light-ray-${i}`} x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stopColor="#C9A961" stopOpacity="0.7" />
+                    <stop offset="100%" stopColor="#D4A574" stopOpacity="0.2" />
+                  </linearGradient>
+                </defs>
+                {stage.draw(i)}
               </svg>
             </div>
-            {/* Caption */}
-            <p className="text-xs sm:text-sm font-semibold text-darwin-navy mt-2 text-center leading-tight">
+
+            {/* Stage title */}
+            <p
+              className="text-[0.72rem] sm:text-sm font-bold mt-2.5 text-center leading-tight"
+              style={{ color: '#1E3A5F' }}
+            >
               {stage.title}
             </p>
-            <p className="text-[0.6rem] sm:text-[0.7rem] tracking-wider uppercase mt-1 text-center font-semibold"
-               style={{ color: '#D4A574' }}>
-              Complete functional system
-            </p>
-          </div>
+
+            {/* Description */}
+            <motion.p
+              initial={{ opacity: 0 }}
+              animate={{ opacity: step >= 1 ? 0.7 : 0 }}
+              transition={{ duration: 0.4, delay: 0.1 + i * 0.08 }}
+              className="text-[0.6rem] sm:text-[0.68rem] text-center leading-snug mt-1"
+              style={{ color: '#2D2D2D' }}
+            >
+              {stage.description}
+            </motion.p>
+
+            {/* "Complete functional system" badge */}
+            <motion.div
+              initial={{ opacity: 0, scale: 0.92 }}
+              animate={{ opacity: step >= 1 ? 1 : 0, scale: step >= 1 ? 1 : 0.92 }}
+              transition={{ duration: 0.4, delay: 0.2 + i * 0.1 }}
+              className="mt-1.5 rounded-full px-2 py-0.5 text-center"
+              style={{
+                backgroundColor: 'rgba(212, 165, 116, 0.15)',
+                border: '1px solid rgba(212, 165, 116, 0.35)',
+              }}
+            >
+              <span
+                className="text-[0.5rem] sm:text-[0.58rem] tracking-[0.08em] uppercase font-bold"
+                style={{ color: '#A0764A' }}
+              >
+                Complete functional system
+              </span>
+            </motion.div>
+          </motion.div>
         ))}
       </div>
     </div>
   )
 }
 
-function drawPatch() {
+/* ═══════════════════════════════════════════════
+   Individual Stage SVG Drawings — Rich Anatomical Detail
+   ═══════════════════════════════════════════════ */
+
+function drawPatch(idx: number) {
   return (
-    <>
-      {/* Flat surface */}
-      <line x1="25" y1="60" x2="75" y2="60" stroke="#1E3A5F" strokeWidth="2" />
-      {/* Photoreceptor cells */}
-      {[32, 42, 52, 62].map((x) => (
-        <rect key={x} x={x} y={52} width={4} height={8} rx={1} fill="#D4A574" />
+    <g>
+      {/* Background tissue surface */}
+      <rect x="20" y="68" width="80" height="14" rx="2" fill={`url(#tissue-${idx})`} opacity={0.7} />
+
+      {/* Photoreceptor cell layer — gradient-filled columns */}
+      {[28, 38, 48, 58, 68, 78].map((x) => (
+        <g key={x}>
+          <rect x={x} y="56" width="5" height="12" rx="1.5" fill={`url(#receptor-${idx})`} />
+          <rect x={x + 0.5} y="56" width="4" height="3" rx="1" fill="#D4A574" opacity={0.5} />
+        </g>
       ))}
-      {/* Light rays */}
-      <line x1="47" y1="20" x2="47" y2="48" stroke="#D4A574" strokeWidth="1" strokeDasharray="3,2" opacity={0.6} />
-      <line x1="35" y1="22" x2="40" y2="48" stroke="#D4A574" strokeWidth="1" strokeDasharray="3,2" opacity={0.4} />
-      <line x1="60" y1="22" x2="55" y2="48" stroke="#D4A574" strokeWidth="1" strokeDasharray="3,2" opacity={0.4} />
-    </>
+
+      {/* Flat epidermal surface line */}
+      <line x1="18" y1="55" x2="85" y2="55" stroke="#1E3A5F" strokeWidth="2" strokeLinecap="round" />
+
+      {/* Light rays from multiple directions */}
+      <line x1="52" y1="10" x2="52" y2="50" stroke={`url(#light-ray-${idx})`} strokeWidth="1.5" strokeDasharray="4,3" />
+      <line x1="32" y1="14" x2="42" y2="50" stroke={`url(#light-ray-${idx})`} strokeWidth="1" strokeDasharray="3,3" opacity={0.6} />
+      <line x1="72" y1="14" x2="62" y2="50" stroke={`url(#light-ray-${idx})`} strokeWidth="1" strokeDasharray="3,3" opacity={0.6} />
+
+      {/* Shadow detection area */}
+      <ellipse cx="52" cy="44" rx="22" ry="6" fill="#C9A961" opacity={0.08} />
+
+      {/* Light ray arrowheads */}
+      <polygon points="50,50 54,50 52,53" fill="#C9A961" opacity={0.5} />
+
+      {/* Label */}
+      <text x="60" y="100" textAnchor="middle" fontSize="7" fill="#1E3A5F" opacity={0.55} fontStyle="italic">
+        detects light / shadow
+      </text>
+    </g>
   )
 }
 
-function drawCup() {
+function drawCup(idx: number) {
   return (
-    <>
-      {/* Cup shape */}
-      <path d="M30 40 Q30 70 50 75 Q70 70 70 40" fill="none" stroke="#1E3A5F" strokeWidth="2" />
-      {/* Photoreceptors lining inside */}
-      {[35, 42, 50, 58, 65].map((x, i) => {
-        const y = 42 + Math.abs(x - 50) * 0.6
-        return <rect key={i} x={x - 2} y={y} width={4} height={6} rx={1} fill="#D4A574" />
+    <g>
+      {/* Cup-shaped tissue wall — filled */}
+      <path
+        d="M28 35 Q28 80 60 88 Q92 80 92 35"
+        fill={`url(#tissue-${idx})`}
+        opacity={0.25}
+      />
+      <path
+        d="M28 35 Q28 80 60 88 Q92 80 92 35"
+        fill="none"
+        stroke="#1E3A5F"
+        strokeWidth="2.5"
+        strokeLinecap="round"
+      />
+
+      {/* Inner receptor layer lining the cup */}
+      <path
+        d="M34 40 Q34 74 60 82 Q86 74 86 40"
+        fill="none"
+        stroke="#D4A574"
+        strokeWidth="3"
+        opacity={0.6}
+      />
+
+      {/* Individual photoreceptor cells along inner wall */}
+      {[38, 46, 54, 62, 70, 78].map((x, i) => {
+        const y = 42 + Math.abs(x - 60) * 0.55
+        return (
+          <rect key={i} x={x - 2} y={y} width="4" height="7" rx="1.5" fill={`url(#receptor-${idx})`} />
+        )
       })}
-      {/* Light */}
-      <line x1="50" y1="15" x2="50" y2="38" stroke="#D4A574" strokeWidth="1" strokeDasharray="3,2" opacity={0.6} />
-    </>
+
+      {/* Light rays — partially blocked by cup walls */}
+      <line x1="60" y1="8" x2="60" y2="38" stroke={`url(#light-ray-${idx})`} strokeWidth="1.5" strokeDasharray="4,3" />
+      <line x1="40" y1="10" x2="48" y2="38" stroke={`url(#light-ray-${idx})`} strokeWidth="1" strokeDasharray="3,3" opacity={0.5} />
+      <line x1="80" y1="10" x2="72" y2="38" stroke={`url(#light-ray-${idx})`} strokeWidth="1" strokeDasharray="3,3" opacity={0.5} />
+
+      {/* Blocked rays hitting cup wall */}
+      <line x1="22" y1="12" x2="30" y2="42" stroke="#E63946" strokeWidth="0.8" strokeDasharray="2,3" opacity={0.3} />
+      <text x="20" y="18" fontSize="6" fill="#E63946" opacity={0.4}>✕</text>
+
+      {/* Label */}
+      <text x="60" y="104" textAnchor="middle" fontSize="7" fill="#1E3A5F" opacity={0.55} fontStyle="italic">
+        directional sensing
+      </text>
+    </g>
   )
 }
 
-function drawPinhole() {
+function drawPinhole(idx: number) {
   return (
-    <>
-      {/* Near-closed sphere */}
-      <path d="M38 30 Q25 50 30 70 Q40 82 50 82 Q60 82 70 70 Q75 50 62 30" fill="none" stroke="#1E3A5F" strokeWidth="2" />
-      {/* Small opening */}
-      <line x1="38" y1="30" x2="42" y2="28" stroke="#1E3A5F" strokeWidth="2" />
-      <line x1="62" y1="30" x2="58" y2="28" stroke="#1E3A5F" strokeWidth="2" />
-      {/* Photoreceptors inside */}
-      {[38, 45, 55, 62].map((x, i) => {
-        const y = 60 + Math.abs(x - 50) * 0.3
-        return <rect key={i} x={x - 1.5} y={y} width={3} height={5} rx={1} fill="#D4A574" />
+    <g>
+      {/* Near-enclosed sphere — filled interior */}
+      <path
+        d="M42 24 Q22 48 28 72 Q38 92 60 92 Q82 92 92 72 Q98 48 78 24"
+        fill={`url(#tissue-${idx})`}
+        opacity={0.18}
+      />
+      <path
+        d="M42 24 Q22 48 28 72 Q38 92 60 92 Q82 92 92 72 Q98 48 78 24"
+        fill="none"
+        stroke="#1E3A5F"
+        strokeWidth="2.5"
+        strokeLinecap="round"
+      />
+
+      {/* Small aperture opening */}
+      <line x1="42" y1="24" x2="48" y2="21" stroke="#1E3A5F" strokeWidth="2.5" strokeLinecap="round" />
+      <line x1="78" y1="24" x2="72" y2="21" stroke="#1E3A5F" strokeWidth="2.5" strokeLinecap="round" />
+
+      {/* Aperture gap highlight */}
+      <line x1="48" y1="21" x2="72" y2="21" stroke="#C9A961" strokeWidth="1" strokeDasharray="2,2" opacity={0.5} />
+
+      {/* Receptor layer inside — curved along back wall */}
+      <path
+        d="M35 62 Q60 82 85 62"
+        fill="none"
+        stroke="#D4A574"
+        strokeWidth="3.5"
+        opacity={0.65}
+      />
+
+      {/* Receptor cells */}
+      {[40, 50, 60, 70, 80].map((x, i) => {
+        const y = 63 + Math.abs(x - 60) * 0.2
+        return (
+          <rect key={i} x={x - 1.5} y={y} width="3" height="6" rx="1" fill={`url(#receptor-${idx})`} />
+        )
       })}
-      {/* Light through pinhole */}
-      <line x1="50" y1="10" x2="50" y2="26" stroke="#D4A574" strokeWidth="1" strokeDasharray="3,2" opacity={0.6} />
-      <line x1="50" y1="32" x2="45" y2="58" stroke="#D4A574" strokeWidth="0.8" strokeDasharray="2,2" opacity={0.4} />
-      <line x1="50" y1="32" x2="55" y2="58" stroke="#D4A574" strokeWidth="0.8" strokeDasharray="2,2" opacity={0.4} />
-    </>
+
+      {/* Light through pinhole — focused convergence */}
+      <line x1="60" y1="4" x2="60" y2="18" stroke={`url(#light-ray-${idx})`} strokeWidth="1.5" strokeDasharray="4,3" />
+      <line x1="60" y1="26" x2="48" y2="60" stroke="#C9A961" strokeWidth="0.8" strokeDasharray="2,2" opacity={0.5} />
+      <line x1="60" y1="26" x2="72" y2="60" stroke="#C9A961" strokeWidth="0.8" strokeDasharray="2,2" opacity={0.5} />
+      <line x1="60" y1="26" x2="60" y2="62" stroke="#C9A961" strokeWidth="1" strokeDasharray="3,2" opacity={0.6} />
+
+      {/* Focus point */}
+      <circle cx="60" cy="65" r="2" fill="#C9A961" opacity={0.4} />
+
+      {/* Label */}
+      <text x="60" y="108" textAnchor="middle" fontSize="7" fill="#1E3A5F" opacity={0.55} fontStyle="italic">
+        crude image formation
+      </text>
+    </g>
   )
 }
 
-function drawLens() {
+function drawLens(idx: number) {
   return (
-    <>
-      {/* Sphere */}
-      <ellipse cx="50" cy="58" rx="25" ry="28" fill="none" stroke="#1E3A5F" strokeWidth="2" />
-      {/* Lens */}
-      <ellipse cx="50" cy="33" rx="10" ry="5" fill="rgba(212, 165, 116, 0.2)" stroke="#D4A574" strokeWidth="1.5" />
-      {/* Retina at back */}
-      <path d="M32 62 Q50 75 68 62" fill="none" stroke="#D4A574" strokeWidth="2" />
-      {/* Light rays bending through lens */}
-      <polyline points="40,12 45,28 50,60" fill="none" stroke="#D4A574" strokeWidth="0.8" strokeDasharray="3,2" opacity={0.5} />
-      <polyline points="60,12 55,28 50,60" fill="none" stroke="#D4A574" strokeWidth="0.8" strokeDasharray="3,2" opacity={0.5} />
-      <circle cx="50" cy="60" r="2" fill="#D4A574" opacity={0.7} />
-    </>
+    <g>
+      {/* Eyeball sphere */}
+      <ellipse cx="60" cy="60" rx="32" ry="36" fill={`url(#tissue-${idx})`} opacity={0.15} />
+      <ellipse cx="60" cy="60" rx="32" ry="36" fill="none" stroke="#1E3A5F" strokeWidth="2.5" />
+
+      {/* Lens — biconvex with glow */}
+      <ellipse cx="60" cy="30" rx="14" ry="7" fill={`url(#lens-glow-${idx})`} />
+      <ellipse cx="60" cy="30" rx="14" ry="7" fill="rgba(212, 165, 116, 0.12)" stroke="#D4A574" strokeWidth="1.8" />
+
+      {/* Lens internal structure lines */}
+      <ellipse cx="60" cy="30" rx="8" ry="4" fill="none" stroke="#D4A574" strokeWidth="0.6" opacity={0.3} />
+
+      {/* Retina — thick curved receptor layer at back */}
+      <path d="M34 68 Q60 86 86 68" fill="none" stroke="#D4A574" strokeWidth="4" opacity={0.7} />
+
+      {/* Individual retinal receptors */}
+      {[38, 46, 54, 62, 70, 78].map((x, i) => {
+        const y = 69 + Math.abs(x - 60) * 0.15
+        return (
+          <rect key={i} x={x - 1.5} y={y} width="3" height="5" rx="1" fill={`url(#receptor-${idx})`} opacity={0.8} />
+        )
+      })}
+
+      {/* Light rays bending through lens and converging */}
+      <polyline points="42,6 50,23 60,68" fill="none" stroke="#C9A961" strokeWidth="1" strokeDasharray="3,2" opacity={0.55} />
+      <polyline points="78,6 70,23 60,68" fill="none" stroke="#C9A961" strokeWidth="1" strokeDasharray="3,2" opacity={0.55} />
+      <line x1="60" y1="6" x2="60" y2="23" stroke="#C9A961" strokeWidth="1" strokeDasharray="3,2" opacity={0.5} />
+
+      {/* Focal point */}
+      <circle cx="60" cy="68" r="2.5" fill="#C9A961" opacity={0.6} />
+      <circle cx="60" cy="68" r="4.5" fill="none" stroke="#C9A961" strokeWidth="0.5" opacity={0.3} />
+
+      {/* Label */}
+      <text x="60" y="108" textAnchor="middle" fontSize="7" fill="#1E3A5F" opacity={0.55} fontStyle="italic">
+        focused images
+      </text>
+    </g>
   )
 }
 
-function drawCameraEye() {
+function drawCameraEye(idx: number) {
   return (
-    <>
-      {/* Outer eye */}
-      <ellipse cx="50" cy="55" rx="28" ry="30" fill="none" stroke="#1E3A5F" strokeWidth="2" />
+    <g>
+      {/* Outer sclera */}
+      <ellipse cx="60" cy="58" rx="34" ry="38" fill={`url(#tissue-${idx})`} opacity={0.12} />
+      <ellipse cx="60" cy="58" rx="34" ry="38" fill="none" stroke="#1E3A5F" strokeWidth="2.5" />
+
+      {/* Cornea — slight bulge at front */}
+      <path d="M42 24 Q60 14 78 24" fill="none" stroke="#1E3A5F" strokeWidth="2" />
+
       {/* Iris */}
-      <line x1="38" y1="28" x2="44" y2="30" stroke="#1E3A5F" strokeWidth="1.5" />
-      <line x1="62" y1="28" x2="56" y2="30" stroke="#1E3A5F" strokeWidth="1.5" />
-      {/* Lens (biconvex) */}
-      <ellipse cx="50" cy="32" rx="8" ry="6" fill="rgba(212, 165, 116, 0.15)" stroke="#D4A574" strokeWidth="1.5" />
-      {/* Retina (thick, detailed) */}
-      <path d="M28 58 Q50 80 72 58" fill="none" stroke="#D4A574" strokeWidth="2.5" />
-      {/* Focused light rays */}
-      <polyline points="38,10 44,26 50,62" fill="none" stroke="#D4A574" strokeWidth="0.8" strokeDasharray="2,2" opacity={0.5} />
-      <polyline points="62,10 56,26 50,62" fill="none" stroke="#D4A574" strokeWidth="0.8" strokeDasharray="2,2" opacity={0.5} />
-      <polyline points="50,8 50,26 50,62" fill="none" stroke="#D4A574" strokeWidth="0.8" strokeDasharray="2,2" opacity={0.5} />
-      <circle cx="50" cy="62" r="2.5" fill="#D4A574" opacity={0.8} />
-      {/* Optic nerve hint */}
-      <line x1="50" y1="82" x2="50" y2="90" stroke="#1E3A5F" strokeWidth="1.5" />
-    </>
+      <line x1="42" y1="27" x2="50" y2="30" stroke="#1E3A5F" strokeWidth="2" strokeLinecap="round" />
+      <line x1="78" y1="27" x2="70" y2="30" stroke="#1E3A5F" strokeWidth="2" strokeLinecap="round" />
+
+      {/* Pupil opening */}
+      <line x1="50" y1="30" x2="70" y2="30" stroke="none" />
+
+      {/* Lens — biconvex, detailed */}
+      <ellipse cx="60" cy="33" rx="10" ry="7" fill={`url(#lens-glow-${idx})`} />
+      <ellipse cx="60" cy="33" rx="10" ry="7" fill="rgba(212, 165, 116, 0.1)" stroke="#D4A574" strokeWidth="1.8" />
+      <ellipse cx="60" cy="33" rx="5.5" ry="3.5" fill="none" stroke="#D4A574" strokeWidth="0.5" opacity={0.25} />
+
+      {/* Vitreous chamber — subtle fill */}
+      <ellipse cx="60" cy="52" rx="24" ry="20" fill="#F5F1E8" opacity={0.08} />
+
+      {/* Retina — thick, detailed receptor layer */}
+      <path d="M30 62 Q60 88 90 62" fill="none" stroke="#D4A574" strokeWidth="4.5" opacity={0.7} />
+
+      {/* Dense retinal receptors */}
+      {[34, 41, 48, 55, 62, 69, 76, 83].map((x, i) => {
+        const y = 63 + Math.abs(x - 60) * 0.18
+        return (
+          <rect key={i} x={x - 1.2} y={y} width="2.4" height="5" rx="0.8" fill={`url(#receptor-${idx})`} opacity={0.85} />
+        )
+      })}
+
+      {/* Focused light rays through lens */}
+      <polyline points="42,4 52,26 60,66" fill="none" stroke="#C9A961" strokeWidth="0.9" strokeDasharray="3,2" opacity={0.5} />
+      <polyline points="78,4 68,26 60,66" fill="none" stroke="#C9A961" strokeWidth="0.9" strokeDasharray="3,2" opacity={0.5} />
+      <line x1="60" y1="4" x2="60" y2="26" stroke="#C9A961" strokeWidth="0.9" strokeDasharray="3,2" opacity={0.45} />
+
+      {/* Focal point */}
+      <circle cx="60" cy="66" r="2.5" fill="#C9A961" opacity={0.65} />
+      <circle cx="60" cy="66" r="5" fill="none" stroke="#C9A961" strokeWidth="0.5" opacity={0.25} />
+
+      {/* Optic nerve */}
+      <path d="M60 92 L60 104 Q58 108 54 110" stroke="#1E3A5F" strokeWidth="2" fill="none" strokeLinecap="round" />
+
+      {/* Micro-labels */}
+      <text x="96" y="34" fontSize="5.5" fill="#1E3A5F" opacity={0.4}>iris</text>
+      <text x="96" y="66" fontSize="5.5" fill="#D4A574" opacity={0.5}>retina</text>
+      <text x="76" y="36" fontSize="5.5" fill="#D4A574" opacity={0.4}>lens</text>
+    </g>
   )
 }
