@@ -29,7 +29,7 @@ export function TemplateE({ def, step }: Props) {
   const isBlendingVsParticulate = def.id === 'slide-5.3'
   const isBranchingVsLadder = def.id === 'slide-6.3'
   const isTiktaalik = def.id === 'slide-4.3'
-  const componentOwnsCaption = isMechanismFlowchart || isBlendingVsParticulate || isBranchingVsLadder
+  const componentOwnsCaption = isMechanismFlowchart || isBlendingVsParticulate || isBranchingVsLadder || isTiktaalik
 
   const captionStep = isEyeStages
     ? 2
