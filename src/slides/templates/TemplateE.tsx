@@ -3,6 +3,8 @@ import type { DarwinSlideDef, TemplateEContent } from '../../types'
 import { FullFlowchart, MiniFlowchart } from './MiniFlowchart'
 import { BacteriaPanels } from '../../components/visuals/BacteriaPanels'
 import { EyeStages } from '../../components/visuals/EyeStages'
+import { ExaptationFeather } from '../../components/visuals/ExaptationFeather'
+import { ConvergentEyes } from '../../components/visuals/ConvergentEyes'
 import { BlendingVsParticulate } from '../../components/visuals/BlendingVsParticulate'
 import { BranchingVsLadder } from '../../components/visuals/BranchingVsLadder'
 import { TiktaalikPanels } from '../../components/visuals/TiktaalikPanels'
@@ -22,29 +24,35 @@ export function TemplateE({ def, step }: Props) {
   const isMechanismFlowchart = def.id === 'slide-2.2'
   const isBacteriaResistance = def.id === 'slide-2.7'
   const isEyeStages = def.id === 'slide-3.3'
+  const isExaptation = def.id === 'slide-3.4'
+  const isConvergentEyes = def.id === 'slide-3.5'
   const isBlendingVsParticulate = def.id === 'slide-5.3'
   const isBranchingVsLadder = def.id === 'slide-6.3'
   const isTiktaalik = def.id === 'slide-4.3'
   const componentOwnsCaption = isMechanismFlowchart || isBlendingVsParticulate || isBranchingVsLadder
 
   const captionStep = isEyeStages
-    ? 0
-    : isBacteriaResistance || isTiktaalik
-      ? 2
-      : content.panels
-        ? 2
-        : 1
+    ? 2
+    : isExaptation
+      ? 1
+      : isConvergentEyes
+        ? 1
+        : isBacteriaResistance || isTiktaalik
+          ? 2
+          : content.panels
+            ? 2
+            : 1
 
   return (
     <div
       className="w-full h-full flex flex-col slide-palette-bg relative"
       data-palette={def.palette}
     >
-      {def.showMiniFlowchart && <MiniFlowchart />}
+      {def.showMiniFlowchart && <MiniFlowchart highlight={def.miniFlowchartHighlight} />}
 
-      {/* Title */}
+      {/* Title — lightweight, no bar; maximise visual area */}
       {content.title && (
-        <div className="shrink-0" style={{ padding: '1.5rem 6% 0' }}>
+        <div className="shrink-0" style={{ padding: '1.1rem 6% 0' }}>
           <h2 className="text-2xl sm:text-3xl lg:text-4xl font-heading font-semibold"
               style={{ color: 'var(--slide-heading)' }}>
             {content.title}
@@ -53,7 +61,7 @@ export function TemplateE({ def, step }: Props) {
       )}
 
       {/* Visual area (65–70%) */}
-      <div className="flex-1 flex flex-col justify-center min-h-0" style={{ padding: '1rem 6%' }}>
+      <div className="flex-1 flex flex-col justify-center min-h-0" style={{ padding: '0.75rem 6%' }}>
         {isMechanismFlowchart ? (
           <BuildStep step={0} currentStep={step} duration={0.6}>
             <FullFlowchart step={step} />
@@ -61,7 +69,11 @@ export function TemplateE({ def, step }: Props) {
         ) : isBacteriaResistance ? (
           <BacteriaPanels step={step} />
         ) : isEyeStages ? (
-          <EyeStages />
+          <EyeStages step={step} />
+        ) : isExaptation ? (
+          <ExaptationFeather step={step} />
+        ) : isConvergentEyes ? (
+          <ConvergentEyes step={step} />
         ) : isBlendingVsParticulate ? (
           <BlendingVsParticulate step={step} />
         ) : isBranchingVsLadder ? (

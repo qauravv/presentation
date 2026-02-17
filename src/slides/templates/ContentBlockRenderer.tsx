@@ -69,12 +69,12 @@ function TextRenderer({ text, style }: { text: string; style?: string }) {
   const classes: Record<string, string> = {
     normal: 'text-[1.32rem] leading-[1.62] text-slide-text',
     bold: 'text-[1.32rem] leading-[1.62] text-slide-text font-bold',
-    italic: 'text-[1.28rem] leading-[1.62] text-slide-text/78 italic border-l-2 border-slide-accent/45 pl-4',
+    italic: 'text-[1.3rem] leading-[1.65] text-slide-text/80 italic border-l-[3px] border-slide-accent/65 pl-5 py-1',
     large: 'text-[1.5rem] sm:text-[1.75rem] leading-relaxed text-slide-text',
     small: 'text-[1rem] leading-relaxed text-slide-text/65',
     muted: 'text-[0.95rem] leading-relaxed text-slide-text/45',
     'large-bold': 'text-[1.5rem] sm:text-[1.75rem] leading-relaxed text-slide-text font-bold',
-    'centered-large': 'text-[1.9rem] sm:text-[2.35rem] leading-snug text-slide-text text-center font-heading font-medium',
+    'centered-large': 'text-[1.95rem] sm:text-[2.4rem] leading-snug text-slide-heading text-center font-heading font-semibold tracking-[0.01em]',
     thesis:
       'text-[1.95rem] sm:text-[2.35rem] leading-[1.35] text-slide-text font-heading font-medium bg-white/45 border-l-4 border-slide-accent rounded-r-lg px-6 py-5',
   }
@@ -149,18 +149,24 @@ function BulletsRenderer({ items, ordered }: { items: string[]; ordered?: boolea
 
 function NumberedGroupRenderer({ groups }: { groups: { number: string; title: string; items: string[] }[] }) {
   return (
-    <div className="space-y-6">
+    <div className="space-y-8">
       {groups.map((group, i) => (
         <div key={i} className="flex gap-4">
-          <span className="number-badge mt-0.5">{group.number}</span>
+          <span
+            className="number-badge mt-0.5"
+            style={{ boxShadow: '0 0 0 3px color-mix(in srgb, var(--slide-heading) 15%, transparent)' }}
+          >
+            {group.number}
+          </span>
           <div className="flex-1">
-            <p className="text-[1.25rem] sm:text-[1.4rem] font-bold text-slide-heading tracking-[-0.01em]">
-              {group.title}
+            <p className="text-[1.32rem] sm:text-[1.5rem] font-bold text-slide-heading tracking-[-0.01em] pb-1.5"
+               style={{ borderBottom: '1px solid color-mix(in srgb, var(--slide-heading) 12%, transparent)' }}>
+              {renderGroupTitle(group.title)}
             </p>
-            <ul className="mt-2 space-y-1.5 pl-0 list-none">
+            <ul className="mt-2.5 space-y-2 pl-0 list-none">
               {group.items.map((item, j) => (
-                <li key={j} className="flex items-start gap-2.5 text-[1.1rem] text-slide-text leading-relaxed">
-                  <span className="shrink-0 w-1 h-1 rounded-full bg-slide-accent/60 mt-2.5" />
+                <li key={j} className="flex items-start gap-2.5 text-[1.22rem] text-slide-text leading-relaxed">
+                  <span className="shrink-0 w-1.5 h-1.5 rounded-full bg-slide-accent/60 mt-2.5" />
                   <span>{item}</span>
                 </li>
               ))}
@@ -169,6 +175,24 @@ function NumberedGroupRenderer({ groups }: { groups: { number: string; title: st
         </div>
       ))}
     </div>
+  )
+}
+
+function renderGroupTitle(title: string) {
+  const phrase = 'NOT RANDOM'
+  const idx = title.indexOf(phrase)
+  if (idx === -1) return title
+  return (
+    <>
+      {title.slice(0, idx)}
+      <span
+        className="inline-block rounded px-1.5 -mx-0.5"
+        style={{ backgroundColor: 'color-mix(in srgb, var(--slide-accent) 22%, transparent)' }}
+      >
+        {phrase}
+      </span>
+      {title.slice(idx + phrase.length)}
+    </>
   )
 }
 
@@ -426,7 +450,14 @@ function KeyPhraseRenderer({ text, highlight }: { text: string; highlight?: stri
 
 function FootnoteRenderer({ text }: { text: string }) {
   return (
-    <p className="text-[0.8rem] italic mt-3" style={{ color: 'var(--slide-text)', opacity: 0.45 }}>
+    <p
+      className="text-[0.88rem] italic mt-6 pt-3"
+      style={{
+        color: 'var(--slide-text)',
+        opacity: 0.5,
+        borderTop: '1px solid color-mix(in srgb, var(--slide-text) 10%, transparent)',
+      }}
+    >
       {text}
     </p>
   )

@@ -16,12 +16,15 @@ export function TemplateF({ def, step }: Props) {
   const content = def.content as TemplateFContent
   const isGradient = content.specialBg === 'gradient-transition'
   const isCallback = content.specialBg === 'watermark-callback'
+  const isLightningReset = def.id === 'slide-3.7'
 
   const bgClass = isGradient
     ? 'gradient-temporal-transition animate-sweep'
     : isCallback
       ? ''
-      : 'slide-palette-bg'
+      : isLightningReset
+        ? ''
+        : 'slide-palette-bg'
 
   return (
     <div
@@ -29,7 +32,14 @@ export function TemplateF({ def, step }: Props) {
       data-palette={isGradient ? undefined : def.palette}
       style={{
         padding: '12% 10%',
-        backgroundColor: isCallback ? 'var(--darwin-cream)' : undefined,
+        backgroundColor: isCallback
+          ? 'var(--darwin-cream)'
+          : isLightningReset
+            ? undefined
+            : undefined,
+        background: isLightningReset
+          ? 'radial-gradient(ellipse at 50% 50%, rgba(212,165,116,0.1) 0%, #F5F1E8 60%)'
+          : undefined,
       }}
     >
       {/* Watermark flowchart for callback slide 6.4 */}
@@ -70,11 +80,22 @@ export function TemplateF({ def, step }: Props) {
             <motion.div
               key={i}
               initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: isVisible ? 1 : 0, y: isVisible ? 0 : 10 }}
+              animate={{
+                opacity: isVisible ? 1 : 0,
+                y: isVisible ? 0 : 10,
+                scale: isLightningReset && i === 0 && isVisible ? [1, 1.02, 1] : 1,
+              }}
               transition={{
                 duration: isCallback ? (i === 0 ? 0.6 : 0.4) : 0.45,
                 delay: isCallback ? 0 : (i > 0 ? 0.15 : 0),
                 ease: [0.25, 0.1, 0.25, 1],
+                ...(isLightningReset && i === 0 ? {
+                  scale: {
+                    duration: 3,
+                    repeat: Infinity,
+                    ease: 'easeInOut',
+                  },
+                } : {}),
               }}
             >
               <p className={`${lineStyle(line.style, isCallback, def.id, i)} leading-relaxed`}

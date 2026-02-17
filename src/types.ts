@@ -225,6 +225,8 @@ export interface DarwinSlideDef {
   showMiniFlowchart: boolean
   speakerNotes: string
   content: SlideContent
+  /** Which flowchart boxes (1-indexed) to highlight on the mini flowchart */
+  miniFlowchartHighlight?: number[]
   /** Verbal backup script when this slide is cut from a compressed deck */
   verbalBackup?: string
 }

@@ -2,7 +2,7 @@ import type { DarwinSlideDef } from '../../types'
 
 /** Section 3: The Eye — A Case Study (6 slides — 8 min) + Lightning Reset (1 slide) */
 export const section3: DarwinSlideDef[] = [
-  // ── SLIDE 3.1: "What Good Is Half an Eye?" ──
+  // ── SLIDE 3.1: "What Good Is Half an Eye?" — Dramatic Inverted Treatment ──
   {
     id: 'slide-3.1',
     section: 3,
@@ -36,7 +36,7 @@ export const section3: DarwinSlideDef[] = [
     },
   },
 
-  // ── SLIDE 3.2: Language Note ──
+  // ── SLIDE 3.2: Language Note — Structured Visual Hierarchy ──
   {
     id: 'slide-3.2',
     section: 3,
@@ -52,6 +52,7 @@ export const section3: DarwinSlideDef[] = [
       'State this once explicitly. It prevents teleological interpretation of every eye stage that follows. The framing "reproductive success" replaces vague "advantage."',
     content: {
       type: 'B',
+      titleBar: 'Language Note',
       blocks: [
         {
           type: 'text',
@@ -60,22 +61,27 @@ export const section3: DarwinSlideDef[] = [
           step: 0,
         },
         {
-          type: 'text',
+          type: 'keyPhrase',
           text: 'Organisms with that structure left more surviving offspring than organisms without it.',
-          style: 'large-bold',
+          highlight: 'accent',
           step: 0,
         },
         {
-          type: 'text',
-          text: 'I do NOT mean the organism \'needed\' or \'tried to develop\' the structure.',
-          style: 'italic',
+          type: 'negation',
+          items: [
+            'I do NOT mean the organism \'needed\' or \'tried to develop\' the structure.',
+          ],
           step: 1,
+        },
+        {
+          type: 'footnote',
+          text: '📄 Reference card: fitness definition matches this phrasing verbatim.',
         },
       ],
     },
   },
 
-  // ── SLIDE 3.3: Eye Stages: 5 Complete Systems ──
+  // ── SLIDE 3.3: Eye Stages: 5 Complete Systems — Visual Anchor ──
   {
     id: 'slide-3.3',
     section: 3,
@@ -119,14 +125,14 @@ export const section3: DarwinSlideDef[] = [
     },
   },
 
-  // ── SLIDE 3.4: Exaptation ──
+  // ── SLIDE 3.4: Exaptation — Visual Anchor with Feather Diagram ──
   {
     id: 'slide-3.4',
     section: 3,
     slideNum: '3.4',
     title: 'Exaptation',
     func: 'CONCEPT',
-    template: 'B',
+    template: 'E',
     palette: 'darwin',
     timing: 30,
     compressionTag: 'CORE',
@@ -134,39 +140,21 @@ export const section3: DarwinSlideDef[] = [
     speakerNotes:
       'Exaptation takes 20 seconds and has high conceptual ROI. It undercuts any lingering "progression toward a goal" reading of the eye sequence.',
     content: {
-      type: 'B',
-      titleBar: 'One More Wrinkle',
-      blocks: [
-        {
-          type: 'text',
-          text: 'Sometimes structures evolved for one function get co-opted for another.',
-          style: 'normal',
-          step: 0,
-        },
-        {
-          type: 'text',
-          text: 'Feathers likely evolved for insulation or display before being used for flight.',
-          style: 'normal',
-          step: 0,
-        },
-        {
-          type: 'text',
-          text: 'Selection doesn\'t plan ahead; it repurposes whatever happens to be available.',
-          style: 'bold',
-          step: 1,
-        },
-      ],
+      type: 'E',
+      title: 'One More Wrinkle',
+      visualDescription: 'Feather diagram showing co-option from insulation/display to flight.',
+      caption: 'Selection doesn\'t plan ahead; it repurposes whatever happens to be available.',
     },
   },
 
-  // ── SLIDE 3.5: Convergent Evolution of Eyes ──
+  // ── SLIDE 3.5: Convergent Evolution of Eyes — Visual Anchor ──
   {
     id: 'slide-3.5',
     section: 3,
     slideNum: '3.5',
     title: 'Convergent Evolution of Eyes',
     func: 'EVIDENCE',
-    template: 'B',
+    template: 'E',
     palette: 'darwin',
     timing: 75,
     compressionTag: 'CORE',
@@ -174,39 +162,28 @@ export const section3: DarwinSlideDef[] = [
     speakerNotes:
       'Multiple independent origins = same pressure, different solutions. If challenged on model: "That\'s a model with stated assumptions. Change them, number changes. That\'s how models work."',
     content: {
-      type: 'B',
-      titleBar: 'Eyes Evolved Independently — Many Times',
-      blocks: [
+      type: 'E',
+      title: 'Eyes Evolved Independently — Many Times',
+      visualDescription: 'Three eye types side-by-side: Octopus, Insect, Mammalian.',
+      panels: [
         {
-          type: 'text',
-          text: 'Structurally different solutions to the same environmental pressure.',
-          style: 'normal',
-          step: 0,
+          title: 'Octopus',
+          description: 'Camera eye — retina faces light directly. No blind spot.',
         },
         {
-          type: 'split',
-          left: {
-            heading: 'Three eye types',
-            items: [
-              'Octopus camera eye',
-              'Insect compound eye',
-              'Mammalian camera eye',
-            ],
-          },
-          right: {
-            heading: 'Nilsson & Pelger model',
-            items: [
-              'Theoretical model: patch → camera eye feasible in ~hundreds of thousands of generations.',
-              'A model with stated assumptions, not a measurement.',
-            ],
-          },
-          step: 1,
+          title: 'Insect',
+          description: 'Compound eye — thousands of individual ommatidia. Wide field of view.',
+        },
+        {
+          title: 'Mammal',
+          description: 'Camera eye — inverted retina with blind spot. Lens-focused.',
         },
       ],
+      caption: 'Structurally different solutions to the same environmental pressure.',
     },
   },
 
-  // ── SLIDE 3.6: Eye Checkpoint ──
+  // ── SLIDE 3.6: Eye Checkpoint — Polished ──
   {
     id: 'slide-3.6',
     section: 3,
@@ -246,6 +223,7 @@ export const section3: DarwinSlideDef[] = [
       ],
       processingCue: 'This is genuinely tricky. Take your time.',
       formatInstructions: 'Silent think (30s) → neighbor discuss (90s)',
+      closingLine: '✓ Misconception resolved: Eye complexity (#6)',
     },
   },
 

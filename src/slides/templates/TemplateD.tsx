@@ -13,6 +13,8 @@ interface Props {
  * State 2 — REVEAL: Green/red highlights + explanations + closing line
  *
  * CRITICAL: All cards pixel-identical dimensions/padding/font. No color bias before reveal.
+ * For 3-option layouts: vertical stacked cards for better readability.
+ * For 4-option layouts: 2x2 grid.
  */
 export function TemplateD({ def, step }: Props) {
   const content = def.content as TemplateDContent
@@ -23,14 +25,13 @@ export function TemplateD({ def, step }: Props) {
   const showPromptOnly = isDiagnosticCheckpoint && step === 0
   const showQuestionAndOptions = !isDiagnosticCheckpoint || step >= 1
 
+  const isVerticalLayout = optionCount === 3
   const gridClass =
-    optionCount === 3
-      ? 'grid-cols-3'
-      : optionCount === 4
+    optionCount === 4
+      ? 'grid-cols-2'
+      : optionCount === 2
         ? 'grid-cols-2'
-        : optionCount === 2
-          ? 'grid-cols-2'
-          : 'grid-cols-2'
+        : 'grid-cols-1'
 
   return (
     <div
@@ -75,92 +76,34 @@ export function TemplateD({ def, step }: Props) {
             </p>
           </div>
 
-          {/* Options grid — ALL CARDS PIXEL-IDENTICAL */}
-          <div className="flex-1 min-h-0" style={{ padding: '0.5rem 6% 1rem' }}>
-            <div className={`grid ${gridClass} gap-4 sm:gap-5 h-full`}
-                 style={{ gridAutoRows: '1fr' }}>
-              {content.options.map((option, i) => {
-                let borderStyle = '1px solid rgba(45, 45, 45, 0.12)'
-                let bgColor = 'rgba(250, 250, 250, 0.8)'
-                let extraClass = 'checkpoint-card'
-
-                if (isRevealed) {
-                  if (option.isCorrect) {
-                    borderStyle = '2px solid #52B788'
-                    bgColor = 'rgba(82, 183, 136, 0.06)'
-                    extraClass = 'reveal-correct'
-                  } else {
-                    borderStyle = '1px solid #CBD5E1'
-                    bgColor = 'rgba(241, 245, 249, 0.7)'
-                    extraClass = 'reveal-wrong'
-                  }
-                }
-
-                return (
-                  <div
+          {/* Options — vertical stack for 3 options, grid for 2/4 */}
+          <div className="flex-1 min-h-0 overflow-hidden" style={{ padding: '0.5rem 6% 1rem' }}>
+            {isVerticalLayout ? (
+              <div className="flex flex-col gap-3 sm:gap-3.5 h-full max-w-4xl mx-auto">
+                {content.options.map((option, i) => (
+                  <OptionCard
                     key={i}
-                    className={`rounded-xl flex flex-col transition-all duration-500 ${extraClass}`}
-                    style={{
-                      border: borderStyle,
-                      backgroundColor: bgColor,
-                      padding: '1.5rem',
-                      minHeight: '200px',
-                    }}
-                  >
-                    {/* Option badge */}
-                    <div className="flex items-start gap-3 mb-2">
-                      <span
-                        className="inline-flex items-center justify-center w-7 h-7 rounded-full text-sm font-bold text-white shrink-0"
-                        style={{ backgroundColor: isRevealed && option.isCorrect ? '#52B788' : isRevealed ? '#94A3B8' : '#2D2D2D' }}
-                      >
-                        {option.label}
-                      </span>
-                    </div>
-                    <p className="text-sm sm:text-base text-darwin-charcoal leading-relaxed flex-1">
-                      {option.text}
-                    </p>
-                    {/* Reveal explanation */}
-                    <AnimatePresence>
-                      {isRevealed && option.explanation && (
-                        <motion.div
-                          initial={{ opacity: 0, y: 6 }}
-                          animate={{ opacity: 1, y: 0 }}
-                          transition={{ duration: 0.4, delay: 0.15 + i * 0.1 }}
-                          className="mt-3 pt-3"
-                          style={{ borderTop: '1px solid rgba(45, 45, 45, 0.1)' }}
-                        >
-                          {option.emphasis ? (
-                            <div
-                              className="rounded-lg shadow-sm"
-                              style={{
-                                border: '2px solid rgba(230, 57, 70, 0.5)',
-                                backgroundColor: 'rgba(230, 57, 70, 0.08)',
-                                padding: '0.75rem',
-                              }}
-                            >
-                              <p className="text-sm sm:text-base font-bold text-uni-red">
-                                ✘ {option.explanation}
-                              </p>
-                            </div>
-                          ) : (
-                            <p
-                              className={`text-xs sm:text-sm font-medium ${
-                                option.isCorrect
-                                  ? 'text-uni-green'
-                                  : 'text-uni-red'
-                              }`}
-                            >
-                              {option.isCorrect ? '✓ ' : '✘ '}
-                              {option.explanation}
-                            </p>
-                          )}
-                        </motion.div>
-                      )}
-                    </AnimatePresence>
-                  </div>
-                )
-              })}
-            </div>
+                    option={option}
+                    index={i}
+                    isRevealed={isRevealed}
+                    isVertical
+                  />
+                ))}
+              </div>
+            ) : (
+              <div className={`grid ${gridClass} gap-4 sm:gap-5 h-full`}
+                   style={{ gridAutoRows: '1fr' }}>
+                {content.options.map((option, i) => (
+                  <OptionCard
+                    key={i}
+                    option={option}
+                    index={i}
+                    isRevealed={isRevealed}
+                    isVertical={false}
+                  />
+                ))}
+              </div>
+            )}
           </div>
         </>
       )}
@@ -220,5 +163,113 @@ export function TemplateD({ def, step }: Props) {
         </div>
       )}
     </div>
+  )
+}
+
+/* ── Option Card Component with staggered entrance ── */
+
+function OptionCard({
+  option,
+  index,
+  isRevealed,
+  isVertical,
+}: {
+  option: { label: string; text: string; isCorrect?: boolean; explanation?: string; emphasis?: boolean }
+  index: number
+  isRevealed: boolean
+  isVertical: boolean
+}) {
+  let borderStyle = '1px solid rgba(45, 45, 45, 0.12)'
+  let bgColor = 'rgba(250, 250, 250, 0.8)'
+  let extraClass = 'checkpoint-card'
+
+  if (isRevealed) {
+    if (option.isCorrect) {
+      borderStyle = '2px solid #52B788'
+      bgColor = 'rgba(82, 183, 136, 0.06)'
+      extraClass = 'reveal-correct'
+    } else {
+      borderStyle = '1px solid #CBD5E1'
+      bgColor = 'rgba(241, 245, 249, 0.7)'
+      extraClass = 'reveal-wrong'
+    }
+  }
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 10 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{
+        duration: 0.4,
+        delay: index * 0.12,
+        ease: [0.25, 0.1, 0.25, 1],
+      }}
+      className={`rounded-xl transition-all duration-500 ${extraClass} ${
+        isVertical ? 'flex items-start gap-4' : 'flex flex-col'
+      }`}
+      style={{
+        border: borderStyle,
+        backgroundColor: bgColor,
+        padding: isVertical ? '1.1rem 1.5rem' : '1.5rem',
+        minHeight: isVertical ? undefined : '200px',
+        flex: isVertical ? '1 1 0' : undefined,
+      }}
+    >
+      {/* Option badge */}
+      <span
+        className="inline-flex items-center justify-center w-8 h-8 rounded-full text-sm font-bold text-white shrink-0"
+        style={{
+          backgroundColor: isRevealed && option.isCorrect ? '#52B788' : isRevealed ? '#94A3B8' : '#2D2D2D',
+          marginTop: isVertical ? '0.1rem' : undefined,
+        }}
+      >
+        {option.label}
+      </span>
+
+      <div className={`flex-1 ${isVertical ? '' : 'mt-2'}`}>
+        <p className={`text-darwin-charcoal leading-relaxed ${isVertical ? 'text-[0.95rem] sm:text-[1.05rem]' : 'text-sm sm:text-base'}`}>
+          {option.text}
+        </p>
+
+        {/* Reveal explanation */}
+        <AnimatePresence>
+          {isRevealed && option.explanation && (
+            <motion.div
+              initial={{ opacity: 0, y: 6 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.4, delay: 0.15 + index * 0.1 }}
+              className="mt-2.5 pt-2.5"
+              style={{ borderTop: '1px solid rgba(45, 45, 45, 0.1)' }}
+            >
+              {option.emphasis ? (
+                <div
+                  className="rounded-lg shadow-sm"
+                  style={{
+                    border: '2px solid rgba(230, 57, 70, 0.5)',
+                    backgroundColor: 'rgba(230, 57, 70, 0.08)',
+                    padding: '0.75rem',
+                  }}
+                >
+                  <p className="text-sm sm:text-base font-bold text-uni-red">
+                    ✘ {option.explanation}
+                  </p>
+                </div>
+              ) : (
+                <p
+                  className={`text-xs sm:text-sm font-medium ${
+                    option.isCorrect
+                      ? 'text-uni-green'
+                      : 'text-uni-red'
+                  }`}
+                >
+                  {option.isCorrect ? '✓ ' : '✘ '}
+                  {option.explanation}
+                </p>
+              )}
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </div>
+    </motion.div>
   )
 }

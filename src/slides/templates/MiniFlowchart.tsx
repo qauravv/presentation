@@ -1,156 +1,177 @@
 import { motion } from 'framer-motion'
 
 /**
- * Mini mechanism flowchart — persists in top-right corner of Template B slides.
- * Compact horizontal layout at 60% opacity. Clean, non-intrusive.
+ * Mini mechanism flowchart — persists in top-right corner of slides.
+ * Vertical layout with per-slide highlighting. Readable from back of room.
  */
-export function MiniFlowchart() {
-  const steps = ['VARIATION', 'HERITABLE', 'SURVIVE', 'REPROD.', 'POP. SHIFTS']
+export function MiniFlowchart({ highlight }: { highlight?: number[] }) {
+  const labels = ['VARIATION', 'HERITABLE', 'SURVIVE', 'REPROD.', 'POP. SHIFTS']
+  const boxW = 164
+  const boxH = 24
+  const gap = 10
+  const startX = 18
+  const cx = 100
 
   return (
     <div
-      className="absolute top-4 right-4 z-10 pointer-events-none select-none"
-      style={{ width: '230px', opacity: 0.55 }}
+      className="absolute top-3 right-3 z-10 pointer-events-none select-none"
+      style={{ width: '200px' }}
     >
-      <svg viewBox="0 0 230 28" className="w-full">
-        {steps.map((label, i) => {
-          const x = i * 47
+      <svg viewBox="0 0 200 166" className="w-full" style={{ opacity: 0.72 }}>
+        <defs>
+          <marker id="mini-arrow-v" markerWidth="5" markerHeight="5" refX="4" refY="2.5" orient="auto">
+            <path d="M0,0 L5,2.5 L0,5" fill="#D4A574" />
+          </marker>
+          <filter id="mini-hl-glow">
+            <feDropShadow dx="0" dy="0" stdDeviation="1.5" floodColor="#C9A961" floodOpacity="0.35" />
+          </filter>
+        </defs>
+        {labels.map((label, i) => {
+          const y = i * (boxH + gap) + 2
+          const active = !highlight || highlight.includes(i + 1)
           return (
-            <g key={i}>
+            <g key={i} opacity={active ? 1 : 0.25} className="svg-flowchart-box">
               <rect
-                x={x}
-                y={2}
-                width={40}
-                height={18}
-                rx={3}
+                x={startX}
+                y={y}
+                width={boxW}
+                height={boxH}
+                rx={5}
                 fill="#1E3A5F"
+                filter={active && highlight ? 'url(#mini-hl-glow)' : undefined}
               />
               <text
-                x={x + 20}
-                y={13.5}
+                x={cx}
+                y={y + 15.5}
                 textAnchor="middle"
                 fill="#F5F1E8"
-                fontSize="4.5"
+                fontSize="9.5"
                 fontWeight="600"
                 fontFamily="Inter, sans-serif"
               >
                 {label}
               </text>
-              {i < steps.length - 1 && (
-                <path
-                  d={`M${x + 41} 11 L${x + 46} 11`}
+              {i < labels.length - 1 && (
+                <line
+                  x1={cx}
+                  y1={y + boxH + 1}
+                  x2={cx}
+                  y2={y + boxH + gap - 3}
                   stroke="#D4A574"
-                  strokeWidth="1.2"
-                  markerEnd="url(#mini-arrow)"
+                  strokeWidth="1.5"
+                  markerEnd="url(#mini-arrow-v)"
                 />
               )}
             </g>
           )
         })}
-        <defs>
-          <marker id="mini-arrow" markerWidth="4" markerHeight="4" refX="3" refY="2" orient="auto">
-            <path d="M0,0 L4,2 L0,4" fill="#D4A574" />
-          </marker>
-        </defs>
       </svg>
       <p
-        className="text-center mt-0.5 italic"
-        style={{ fontSize: '5px', color: 'rgba(45, 45, 45, 0.4)' }}
+        className="text-center italic leading-none"
+        style={{ fontSize: '8px', color: 'rgba(45, 45, 45, 0.5)', marginTop: '-2px' }}
       >
-        Undirected input → Environmentally biased output
+        Undirected input → Biased output
       </p>
     </div>
   )
 }
 
 /**
- * Full-size vertical mechanism flowchart for slide 2.2.
- * SVG-based for crispness. Boxes + amber arrows. Build-step animation.
+ * Full-size mechanism flowchart for slide 2.2.
+ * Staggered spatial layout with curved amber arrows. Build-step animation.
+ * THE most important visual in the seminar — referenced on 39 of 46 slides.
  */
 export function FullFlowchart({ step = 0 }: { step?: number }) {
   const boxes = [
-    { line1: 'VARIATION', line2: 'exists', keyword: 'VARIATION' },
-    { line1: 'Some is', line2: 'HERITABLE', keyword: 'HERITABLE' },
-    { line1: 'More offspring', line2: 'than SURVIVE', keyword: 'SURVIVE' },
-    { line1: 'Traits → different', line2: 'REPRODUCTION', keyword: 'REPRODUCTION' },
-    { line1: 'POPULATION SHIFTS', line2: 'over time', keyword: 'POPULATION SHIFTS' },
+    { line1: 'VARIATION', line2: 'exists' },
+    { line1: 'Some is', line2: 'HERITABLE' },
+    { line1: 'More offspring', line2: 'than SURVIVE' },
+    { line1: 'Traits → different', line2: 'REPRODUCTION' },
+    { line1: 'POPULATION SHIFTS', line2: 'over time' },
   ]
 
+  const boxW = 300
   const boxH = 56
-  const boxW = 280
-  const gap = 28
-  const arrowH = gap
-  const startX = 160 - boxW / 2
-  const totalH = boxes.length * boxH + (boxes.length - 1) * arrowH + 60
+  const gap = 32
+  const svgW = 460
+  const svgCx = svgW / 2
+  const offsets = [-28, 28, -28, 28, -28]
+  const totalH = boxes.length * boxH + (boxes.length - 1) * gap + 8
 
   return (
     <div className="w-full flex flex-col items-center">
       <svg
-        viewBox={`0 0 320 ${totalH}`}
+        viewBox={`0 0 ${svgW} ${totalH}`}
         className="w-full"
-        style={{ maxWidth: '420px', maxHeight: '70vh' }}
+        style={{ maxWidth: '520px', maxHeight: '65vh' }}
       >
         <defs>
-          <marker id="flow-arrow" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
-            <path d="M1,1 L7,4 L1,7" fill="#D4A574" strokeWidth="0" />
+          <marker id="flow-arrow" markerWidth="10" markerHeight="10" refX="8" refY="5" orient="auto">
+            <path d="M1,1 L9,5 L1,9" fill="#D4A574" />
           </marker>
           <filter id="box-shadow">
-            <feDropShadow dx="0" dy="2" stdDeviation="3" floodOpacity="0.08" />
+            <feDropShadow dx="0" dy="3" stdDeviation="4" floodOpacity="0.12" />
           </filter>
         </defs>
 
         {boxes.map((box, i) => {
-          const y = i * (boxH + arrowH)
+          const y = i * (boxH + gap) + 4
+          const cx = svgCx + offsets[i]!
+          const bx = cx - boxW / 2
           const visible = step >= i
+
+          let arrowPath = ''
+          if (i < boxes.length - 1) {
+            const nextCx = svgCx + offsets[i + 1]!
+            const aY1 = y + boxH + 2
+            const aY2 = y + boxH + gap - 4
+            const midY = (aY1 + aY2) / 2
+            arrowPath = `M${cx},${aY1} Q${cx},${midY} ${nextCx},${aY2}`
+          }
 
           return (
             <motion.g
               key={i}
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: visible ? 1 : 0, y: visible ? 0 : 10 }}
+              initial={{ opacity: 0, y: 12 }}
+              animate={{ opacity: visible ? 1 : 0, y: visible ? 0 : 12 }}
               transition={{ duration: 0.42, ease: [0.25, 0.1, 0.25, 1] }}
             >
-              {/* Box */}
               <rect
-                x={startX}
+                x={bx}
                 y={y}
                 width={boxW}
                 height={boxH}
-                rx={8}
+                rx={10}
                 fill="#1E3A5F"
                 filter="url(#box-shadow)"
               />
               <text
-                x={160}
+                x={cx}
                 y={y + 22}
                 textAnchor="middle"
                 fill="#F5F1E8"
-                fontSize="13"
+                fontSize="14"
                 fontFamily="Inter, sans-serif"
               >
                 {box.line1}
               </text>
               <text
-                x={160}
-                y={y + 40}
+                x={cx}
+                y={y + 42}
                 textAnchor="middle"
                 fill="#F5F1E8"
-                fontSize="15"
+                fontSize="17"
                 fontWeight="700"
                 fontFamily="Inter, sans-serif"
               >
                 {box.line2}
               </text>
-
-              {/* Arrow to next box */}
-              {i < boxes.length - 1 && (
-                <motion.line
-                  x1={160}
-                  y1={y + boxH + 2}
-                  x2={160}
-                  y2={y + boxH + arrowH - 2}
+              {arrowPath && (
+                <motion.path
+                  d={arrowPath}
+                  fill="none"
                   stroke="#D4A574"
-                  strokeWidth="2.5"
+                  strokeWidth="3"
                   markerEnd="url(#flow-arrow)"
                   initial={{ opacity: 0 }}
                   animate={{ opacity: step >= i + 1 ? 1 : 0 }}
@@ -162,17 +183,23 @@ export function FullFlowchart({ step = 0 }: { step?: number }) {
         })}
       </svg>
 
-      {/* Caption */}
+      {/* Caption — the most important recurring phrase in the seminar */}
       <motion.div
-        className="mt-4 text-center"
+        className="mt-5 text-center"
         initial={{ opacity: 0 }}
         animate={{ opacity: step >= 5 ? 1 : 0 }}
-        transition={{ duration: 0.45 }}
+        transition={{ duration: 0.5 }}
       >
-        <p className="text-lg sm:text-xl font-bold text-darwin-charcoal">
+        <span
+          className="inline-block text-xl sm:text-2xl font-bold tracking-wide"
+          style={{
+            color: '#2D2D2D',
+            borderBottom: '2px solid #C9A961',
+            paddingBottom: '6px',
+          }}
+        >
           Undirected input → Environmentally biased output
-        </p>
-        <div className="w-24 h-[2px] bg-darwin-amber mx-auto mt-2" />
+        </span>
       </motion.div>
     </div>
   )
