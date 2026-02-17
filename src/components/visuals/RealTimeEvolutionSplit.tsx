@@ -8,125 +8,133 @@ interface Props {
 /**
  * RealTimeEvolutionSplit — Used on slide 4.6
  * Split visual: bacteria resistance (left) + Grant's finch study (right).
- * Bacteria panel reuses dot-field pattern from BacteriaPanels.
- * Finch panel shows beak-size variation with drought/rain year comparison.
+ * Bacteria panel: Animated dot field showing rapid takeover.
+ * Finch panel: Beak size shifting dynamically.
+ * Styled for premium "stunning" aesthetic.
  */
 export function RealTimeEvolutionSplit({ step }: Props) {
   return (
-    <div className="w-full grid grid-cols-2 gap-4 sm:gap-5">
+    <div className="w-full grid grid-cols-2 gap-6 sm:gap-8">
       {/* Left: Antibiotic Resistance */}
       <motion.div
-        initial={{ opacity: 0, x: -10 }}
-        animate={{ opacity: step >= 0 ? 1 : 0, x: step >= 0 ? 0 : -10 }}
-        transition={{ duration: 0.5 }}
-        className="rounded-xl overflow-hidden"
-        style={{ border: '1.5px solid rgba(30, 58, 95, 0.2)', backgroundColor: 'white' }}
+        initial={{ opacity: 0, x: -20 }}
+        animate={{ opacity: step >= 0 ? 1 : 0, x: step >= 0 ? 0 : -20 }}
+        transition={{ duration: 0.6, ease: "easeOut" }}
+        className="rounded-2xl overflow-hidden bg-white shadow-xl border border-[#1E3A5F]/10 flex flex-col"
       >
         {/* Header */}
-        <div
-          className="px-4 py-2.5 flex items-center gap-2"
-          style={{ backgroundColor: 'rgba(30, 58, 95, 0.06)', borderBottom: '1px solid rgba(30, 58, 95, 0.1)' }}
-        >
-          <svg viewBox="0 0 16 16" className="w-4 h-4">
-            <circle cx="8" cy="8" r="7" fill="none" stroke="#1E3A5F" strokeWidth="1.2" opacity={0.5} />
-            <circle cx="6" cy="7" r="2" fill="#457B9D" opacity={0.7} />
-            <circle cx="10" cy="9" r="1.5" fill="#999" opacity={0.5} />
-            <circle cx="8" cy="5" r="1.5" fill="#457B9D" opacity={0.5} />
-          </svg>
-          <span className="text-sm sm:text-base font-bold" style={{ color: '#1E3A5F' }}>
+        <div className="px-5 py-4 flex items-center gap-3 bg-[#1E3A5F]/5 border-b border-[#1E3A5F]/10">
+          <div className="w-8 h-8 rounded-full bg-[#457B9D]/20 flex items-center justify-center">
+            <svg viewBox="0 0 24 24" className="w-5 h-5 text-[#457B9D] fill-current">
+              <circle cx="12" cy="12" r="10" fill="none" stroke="currentColor" strokeWidth="2" opacity={0.5} />
+              <circle cx="9" cy="9" r="2.5" />
+              <circle cx="15" cy="11" r="2" opacity={0.6} />
+              <circle cx="11" cy="16" r="2" opacity={0.8} />
+            </svg>
+          </div>
+          <span className="text-lg font-bold text-[#1E3A5F] tracking-tight">
             Antibiotic Resistance
           </span>
         </div>
 
-        {/* Before / After dot fields */}
-        <div className="px-3 py-2">
-          <div className="grid grid-cols-2 gap-2">
-            <div>
-              <p className="text-[0.6rem] uppercase tracking-wider font-bold text-center mb-1" style={{ color: '#1E3A5F', opacity: 0.5 }}>
+        {/* Content */}
+        <div className="p-5 flex-1 flex flex-col justify-between">
+          <div className="grid grid-cols-2 gap-4 h-full">
+            <div className="flex flex-col h-full">
+              <p className="text-xs uppercase tracking-widest font-bold text-[#1E3A5F] opacity-50 mb-2 text-center">
                 Before
               </p>
-              <div className="rounded-lg" style={{ backgroundColor: 'rgba(245,241,232,0.5)', border: '1px solid rgba(30,58,95,0.08)' }}>
+              <div className="flex-1 rounded-xl bg-[#F5F1E8]/50 border border-[#1E3A5F]/10 p-2 relative overflow-hidden">
                 <MiniDotField panelType={0} />
               </div>
             </div>
-            <div>
-              <p className="text-[0.6rem] uppercase tracking-wider font-bold text-center mb-1" style={{ color: '#1E3A5F', opacity: 0.5 }}>
+            <div className="flex flex-col h-full">
+              <p className="text-xs uppercase tracking-widest font-bold text-[#1E3A5F] opacity-50 mb-2 text-center">
                 After
               </p>
-              <div className="rounded-lg" style={{ backgroundColor: 'rgba(245,241,232,0.5)', border: '1px solid rgba(30,58,95,0.08)' }}>
+              <div className="flex-1 rounded-xl bg-[#F5F1E8]/50 border border-[#1E3A5F]/10 p-2 relative overflow-hidden">
+                <div className="absolute inset-0 bg-[#E63946]/5 z-0" />
                 <MiniDotField panelType={2} />
               </div>
             </div>
           </div>
-          <p className="text-[0.68rem] sm:text-xs text-center mt-2 leading-relaxed" style={{ color: '#2D2D2D', opacity: 0.65 }}>
-            Populations evolve resistance within years.
-          </p>
-          <p className="text-[0.6rem] text-center mt-1 italic" style={{ color: '#D4A574' }}>
-            Callbacks Section 2.7
-          </p>
+          <div className="mt-4 text-center">
+            <span className="inline-block px-3 py-1 bg-[#1E3A5F]/10 rounded-full text-xs font-semibold text-[#1E3A5F]">
+              Time: Years / Decades
+            </span>
+            <p className="text-xs text-[#1E3A5F]/60 mt-1 italic">
+              Observe adaptation in real-time.
+            </p>
+          </div>
         </div>
       </motion.div>
 
       {/* Right: Grant's Finch Study */}
       <motion.div
-        initial={{ opacity: 0, x: 10 }}
-        animate={{ opacity: step >= 0 ? 1 : 0, x: step >= 0 ? 0 : 10 }}
-        transition={{ duration: 0.5, delay: 0.15 }}
-        className="rounded-xl overflow-hidden"
-        style={{ border: '1.5px solid rgba(30, 58, 95, 0.2)', backgroundColor: 'white' }}
+        initial={{ opacity: 0, x: 20 }}
+        animate={{ opacity: step >= 0 ? 1 : 0, x: step >= 0 ? 0 : 20 }}
+        transition={{ duration: 0.6, delay: 0.2, ease: "easeOut" }}
+        className="rounded-2xl overflow-hidden bg-white shadow-xl border border-[#D4A574]/30 flex flex-col"
       >
         {/* Header */}
-        <div
-          className="px-4 py-2.5 flex items-center gap-2"
-          style={{ backgroundColor: 'rgba(212, 165, 116, 0.08)', borderBottom: '1px solid rgba(212, 165, 116, 0.15)' }}
-        >
-          <svg viewBox="0 0 16 16" className="w-4 h-4">
-            <path d="M4 10 Q2 8 4 6 Q6 4 10 5 Q12 6 12 8 Q12 10 10 11 Q8 12 4 10Z" fill="#D4A574" opacity={0.5} />
-            <path d="M10 6 L14 5 L13 7" fill="#C9A961" opacity={0.6} />
-          </svg>
-          <span className="text-sm sm:text-base font-bold" style={{ color: '#1E3A5F' }}>
+        <div className="px-5 py-4 flex items-center gap-3 bg-[#D4A574]/10 border-b border-[#D4A574]/20">
+          <div className="w-8 h-8 rounded-full bg-[#D4A574]/20 flex items-center justify-center">
+            <svg viewBox="0 0 24 24" className="w-5 h-5 text-[#C9A961] fill-current">
+              <path d="M12 2C6.48 2 2 6.48 2 12C2 17.52 6.48 22 12 22C17.52 22 22 17.52 22 12C22 6.48 17.52 2 12 2ZM4 12C4 7.58 7.58 4 12 4C13.5 4 14.82 4.42 15.96 5.14L14.7 6.4C13.9 6.14 13.02 6 12 6C8.69 6 6 8.69 6 12C6 15.31 8.69 18 12 18C15.31 18 18 15.31 18 12H16L19 9L22 12H20C20 16.42 16.42 20 12 20C7.58 20 4 16.42 4 12Z" />
+            </svg>
+          </div>
+          <span className="text-lg font-bold text-[#1E3A5F] tracking-tight">
             The Grants' Finch Study
           </span>
         </div>
 
         {/* Finch beak comparison */}
-        <div className="px-3 py-2">
-          <div className="grid grid-cols-2 gap-2">
+        <div className="p-5 flex-1 flex flex-col justify-between">
+          <div className="grid grid-cols-2 gap-4 h-full">
             {/* Drought year */}
-            <div className="text-center">
-              <p className="text-[0.6rem] uppercase tracking-wider font-bold mb-1" style={{ color: '#E63946', opacity: 0.7 }}>
-                Drought year
+            <div className="text-center flex flex-col h-full">
+              <p className="text-xs uppercase tracking-widest font-bold text-[#E63946] mb-2 flex items-center justify-center gap-1">
+                <span>☀️</span> Drought
               </p>
-              <div
-                className="rounded-lg py-2 px-1"
-                style={{ backgroundColor: 'rgba(230, 57, 70, 0.04)', border: '1px solid rgba(230, 57, 70, 0.12)' }}
-              >
-                <FinchBeaks variant="drought" />
+              <div className="flex-1 rounded-xl bg-[#E63946]/5 border border-[#E63946]/20 p-2 flex items-center justify-center relative overflow-hidden group">
+                <motion.div
+                  animate={{ scale: [1, 1.05, 1] }}
+                  transition={{ duration: 4, repeat: Infinity }}
+                >
+                  <FinchBeaks variant="drought" />
+                </motion.div>
+                <div className="absolute bottom-2 text-[10px] font-bold text-[#E63946] bg-white/80 px-2 py-0.5 rounded-full shadow-sm">
+                  Large Seeds Only
+                </div>
               </div>
-              <p className="text-[0.58rem] mt-1 leading-snug" style={{ color: '#2D2D2D', opacity: 0.6 }}>
-                Hard seeds → larger beaks survive
-              </p>
             </div>
 
             {/* Rain year */}
-            <div className="text-center">
-              <p className="text-[0.6rem] uppercase tracking-wider font-bold mb-1" style={{ color: '#52B788', opacity: 0.7 }}>
-                Rain year
+            <div className="text-center flex flex-col h-full">
+              <p className="text-xs uppercase tracking-widest font-bold text-[#2A9D8F] mb-2 flex items-center justify-center gap-1">
+                <span>🌧️</span> Rain
               </p>
-              <div
-                className="rounded-lg py-2 px-1"
-                style={{ backgroundColor: 'rgba(82, 183, 136, 0.04)', border: '1px solid rgba(82, 183, 136, 0.12)' }}
-              >
-                <FinchBeaks variant="rain" />
+              <div className="flex-1 rounded-xl bg-[#2A9D8F]/5 border border-[#2A9D8F]/20 p-2 flex items-center justify-center relative overflow-hidden group">
+                <motion.div
+                  animate={{ scale: [1, 1.05, 1] }}
+                  transition={{ duration: 4, repeat: Infinity, delay: 2 }}
+                >
+                  <FinchBeaks variant="rain" />
+                </motion.div>
+                <div className="absolute bottom-2 text-[10px] font-bold text-[#2A9D8F] bg-white/80 px-2 py-0.5 rounded-full shadow-sm">
+                  Soft Seeds Available
+                </div>
               </div>
-              <p className="text-[0.58rem] mt-1 leading-snug" style={{ color: '#2D2D2D', opacity: 0.6 }}>
-                Soft seeds → advantage shifts
-              </p>
             </div>
           </div>
-          <p className="text-[0.68rem] sm:text-xs text-center mt-2 leading-relaxed" style={{ color: '#2D2D2D', opacity: 0.65 }}>
-            40+ years, generation by generation. Selection measured.
-          </p>
+          <div className="mt-4 text-center">
+            <span className="inline-block px-3 py-1 bg-[#D4A574]/10 rounded-full text-xs font-semibold text-[#1E3A5F]">
+              Time: 40+ Years
+            </span>
+            <p className="text-xs text-[#1E3A5F]/60 mt-1 italic">
+              Measured selection generation by generation.
+            </p>
+          </div>
         </div>
       </motion.div>
     </div>
@@ -136,103 +144,91 @@ export function RealTimeEvolutionSplit({ step }: Props) {
 function MiniDotField({ panelType }: { panelType: 0 | 2 }) {
   const dots = useMemo(() => {
     const seed = panelType * 100
-    const result: { x: number; y: number; isResistant: boolean; opacity: number }[] = []
+    const result: { x: number; y: number; isResistant: boolean; opacity: number; scale: number }[] = []
     const rng = (i: number) => {
       const x = Math.sin(seed + i * 2654435761) * 10000
       return x - Math.floor(x)
     }
-    const count = 18
+    const count = 30 // Increased density
     for (let i = 0; i < count; i++) {
-      const isResistant = panelType === 0 ? rng(i + 50) < 0.3 : rng(i + 50) < 0.9
-      let opacity = 1
-      if (panelType === 2 && !isResistant) opacity = 0.15
+      const isResistant = panelType === 0 ? rng(i + 50) < 0.2 : rng(i + 50) < 0.85
+      let opacity = 0.8
+      if (panelType === 2 && !isResistant) opacity = 0.2
+      if (panelType === 2 && isResistant) opacity = 1
+
       result.push({
-        x: 8 + rng(i) * 84,
-        y: 8 + rng(i + 30) * 84,
+        x: 10 + rng(i) * 80,
+        y: 10 + rng(i + 30) * 80,
         isResistant,
         opacity,
+        scale: 0.5 + rng(i + 99) * 0.5
       })
     }
     return result
   }, [panelType])
 
   return (
-    <svg viewBox="0 0 100 70" className="w-full" style={{ height: '65px' }}>
+    <svg viewBox="0 0 100 100" className="w-full h-full">
       {dots.map((dot, i) => (
-        <circle
+        <motion.circle
           key={i}
           cx={dot.x}
           cy={dot.y}
-          r={3.5}
-          fill={dot.isResistant ? '#457B9D' : '#999'}
+          r={dot.isResistant ? 4 * dot.scale : 3 * dot.scale}
+          fill={dot.isResistant ? '#E63946' : '#457B9D'}
           opacity={dot.opacity}
+          initial={{ scale: 0 }}
+          animate={{ scale: 1 }}
+          transition={{ duration: 0.5, delay: i * 0.02 }}
         />
       ))}
+      {panelType === 2 && (
+        <motion.rect
+          x="0" y="0" width="100" height="100"
+          fill="none"
+          stroke="#E63946" strokeWidth="2" opacity={0.1}
+          initial={{ opacity: 0 }} animate={{ opacity: 0.1 }} transition={{ duration: 1 }}
+        />
+      )}
     </svg>
   )
 }
 
 function FinchBeaks({ variant }: { variant: 'drought' | 'rain' }) {
-  const beaks = [
-    { size: 'small', w: 8, h: 4 },
-    { size: 'medium', w: 11, h: 5.5 },
-    { size: 'large', w: 14, h: 7 },
-  ]
+  // Drought = Large beak favored
+  // Rain = Small/Medium beak favored (shifted distribution)
 
-  const highlightIdx = variant === 'drought' ? 2 : 0
+  const isDrought = variant === 'drought'
+  const beakColor = isDrought ? '#E63946' : '#2A9D8F'
+  const headColor = '#1E3A5F'
 
   return (
-    <svg viewBox="0 0 100 65" className="w-full" style={{ height: '60px' }}>
-      {beaks.map((beak, i) => {
-        const cx = 18 + i * 32
-        const cy = 30
-        const isHighlight = i === highlightIdx
-        const headR = 8
-        const headColor = isHighlight ? '#1E3A5F' : 'rgba(30, 58, 95, 0.3)'
-        const beakColor = isHighlight
-          ? (variant === 'drought' ? '#E63946' : '#52B788')
-          : 'rgba(30, 58, 95, 0.2)'
+    <svg viewBox="0 0 100 100" className="w-24 h-24 drop-shadow-lg">
+      {/* Bird Head Silhouette */}
+      <circle cx="50" cy="50" r="25" fill={headColor} />
+      <circle cx="60" cy="42" r="3" fill="white" />
 
-        return (
-          <g key={i}>
-            {/* Highlight ring */}
-            {isHighlight && (
-              <circle
-                cx={cx}
-                cy={cy}
-                r={headR + 5}
-                fill="none"
-                stroke={variant === 'drought' ? '#E63946' : '#52B788'}
-                strokeWidth="1.2"
-                opacity={0.3}
-                strokeDasharray="3,2"
-              />
-            )}
-            {/* Head */}
-            <circle cx={cx} cy={cy} r={headR} fill={headColor} />
-            {/* Eye */}
-            <circle cx={cx + 2} cy={cy - 2} r="1.5" fill="white" opacity={isHighlight ? 0.8 : 0.4} />
-            {/* Beak */}
-            <path
-              d={`M${cx + headR - 1} ${cy - beak.h / 2} L${cx + headR + beak.w} ${cy} L${cx + headR - 1} ${cy + beak.h / 2} Z`}
-              fill={beakColor}
-            />
-            {/* Size label */}
-            <text
-              x={cx}
-              y={cy + headR + 11}
-              textAnchor="middle"
-              fontSize="6.5"
-              fill="#2D2D2D"
-              opacity={isHighlight ? 0.8 : 0.4}
-              fontFamily="Inter, sans-serif"
-              fontWeight={isHighlight ? '600' : '400'}
-            >
-              {beak.size}
-            </text>
-          </g>
-        )
-      })}
+      {/* Beak */}
+      {isDrought ? (
+        <path d="M70 45 L95 55 L70 65 Z" fill={beakColor} stroke="white" strokeWidth="1" />
+      ) : (
+        <path d="M70 48 L85 52 L70 56 Z" fill={beakColor} stroke="white" strokeWidth="1" />
+      )}
+
+      {/* Seeds */}
+      {isDrought ? (
+        <g transform="translate(10, 70)">
+          <circle cx="10" cy="10" r="6" fill="#8D6E63" stroke="#5D4037" strokeWidth="1" />
+          <circle cx="25" cy="5" r="5" fill="#8D6E63" stroke="#5D4037" strokeWidth="1" />
+        </g>
+      ) : (
+        <g transform="translate(10, 70)">
+          <circle cx="10" cy="10" r="3" fill="#A1887F" />
+          <circle cx="20" cy="12" r="3" fill="#A1887F" />
+          <circle cx="30" cy="8" r="3" fill="#A1887F" />
+          <circle cx="15" cy="20" r="3" fill="#A1887F" />
+        </g>
+      )}
     </svg>
   )
 }

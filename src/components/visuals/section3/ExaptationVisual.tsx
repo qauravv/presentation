@@ -1,11 +1,7 @@
-import React from 'react'
-import { BuildStep } from '../../BuildStep'
 
-interface Props {
-    step: number
-}
+interface Props { }
 
-export function ExaptationVisual({ step }: Props) {
+export function ExaptationVisual({ }: Props) {
     return (
         <div className="w-full h-full flex items-center justify-center">
             {/* Placeholder for now until image is generated */}

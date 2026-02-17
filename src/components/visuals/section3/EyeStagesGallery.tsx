@@ -1,4 +1,4 @@
-import React from 'react'
+
 import { BuildStep } from '../../BuildStep'
 
 interface Props {
@@ -10,31 +10,31 @@ const stages = [
         id: 1,
         title: 'Light-sensitive patch',
         description: 'Detects predator\'s shadow. Higher reproduction.',
-        image: '/brain/0d200545-da7c-4d0d-9cc0-afe151857ba6/eye_stage_1_patch_1771341131734.png'
+        image: '/assets/section3/eye_stage_1_patch_1771341131734.png'
     },
     {
         id: 2,
         title: 'Cup shape',
         description: 'Registers light direction. Locates threats more precisely.',
-        image: '/brain/0d200545-da7c-4d0d-9cc0-afe151857ba6/eye_stage_2_cup_1771341441049.png'
+        image: '/assets/section3/eye_stage_2_cup_1771341441049.png'
     },
     {
         id: 3,
         title: 'Pinhole',
         description: 'Detects shape + movement. Significant reproductive difference.',
-        image: null // Placeholder until generated
+        image: '/assets/section3/eye_stage_3_pinhole_1771341692399.png'
     },
     {
         id: 4,
         title: 'Lens',
         description: 'Sharp images. Hunting, navigation, mate recognition.',
-        image: null // Placeholder until generated
+        image: '/assets/section3/eye_stage_4_lens_1771341825240.png'
     },
     {
         id: 5,
         title: 'Camera-type eye',
         description: 'Adjustable focus, iris, resolution.',
-        image: null // Placeholder until generated
+        image: '/assets/section3/eye_stage_5_camera_1771341983662.png'
     }
 ]
 

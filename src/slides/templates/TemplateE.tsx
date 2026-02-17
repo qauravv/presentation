@@ -5,9 +5,7 @@ import { BacteriaPanels } from '../../components/visuals/BacteriaPanels'
 import { EyeStagesGallery } from '../../components/visuals/section3/EyeStagesGallery'
 import { ExaptationVisual } from '../../components/visuals/section3/ExaptationVisual'
 import { ConvergentEyesGrid } from '../../components/visuals/section3/ConvergentEyesGrid'
-import { EyeStages } from '../../components/visuals/EyeStages' // Keeping for reference/fallback if needed
-import { ExaptationFeather } from '../../components/visuals/ExaptationFeather' // Keeping for reference/fallback if needed
-import { ConvergentEyes } from '../../components/visuals/ConvergentEyes' // Keeping for reference/fallback if needed
+
 import { BlendingVsParticulate } from '../../components/visuals/BlendingVsParticulate'
 import { BranchingVsLadder } from '../../components/visuals/BranchingVsLadder'
 import { TiktaalikPanels } from '../../components/visuals/TiktaalikPanels'
@@ -74,7 +72,7 @@ export function TemplateE({ def, step }: Props) {
         ) : isEyeStages ? (
           <EyeStagesGallery step={step} />
         ) : isExaptation ? (
-          <ExaptationVisual step={step} />
+          <ExaptationVisual />
         ) : isConvergentEyes ? (
           <ConvergentEyesGrid step={step} />
         ) : isBlendingVsParticulate ? (

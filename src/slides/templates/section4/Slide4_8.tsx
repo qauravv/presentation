@@ -1,4 +1,4 @@
-import React from 'react'
+import { useState } from 'react'
 import { motion } from 'framer-motion'
 import { DarwinSlideDef } from '../../../types'
 import { BuildStep } from '../../../components/BuildStep'
@@ -10,12 +10,22 @@ interface Props {
 }
 
 export function Slide4_8({ def, step }: Props) {
+    const [hoveredBone, setHoveredBone] = useState<string | null>(null)
+
     return (
         <div className="w-full h-full relative overflow-hidden bg-[#F5F1E8] text-[#1E3A5F]">
             {def.showMiniFlowchart && <MiniFlowchart highlight={def.miniFlowchartHighlight} />}
 
+            {/* Background Subtle Grid */}
+            <div className="absolute inset-0 opacity-5 pointer-events-none"
+                style={{
+                    backgroundImage: 'linear-gradient(#1E3A5F 1px, transparent 1px), linear-gradient(90deg, #1E3A5F 1px, transparent 1px)',
+                    backgroundSize: '40px 40px'
+                }}
+            />
+
             {/* Title Bar */}
-            <div className="absolute top-0 left-0 w-full h-[14%] flex items-center px-[6%] z-10 bg-[#1E3A5F] shadow-md">
+            <div className="absolute top-0 left-0 w-full h-[14%] flex items-center px-[6%] z-10 bg-[#1E3A5F] shadow-lg">
                 <h2 className="text-3xl lg:text-4xl font-heading font-semibold text-white tracking-tight">
                     {def.title}
                 </h2>
@@ -25,21 +35,23 @@ export function Slide4_8({ def, step }: Props) {
 
                 {/* Intro Text */}
                 <BuildStep step={0} currentStep={step} duration={0.6}>
-                    <div className="text-center mb-8 max-w-4xl">
-                        <p className="text-xl font-light">
-                            Comparison of forelimbs across different species reveals a striking pattern.
+                    <div className="text-center mb-6 max-w-4xl relative z-20">
+                        <p className="text-xl font-light leading-relaxed">
+                            Comparison of forelimbs across different species reveals a <span className="font-bold text-[#E76F51]">striking pattern.</span>
                         </p>
                     </div>
                 </BuildStep>
 
                 {/* Visualization Grid */}
-                <div className="flex-1 w-full max-w-6xl grid grid-cols-4 gap-4">
+                <div className="flex-1 w-full max-w-6xl grid grid-cols-4 gap-4 perspective-1000">
                     <LimbPanel
                         step={step}
                         index={0}
                         species="Human"
                         usage="Grasping"
                         bones={originalBones.human}
+                        hoveredBone={hoveredBone}
+                        setHoveredBone={setHoveredBone}
                     />
                     <LimbPanel
                         step={step}
@@ -47,6 +59,8 @@ export function Slide4_8({ def, step }: Props) {
                         species="Cat"
                         usage="Walking"
                         bones={originalBones.cat}
+                        hoveredBone={hoveredBone}
+                        setHoveredBone={setHoveredBone}
                     />
                     <LimbPanel
                         step={step}
@@ -54,6 +68,8 @@ export function Slide4_8({ def, step }: Props) {
                         species="Whale"
                         usage="Swimming"
                         bones={originalBones.whale}
+                        hoveredBone={hoveredBone}
+                        setHoveredBone={setHoveredBone}
                     />
                     <LimbPanel
                         step={step}
@@ -61,53 +77,105 @@ export function Slide4_8({ def, step }: Props) {
                         species="Bat"
                         usage="Flying"
                         bones={originalBones.bat}
+                        hoveredBone={hoveredBone}
+                        setHoveredBone={setHoveredBone}
                     />
                 </div>
 
                 {/* Legend / Insight */}
                 <BuildStep step={1} currentStep={step} duration={0.6}>
-                    <div className="mt-8 flex items-center gap-8 bg-white/80 px-6 py-3 rounded-full shadow-sm border border-[#1E3A5F]/10">
-                        <div className="flex items-center gap-2"><div className="w-4 h-4 bg-[#E76F51]" /> <span className="text-xs font-bold">Humerus</span></div>
-                        <div className="flex items-center gap-2"><div className="w-4 h-4 bg-[#2A9D8F]" /> <span className="text-xs font-bold">Radius/Ulna</span></div>
-                        <div className="flex items-center gap-2"><div className="w-4 h-4 bg-[#E9C46A]" /> <span className="text-xs font-bold">Carpals</span></div>
-                        <div className="flex items-center gap-2"><div className="w-4 h-4 bg-[#264653]" /> <span className="text-xs font-bold">Phalanges</span></div>
+                    <div className="mt-6 flex flex-col items-center z-20">
+                        <div className="flex items-center gap-6 bg-white px-8 py-3 rounded-full shadow-md border border-[#1E3A5F]/10 mb-4 transform hover:scale-105 transition-transform duration-300">
+                            <LegendItem color="#E76F51" label="Humerus" id="humerus" setHoveredBone={setHoveredBone} hoveredBone={hoveredBone} />
+                            <LegendItem color="#2A9D8F" label="Radius/Ulna" id="radiusUlna" setHoveredBone={setHoveredBone} hoveredBone={hoveredBone} />
+                            <LegendItem color="#E9C46A" label="Carpals" id="carpals" setHoveredBone={setHoveredBone} hoveredBone={hoveredBone} />
+                            <LegendItem color="#264653" label="Phalanges" id="phalanges" setHoveredBone={setHoveredBone} hoveredBone={hoveredBone} />
+                        </div>
+                        <motion.div
+                            initial={{ opacity: 0, y: 10 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ delay: 0.5 }}
+                            className="text-center"
+                        >
+                            <p className="text-2xl font-bold text-[#1E3A5F]">
+                                Why use the same bones for such different jobs?
+                            </p>
+                            <p className="text-sm text-[#1E3A5F]/60 mt-1 uppercase tracking-widest font-bold">
+                                Because they inherited them.
+                            </p>
+                        </motion.div>
                     </div>
-                    <p className="mt-4 text-lg font-bold text-[#C9A961]">
-                        Why use the same bones for such different jobs?
-                    </p>
                 </BuildStep>
             </div>
         </div>
     )
 }
 
-function LimbPanel({ step, index, species, usage, bones }: any) {
+function LegendItem({ color, label, id, setHoveredBone, hoveredBone }: any) {
+    const isHovered = hoveredBone === id
+    const isDimmed = hoveredBone && !isHovered
+
+    return (
+        <div
+            className={`flex items-center gap-2 cursor-pointer transition-opacity duration-300 ${isDimmed ? 'opacity-40' : 'opacity-100'}`}
+            onMouseEnter={() => setHoveredBone(id)}
+            onMouseLeave={() => setHoveredBone(null)}
+        >
+            <div className="w-3 h-3 rounded-full shadow-sm" style={{ backgroundColor: color }} />
+            <span className="text-xs font-bold uppercase tracking-wide text-[#1E3A5F]">{label}</span>
+        </div>
+    )
+}
+
+function LimbPanel({ step, index, species, usage, bones, hoveredBone, setHoveredBone }: any) {
     return (
         <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: step >= 0 ? 1 : 0, y: step >= 0 ? 0 : 20 }}
-            transition={{ delay: index * 0.15, duration: 0.5 }}
-            className="bg-white rounded-xl shadow-md border border-[#1E3A5F]/10 flex flex-col items-center p-4 relative overflow-hidden group hover:shadow-lg transition-shadow"
+            initial={{ opacity: 0, rotateX: 90 }}
+            animate={{ opacity: step >= 0 ? 1 : 0, rotateX: step >= 0 ? 0 : 90 }}
+            transition={{ delay: index * 0.15, duration: 0.8, type: "spring", bounce: 0.4 }}
+            className="bg-white rounded-2xl shadow-xl border border-[#1E3A5F]/10 flex flex-col items-center p-6 relative overflow-hidden group hover:-translate-y-2 transition-transform duration-500"
         >
-            <div className="mb-2 text-center">
-                <h3 className="text-lg font-bold text-[#1E3A5F]">{species}</h3>
-                <span className="text-xs text-[#1E3A5F]/60 uppercase tracking-wider">{usage}</span>
+            <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-[#C9A961] to-transparent opacity-50" />
+
+            <div className="mb-4 text-center z-10">
+                <h3 className="text-xl font-bold text-[#1E3A5F] font-heading">{species}</h3>
+                <span className="text-[10px] font-bold text-[#E76F51] bg-[#E76F51]/10 px-2 py-0.5 rounded-full uppercase tracking-wider">{usage}</span>
             </div>
 
             <div className="flex-1 w-full flex items-center justify-center relative">
-                {/* Simplified Bone SVG Construction */}
-                <svg viewBox="0 0 100 200" className="h-full w-auto max-h-[220px]">
-                    {/* Humerus */}
-                    <path d={bones.humerus} fill="#E76F51" opacity={0.8} />
-                    {/* Radius/Ulna */}
-                    <path d={bones.radiusUlna} fill="#2A9D8F" opacity={0.8} />
-                    {/* Carpals */}
-                    <path d={bones.carpals} fill="#E9C46A" opacity={0.8} />
-                    {/* Phalanges */}
-                    <path d={bones.phalanges} fill="#264653" opacity={0.8} />
+                {/* Background Circle */}
+                <div className="absolute inset-0 bg-[#F5F1E8] rounded-full scale-0 group-hover:scale-100 transition-transform duration-700 opacity-30" />
+
+                <svg viewBox="0 0 100 200" className="h-full w-auto max-h-[220px] drop-shadow-lg z-10">
+                    <BonePath d={bones.humerus} color="#E76F51" id="humerus" hoveredBone={hoveredBone} setHoveredBone={setHoveredBone} />
+                    <BonePath d={bones.radiusUlna} color="#2A9D8F" id="radiusUlna" hoveredBone={hoveredBone} setHoveredBone={setHoveredBone} />
+                    <BonePath d={bones.carpals} color="#E9C46A" id="carpals" hoveredBone={hoveredBone} setHoveredBone={setHoveredBone} />
+                    <BonePath d={bones.phalanges} color="#264653" id="phalanges" hoveredBone={hoveredBone} setHoveredBone={setHoveredBone} />
                 </svg>
             </div>
         </motion.div>
+    )
+}
+
+function BonePath({ d, color, id, hoveredBone, setHoveredBone }: any) {
+    const isHovered = hoveredBone === id
+    const isDimmed = hoveredBone && !isHovered
+
+    return (
+        <motion.path
+            d={d}
+            fill={color}
+            initial={{ opacity: 0.9 }}
+            animate={{
+                opacity: isDimmed ? 0.3 : 1,
+                scale: isHovered ? 1.05 : 1
+            }}
+            transition={{ duration: 0.3 }}
+            style={{ originX: "50%", originY: "50%" }}
+            onMouseEnter={() => setHoveredBone(id)}
+            onMouseLeave={() => setHoveredBone(null)}
+            className="cursor-pointer transition-colors duration-300 hover:brightness-110"
+        />
     )
 }
 

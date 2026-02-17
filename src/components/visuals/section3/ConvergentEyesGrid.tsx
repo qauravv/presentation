@@ -1,4 +1,4 @@
-import React from 'react'
+
 import { BuildStep } from '../../BuildStep'
 
 interface Props {
@@ -9,17 +9,17 @@ const eyes = [
     {
         name: 'Octopus',
         desc: 'Camera eye — retina faces light directly. No blind spot.',
-        image: null // Placeholder
+        image: '/assets/section3/octopus_eye_illustration_1771342233384.png'
     },
     {
         name: 'Insect',
         desc: 'Compound eye — thousands of individual ommatidia.',
-        image: null // Placeholder
+        image: '/assets/section3/insect_eye_illustration_1771342310747.png'
     },
     {
         name: 'Mammal',
         desc: 'Camera eye — inverted retina with blind spot.',
-        image: null // Placeholder
+        image: '/assets/section3/mammal_eye_illustration_1771342461467.png'
     }
 ]
 

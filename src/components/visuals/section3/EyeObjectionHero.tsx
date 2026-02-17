@@ -1,4 +1,4 @@
-import React from 'react'
+
 import { BuildStep } from '../../BuildStep'
 
 interface Props {
@@ -12,7 +12,7 @@ export function EyeObjectionHero({ step }: Props) {
             <div
                 className="absolute inset-0 z-0"
                 style={{
-                    backgroundImage: 'url(/brain/0d200545-da7c-4d0d-9cc0-afe151857ba6/eye_macro_background_1771340975318.png)',
+                    backgroundImage: 'url(/assets/section3/eye_macro_background_1771340975318.png)',
                     backgroundSize: 'cover',
                     backgroundPosition: 'center',
                     opacity: 0.6

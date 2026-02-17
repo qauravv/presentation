@@ -8,71 +8,77 @@ interface Props {
  * MicroMacroScale — Used on slide 4.7
  * Horizontal continuum visualization: finch beak (micro) to skeletal change (macro).
  * Deliberately unbroken gradient bar — no wall, no barrier.
- * Step 0 = left endpoint + continuum bar
- * Step 1 = right endpoint + "same mechanism" label
- * Step 2 = "no wall" punchline
+ * Enhanced for stunning presentation.
  */
 export function MicroMacroScale({ step }: Props) {
   return (
-    <div className="w-full flex justify-center">
+    <div className="w-full flex justify-center filter drop-shadow-2xl">
       <svg
-        viewBox="0 0 520 180"
+        viewBox="0 0 550 200"
         className="w-full"
-        style={{ maxWidth: '740px', maxHeight: '210px' }}
+        style={{ maxWidth: '800px', maxHeight: '250px' }}
       >
         <defs>
           <linearGradient id="mm-bar" x1="0" y1="0" x2="1" y2="0">
-            <stop offset="0%" stopColor="#1E3A5F" stopOpacity="0.7" />
-            <stop offset="30%" stopColor="#D4A574" stopOpacity="0.5" />
-            <stop offset="70%" stopColor="#C9A961" stopOpacity="0.5" />
-            <stop offset="100%" stopColor="#1E3A5F" stopOpacity="0.7" />
+            <stop offset="0%" stopColor="#2A9D8F" stopOpacity="0.8" />
+            <stop offset="30%" stopColor="#E9C46A" stopOpacity="0.8" />
+            <stop offset="70%" stopColor="#F4A261" stopOpacity="0.8" />
+            <stop offset="100%" stopColor="#E76F51" stopOpacity="0.8" />
           </linearGradient>
           <linearGradient id="mm-pulse" x1="0" y1="0" x2="1" y2="0">
-            <stop offset="0%" stopColor="#C9A961" stopOpacity="0" />
-            <stop offset="40%" stopColor="#C9A961" stopOpacity="0.4" />
-            <stop offset="60%" stopColor="#C9A961" stopOpacity="0.4" />
-            <stop offset="100%" stopColor="#C9A961" stopOpacity="0" />
+            <stop offset="0%" stopColor="white" stopOpacity="0" />
+            <stop offset="50%" stopColor="white" stopOpacity="0.5" />
+            <stop offset="100%" stopColor="white" stopOpacity="0" />
           </linearGradient>
+          <filter id="glow-soft">
+            <feGaussianBlur stdDeviation="2" result="coloredBlur" />
+            <feMerge>
+              <feMergeNode in="coloredBlur" />
+              <feMergeNode in="SourceGraphic" />
+            </feMerge>
+          </filter>
         </defs>
 
         {/* === LEFT ENDPOINT: Micro (Finch beak) === */}
         <motion.g
-          initial={{ opacity: 0, x: -12 }}
-          animate={{ opacity: step >= 0 ? 1 : 0, x: step >= 0 ? 0 : -12 }}
-          transition={{ duration: 0.5 }}
+          initial={{ opacity: 0, x: -20 }}
+          animate={{ opacity: step >= 0 ? 1 : 0, x: step >= 0 ? 0 : -20 }}
+          transition={{ duration: 0.6, ease: "backOut" }}
         >
-          {/* Finch head with beak */}
-          <g transform="translate(30, 45)">
-            <circle cx="24" cy="24" r="18" fill="#1E3A5F" opacity={0.12} />
-            <circle cx="24" cy="24" r="14" fill="#1E3A5F" opacity={0.35} />
-            <circle cx="28" cy="20" r="2.5" fill="white" opacity={0.7} />
-            <circle cx="28.5" cy="20" r="1.2" fill="#1E3A5F" opacity={0.8} />
-            <path d="M37 22 L52 24 L37 28Z" fill="#D4A574" opacity={0.7} />
-            <path d="M37 22 L52 24 L37 28Z" fill="none" stroke="#D4A574" strokeWidth="0.8" opacity={0.4} />
+          {/* Finch Icon Container */}
+          <circle cx="50" cy="50" r="30" fill="#2A9D8F" opacity={0.15} />
+          <circle cx="50" cy="50" r="25" fill="#2A9D8F" opacity={0.3} />
+
+          {/* Detailed Finch Icon */}
+          <g transform="translate(35, 35) scale(0.6)">
+            <path d="M0 20 Q10 10 25 10 Q40 10 50 30" fill="none" stroke="#1E3A5F" strokeWidth="2" strokeLinecap="round" opacity={0.8} />
+            <path d="M50 30 L30 45 L50 45 Z" fill="#E9C46A" />
+            <circle cx="20" cy="20" r="2" fill="#1E3A5F" />
           </g>
+
           {/* Label */}
           <text
-            x="54"
-            y="108"
+            x="50"
+            y="95"
             textAnchor="middle"
             fontSize="12"
-            fill="#1E3A5F"
-            fontWeight="700"
+            fill="#2A9D8F"
+            fontWeight="800"
             fontFamily="Inter, sans-serif"
+            letterSpacing="0.5px"
           >
-            Finch beak
+            MICRO: BEAK SIZE
           </text>
           {/* Time label */}
-          <rect x="28" y="116" width="52" height="20" rx="4" fill="rgba(30, 58, 95, 0.06)" />
+          <rect x="20" y="105" width="60" height="20" rx="10" fill="white" stroke="#2A9D8F" strokeWidth="1" />
           <text
-            x="54"
-            y="130"
+            x="50"
+            y="119"
             textAnchor="middle"
             fontSize="10"
-            fill="#1E3A5F"
-            fontWeight="600"
+            fill="#2A9D8F"
+            fontWeight="bold"
             fontFamily="Inter, sans-serif"
-            opacity={0.65}
           >
             ~5 years
           </text>
@@ -80,124 +86,118 @@ export function MicroMacroScale({ step }: Props) {
 
         {/* === CONTINUUM BAR === */}
         <motion.g
-          initial={{ opacity: 0 }}
-          animate={{ opacity: step >= 0 ? 1 : 0 }}
-          transition={{ duration: 0.6, delay: 0.2 }}
+          initial={{ opacity: 0, scaleX: 0 }}
+          animate={{ opacity: step >= 0 ? 1 : 0, scaleX: step >= 0 ? 1 : 0 }}
+          transition={{ duration: 0.8, delay: 0.3, ease: "easeOut" }}
         >
           {/* Main bar */}
-          <rect x="100" y="63" width="320" height="8" rx="4" fill="url(#mm-bar)" />
+          <rect x="90" y="46" width="370" height="8" rx="4" fill="url(#mm-bar)" />
 
           {/* Pulsing overlay */}
           <motion.rect
-            x="100"
-            y="63"
-            width="320"
+            x="90"
+            y="46"
+            width="370"
             height="8"
             rx="4"
             fill="url(#mm-pulse)"
-            animate={{ opacity: [0, 0.6, 0] }}
-            transition={{ duration: 2.5, repeat: Infinity, ease: 'easeInOut' }}
+            animate={{ opacity: [0, 0.8, 0], x: [-370, 370, -370] }}
+            transition={{ duration: 3, repeat: Infinity, ease: 'linear' }}
+            style={{ mixBlendMode: 'overlay' }}
           />
 
-          {/* Small tick marks along bar */}
-          {[140, 180, 220, 260, 300, 340, 380].map((x) => (
+          {/* Ticks */}
+          {[130, 170, 210, 250, 290, 330, 370, 410].map((x) => (
             <line
               key={x}
               x1={x}
-              y1="64"
+              y1="46"
               x2={x}
-              y2="70"
-              stroke="#1E3A5F"
-              strokeWidth="0.5"
-              opacity={0.15}
+              y2="54"
+              stroke="white"
+              strokeWidth="1"
+              opacity={0.5}
             />
           ))}
-
-          {/* Arrow tips on bar ends */}
-          <polygon points="98,67 93,62 93,72" fill="#1E3A5F" opacity={0.35} />
-          <polygon points="422,67 427,62 427,72" fill="#1E3A5F" opacity={0.35} />
         </motion.g>
 
         {/* === "same mechanism" LABEL === */}
         <motion.g
-          initial={{ opacity: 0, y: 4 }}
+          initial={{ opacity: 0, y: 10 }}
           animate={{
             opacity: step >= 1 ? 1 : 0,
-            y: step >= 1 ? 0 : 4,
+            y: step >= 1 ? 0 : 10,
           }}
-          transition={{ duration: 0.4, delay: 0.1 }}
+          transition={{ duration: 0.5, delay: 0.2 }}
         >
-          <rect
-            x="195"
-            y="38"
-            width="130"
-            height="20"
-            rx="10"
-            fill="rgba(201, 169, 97, 0.15)"
-            stroke="#C9A961"
-            strokeWidth="0.8"
-          />
-          <text
-            x="260"
-            y="52"
-            textAnchor="middle"
-            fontSize="9.5"
-            fill="#C9A961"
-            fontWeight="700"
-            fontFamily="Inter, sans-serif"
-          >
-            same mechanism
-          </text>
+          <g filter="url(#glow-soft)">
+            <rect
+              x="200"
+              y="20"
+              width="150"
+              height="24"
+              rx="12"
+              fill="white"
+              stroke="#C9A961"
+              strokeWidth="1.5"
+              fillOpacity="0.95"
+            />
+            <text
+              x="275"
+              y="36"
+              textAnchor="middle"
+              fontSize="11"
+              fill="#C9A961"
+              fontWeight="800"
+              fontFamily="Inter, sans-serif"
+              letterSpacing="1px"
+            >
+              SAME MECHANISM
+            </text>
+          </g>
+          <line x1="275" y1="44" x2="275" y2="50" stroke="#C9A961" strokeWidth="1.5" strokeDasharray="2,2" />
         </motion.g>
 
         {/* === RIGHT ENDPOINT: Macro (Skeletal change) === */}
         <motion.g
-          initial={{ opacity: 0, x: 12 }}
-          animate={{ opacity: step >= 1 ? 1 : 0, x: step >= 1 ? 0 : 12 }}
-          transition={{ duration: 0.5, delay: 0.1 }}
+          initial={{ opacity: 0, x: 20 }}
+          animate={{ opacity: step >= 1 ? 1 : 0, x: step >= 1 ? 0 : 20 }}
+          transition={{ duration: 0.6, delay: 0.2, ease: "backOut" }}
         >
+          {/* Icon Container */}
+          <circle cx="500" cy="50" r="30" fill="#E76F51" opacity={0.15} />
+          <circle cx="500" cy="50" r="25" fill="#E76F51" opacity={0.3} />
+
           {/* Skeletal transformation silhouette */}
-          <g transform="translate(432, 40)">
-            {/* Fish-to-tetrapod transformation */}
-            <g opacity={0.35}>
-              {/* Spine */}
-              <path d="M10 28 Q24 22 42 26 Q52 28 58 24" fill="none" stroke="#1E3A5F" strokeWidth="2" />
-              {/* Ribs */}
-              <line x1="18" y1="26" x2="16" y2="36" stroke="#1E3A5F" strokeWidth="1.2" />
-              <line x1="24" y1="24" x2="22" y2="34" stroke="#1E3A5F" strokeWidth="1.2" />
-              <line x1="30" y1="24" x2="28" y2="34" stroke="#1E3A5F" strokeWidth="1.2" />
-              <line x1="36" y1="24" x2="35" y2="34" stroke="#1E3A5F" strokeWidth="1.2" />
-              <line x1="42" y1="25" x2="42" y2="34" stroke="#1E3A5F" strokeWidth="1.2" />
-              {/* Skull */}
-              <ellipse cx="58" cy="22" rx="8" ry="6" fill="#1E3A5F" opacity={0.3} stroke="#1E3A5F" strokeWidth="1" />
-              {/* Limbs */}
-              <path d="M20 36 L16 46 L20 48" fill="none" stroke="#1E3A5F" strokeWidth="1.2" />
-              <path d="M40 34 L44 44 L40 46" fill="none" stroke="#1E3A5F" strokeWidth="1.2" />
-            </g>
+          <g transform="translate(485, 35) scale(0.6)">
+            <path d="M5 25 Q20 10 45 25" fill="none" stroke="#1E3A5F" strokeWidth="3" opacity={0.8} />
+            <line x1="15" y1="20" x2="10" y2="40" stroke="#1E3A5F" strokeWidth="2" opacity={0.8} />
+            <line x1="35" y1="20" x2="40" y2="40" stroke="#1E3A5F" strokeWidth="2" opacity={0.8} />
+            <circle cx="45" cy="25" r="5" fill="#1E3A5F" opacity={0.8} />
           </g>
           {/* Label */}
           <text
-            x="466"
-            y="108"
+            x="500"
+            y="95"
             textAnchor="middle"
             fontSize="12"
-            fill="#1E3A5F"
-            fontWeight="700"
+            fill="#E76F51"
+            fontWeight="800"
             fontFamily="Inter, sans-serif"
+            letterSpacing="0.5px"
           >
-            Bone structure
+            MACRO: BONE TYPES
           </text>
           {/* Time label */}
-          <rect x="428" y="116" width="76" height="20" rx="4" fill="rgba(30, 58, 95, 0.06)" />
+          <rect x="460" y="105" width="80" height="20" rx="10" fill="white" stroke="#E76F51" strokeWidth="1" />
           <text
-            x="466"
-            y="130"
+            x="500"
+            y="119"
             textAnchor="middle"
             fontSize="10"
-            fill="#1E3A5F"
-            fontWeight="600"
+            fill="#E76F51"
+            fontWeight="bold"
             fontFamily="Inter, sans-serif"
-            opacity={0.65}
           >
             ~5 million yrs
           </text>
@@ -205,33 +205,33 @@ export function MicroMacroScale({ step }: Props) {
 
         {/* === "NO WALL" CALLOUT === */}
         <motion.g
-          initial={{ opacity: 0, y: 6 }}
+          initial={{ opacity: 0, scale: 0.9 }}
           animate={{
             opacity: step >= 2 ? 1 : 0,
-            y: step >= 2 ? 0 : 6,
+            scale: step >= 2 ? 1 : 0.9,
           }}
-          transition={{ duration: 0.5, delay: 0.15 }}
+          transition={{ duration: 0.5, delay: 0.3, type: "spring" }}
         >
           <rect
-            x="160"
+            x="165"
             y="150"
-            width="200"
-            height="24"
-            rx="6"
-            fill="rgba(201, 169, 97, 0.1)"
-            stroke="#C9A961"
-            strokeWidth="1"
+            width="220"
+            height="32"
+            rx="8"
+            fill="#1E3A5F"
+            filter="drop-shadow(0px 10px 20px rgba(30,58,95,0.25))"
           />
           <text
-            x="260"
-            y="166"
+            x="275"
+            y="171"
             textAnchor="middle"
-            fontSize="10"
-            fill="#1E3A5F"
+            fontSize="12"
+            fill="white"
             fontWeight="700"
             fontFamily="Inter, sans-serif"
+            letterSpacing="0.5px"
           >
-            No known barrier. No wall. No stop.
+            NO KNOWN "BIOLOGICAL WALL"
           </text>
         </motion.g>
       </svg>
