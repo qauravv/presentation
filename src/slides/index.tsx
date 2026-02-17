@@ -44,6 +44,15 @@ function computeTotalSteps(def: DarwinSlideDef): number {
   if (def.id === 'slide-3.3' || def.id === 'slide-6.3') return 1
   if (def.id === 'slide-6.4') return 4
 
+  /* Section 4 custom-treated slides */
+  if (def.id === 'slide-4.1') return 3  // text → arrows → key phrase
+  if (def.id === 'slide-4.2') return 2  // strat column → prediction callout + bold text
+  if (def.id === 'slide-4.4') return 3  // quote → rabbit → 160+ years
+  if (def.id === 'slide-4.5') return 2  // bio track → physics track + callback
+  if (def.id === 'slide-4.6') return 1  // both panels appear together
+  if (def.id === 'slide-4.7') return 3  // text → scale visual → punchline
+  if (def.id === 'slide-4.9') return 1  // capture cards appear
+
   const content = def.content
 
   switch (content.type) {

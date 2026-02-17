@@ -3,6 +3,7 @@ import type { DarwinSlideDef } from '../../types'
 /** Section 4: The Evidence — Independent Lines That Converge (10 slides — 12.5 min) */
 export const section4: DarwinSlideDef[] = [
   // ── SLIDE 4.1: The Convergence Principle ──
+  // Custom TemplateB treatment: dramatic framing with enlarged ConvergenceArrows
   {
     id: 'slide-4.1',
     section: 4,
@@ -27,16 +28,17 @@ export const section4: DarwinSlideDef[] = [
           step: 0,
         },
         {
-          type: 'text',
+          type: 'keyPhrase',
           text: 'The convergence is what makes the case powerful.',
-          style: 'bold',
-          step: 1,
+          highlight: 'gold',
+          step: 2,
         },
       ],
     },
   },
 
   // ── SLIDE 4.2: The Fossil Record ──
+  // Custom TemplateB treatment: integrates StratigraphicColumn visual
   {
     id: 'slide-4.2',
     section: 4,
@@ -55,25 +57,14 @@ export const section4: DarwinSlideDef[] = [
       titleBar: 'The Fossil Record',
       blocks: [
         {
-          type: 'bullets',
-          items: [
-            'Simpler organisms in older rocks',
-            'More complex in younger rocks',
-            'Consistent across formations worldwide',
-          ],
-          step: 0,
-        },
-        {
           type: 'text',
           text: 'Fossils in adjacent layers should be more similar than fossils from widely separated layers. Confirmed consistently.',
           style: 'bold',
           step: 1,
         },
         {
-          type: 'text',
-          text: 'Geology is messy. Strata fold and fault. But the broad pattern holds.',
-          style: 'italic',
-          step: 2,
+          type: 'footnote',
+          text: 'Geology is messy. Strata fold and fault. But the broad pattern holds across formations worldwide.',
         },
       ],
     },
@@ -117,6 +108,7 @@ export const section4: DarwinSlideDef[] = [
   },
 
   // ── SLIDE 4.4: Falsifiability ──
+  // Custom TemplateB treatment: dramatic elevated layout
   {
     id: 'slide-4.4',
     section: 4,
@@ -158,6 +150,7 @@ export const section4: DarwinSlideDef[] = [
   },
 
   // ── SLIDE 4.5: Independent Dating ──
+  // Custom TemplateB treatment: integrates RadiometricTimeline visual
   {
     id: 'slide-4.5',
     section: 4,
@@ -184,13 +177,7 @@ export const section4: DarwinSlideDef[] = [
         },
         {
           type: 'text',
-          text: 'The ages it assigns independently confirm the chronological order from rock layers.',
-          style: 'normal',
-          step: 0,
-        },
-        {
-          type: 'text',
-          text: 'This is the \'independent convergence\' from earlier in action.',
+          text: 'This is the "independent convergence" from earlier in action.',
           style: 'italic',
           step: 1,
         },
@@ -199,6 +186,7 @@ export const section4: DarwinSlideDef[] = [
   },
 
   // ── SLIDE 4.6: Evolution Observed in Real Time ──
+  // Custom TemplateB treatment: integrates RealTimeEvolutionSplit visual
   {
     id: 'slide-4.6',
     section: 4,
@@ -214,33 +202,13 @@ export const section4: DarwinSlideDef[] = [
       'Bacteria: "Direct observation of the mechanism." Finches: "The Grants tracked individual finches across generations for 40+ years. Selection measured generation by generation."',
     content: {
       type: 'B',
-      blocks: [
-        {
-          type: 'split',
-          left: {
-            heading: 'Antibiotic Resistance',
-            items: [
-              'Bacterial populations evolve resistance within years.',
-              'Direct observation of the mechanism.',
-              'Callbacks Section 2.7 bacteria.',
-            ],
-          },
-          right: {
-            heading: 'The Grants\' Finch Study',
-            items: [
-              '40+ years, generation by generation.',
-              'Drought → hard seeds → larger beaks survived.',
-              'Rains return → advantage shifts.',
-              '"Selection measured."',
-            ],
-          },
-          step: 0,
-        },
-      ],
+      titleBar: 'Evolution Observed in Real Time',
+      blocks: [],
     },
   },
 
   // ── SLIDE 4.7: The Micro/Macro Question ──
+  // Custom TemplateB treatment: integrates MicroMacroScale visual
   {
     id: 'slide-4.7',
     section: 4,
@@ -260,7 +228,7 @@ export const section4: DarwinSlideDef[] = [
       blocks: [
         {
           type: 'text',
-          text: 'No biological barrier says \'selection can change beak size but not bone structure.\'',
+          text: 'No biological barrier says "selection can change beak size but not bone structure."',
           style: 'normal',
           step: 0,
         },
@@ -271,15 +239,9 @@ export const section4: DarwinSlideDef[] = [
           step: 0,
         },
         {
-          type: 'scale',
-          left: { label: 'Finch beak', value: '5 years' },
-          right: { label: 'Cumulative change', value: '5 million years' },
-          step: 1,
-        },
-        {
-          type: 'text',
+          type: 'keyPhrase',
           text: 'No one has found a point where the process hits a wall and stops.',
-          style: 'bold',
+          highlight: 'gold',
           step: 2,
         },
       ],
@@ -303,8 +265,13 @@ export const section4: DarwinSlideDef[] = [
     content: {
       type: 'C',
       question:
-        'Imagine one of these evidence lines turned out to contradict the others — say, the fossil sequence was random rather than ordered.\nWhat would that mean for the theory?\nWhy does the convergence matter?',
-      formatInstructions: 'Pairs → square → room shares',
+        'Imagine one of these evidence lines turned out to contradict the others — say, the fossil sequence was random rather than ordered.',
+      subQuestions: [
+        'What would that mean for the theory?',
+        'Why does the convergence matter?',
+      ],
+      formatInstructions: 'Pairs 90s → join another pair 60s → room shares',
+      processingCue: 'Think about what makes convergence powerful before discussing.',
       checkpointReveal: {
         isOpenEnded: true,
       },
@@ -312,6 +279,7 @@ export const section4: DarwinSlideDef[] = [
   },
 
   // ── SLIDE 4.9: Discussion Capture ──
+  // Custom TemplateB treatment: warm flexible capture cards
   {
     id: 'slide-4.9',
     section: 4,
@@ -328,18 +296,12 @@ export const section4: DarwinSlideDef[] = [
     verbalBackup: '[Skip discussion capture — proceed after room share.]',
     content: {
       type: 'B',
-      titleBar: 'Discussion Capture',
+      titleBar: 'What We Heard',
       blocks: [
         {
           type: 'text',
           text: 'Space for 2–3 student responses captured during room share.',
           style: 'muted',
-          step: 0,
-        },
-        {
-          type: 'text',
-          text: '[Flexible content area — type or handwrite during live discussion]',
-          style: 'italic',
           step: 0,
         },
       ],

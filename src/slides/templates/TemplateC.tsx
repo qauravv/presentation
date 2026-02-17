@@ -115,13 +115,25 @@ export function TemplateC({ def, step }: Props) {
             </div>
           )}
 
-          {/* Sub-questions */}
+          {/* Sub-questions — numbered with visual markers */}
           {content.subQuestions && (
-            <div className="text-center space-y-2">
+            <div className="space-y-3 max-w-2xl mx-auto">
               {content.subQuestions.map((sq, i) => (
-                <p key={i} className="text-lg sm:text-xl text-darwin-charcoal/80 leading-relaxed">
-                  {sq}
-                </p>
+                <div key={i} className="flex items-start gap-3">
+                  <span
+                    className="shrink-0 w-7 h-7 rounded-full flex items-center justify-center text-sm font-bold mt-0.5"
+                    style={{
+                      backgroundColor: 'rgba(231, 111, 81, 0.1)',
+                      color: '#E76F51',
+                      border: '1.5px solid rgba(231, 111, 81, 0.25)',
+                    }}
+                  >
+                    {i + 1}
+                  </span>
+                  <p className="text-lg sm:text-xl lg:text-2xl text-darwin-charcoal font-medium leading-relaxed">
+                    {sq}
+                  </p>
+                </div>
               ))}
             </div>
           )}
