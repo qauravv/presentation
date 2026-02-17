@@ -256,7 +256,7 @@ export const section5: DarwinSlideDef[] = [
     palette: 'modern',
     timing: 90,
     compressionTag: 'CORE',
-    showMiniFlowchart: true,
+    showMiniFlowchart: false,
     speakerNotes:
       '"This is one of the most important learning moments in the seminar." Don\'t rush. Linger on Option B. Let students sit with the distinction between "sorting" and "directing toward."\nClosing line normalizes the error: "It\'s designed to be tempting."\n🔴 ALL DECKS — NEVER CUT',
     content: {

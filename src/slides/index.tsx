@@ -41,7 +41,9 @@ const templateComponents: Record<
 
 function computeTotalSteps(def: DarwinSlideDef): number {
   if (def.id === 'slide-2.2') return 6
-  if (def.id === 'slide-3.3' || def.id === 'slide-6.3') return 1
+  if (def.id === 'slide-3.3') return 1
+  if (def.id === 'slide-6.1') return 3
+  if (def.id === 'slide-6.3') return 2
   if (def.id === 'slide-6.4') return 4
 
   /* Section 4 custom-treated slides */
@@ -52,6 +54,13 @@ function computeTotalSteps(def: DarwinSlideDef): number {
   if (def.id === 'slide-4.6') return 1  // both panels appear together
   if (def.id === 'slide-4.7') return 3  // text → scale visual → punchline
   if (def.id === 'slide-4.9') return 1  // capture cards appear
+
+  /* Section 5 custom-treated slides */
+  if (def.id === 'slide-5.1') return 3  // serif line → transitional line → modern line + era badges
+  if (def.id === 'slide-5.2') return 3  // framing text → visual + bold text → gold box + footnote
+  if (def.id === 'slide-5.4') return 3  // Mendel events → Jenkin/Darwin + gap → rediscovered + narrative
+  if (def.id === 'slide-5.5') return 3  // framing text → bridge connects → key phrase gold box
+  if (def.id === 'slide-5.7') return 2  // reveal panel → closing line
 
   const content = def.content
 

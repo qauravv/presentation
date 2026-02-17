@@ -68,20 +68,20 @@ export const section6: DarwinSlideDef[] = [
         {
           type: 'text',
           text: 'Evolutionary theory explains the diversity and adaptation of life.',
-          style: 'normal',
+          style: 'large-bold',
           step: 0,
         },
         {
           type: 'text',
           text: 'It does not explain the origin of life itself. That is a separate field — abiogenesis.',
           style: 'normal',
-          step: 0,
+          step: 1,
         },
         {
           type: 'text',
           text: 'Acknowledging a theory\'s scope is a strength, not a weakness.',
           style: 'italic',
-          step: 1,
+          step: 2,
         },
       ],
     },
@@ -98,7 +98,7 @@ export const section6: DarwinSlideDef[] = [
     palette: 'resolution',
     timing: 75,
     compressionTag: 'CORE',
-    showMiniFlowchart: false,
+    showMiniFlowchart: true,
     speakerNotes:
       'Progress narrative: final correction. "There is no ladder of progress, no predetermined endpoint." The visual does the heavy lifting.\nTracker cross-off #3.',
     content: {
@@ -202,13 +202,13 @@ export const section6: DarwinSlideDef[] = [
         {
           type: 'text',
           text: 'For example —',
-          style: 'normal',
+          style: 'muted',
           step: 0,
         },
         {
           type: 'text',
           text: 'Is the randomness distinction clear?',
-          style: 'large-bold',
+          style: 'centered-large',
           step: 0,
         },
         {
