@@ -5,8 +5,11 @@ interface BuildStepProps {
   currentStep: number
   children: React.ReactNode
   className?: string
-  /** Override fade duration in seconds */
   duration?: number
+  /** Delay in seconds for stagger effects */
+  delay?: number
+  /** Use pure fade instead of fade+slide */
+  fadeOnly?: boolean
 }
 
 export function BuildStep({
@@ -14,15 +17,24 @@ export function BuildStep({
   currentStep,
   children,
   className = '',
-  duration = 0.6,
+  duration = 0.4,
+  delay = 0,
+  fadeOnly = false,
 }: BuildStepProps) {
   const visible = currentStep >= step
 
   return (
     <motion.div
-      initial={{ opacity: 0 }}
-      animate={{ opacity: visible ? 1 : 0 }}
-      transition={{ duration: visible ? duration : 0.15 }}
+      initial={{ opacity: 0, y: fadeOnly ? 0 : 12 }}
+      animate={{
+        opacity: visible ? 1 : 0,
+        y: visible ? 0 : (fadeOnly ? 0 : 12),
+      }}
+      transition={{
+        duration: visible ? duration : 0.15,
+        delay: visible ? delay : 0,
+        ease: [0.25, 0.1, 0.25, 1],
+      }}
       className={className}
       style={{ pointerEvents: visible ? 'auto' : 'none' }}
     >

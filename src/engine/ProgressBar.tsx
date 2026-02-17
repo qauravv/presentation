@@ -5,6 +5,10 @@ interface ProgressBarProps {
   totalStepsOnCurrentSlide: number
 }
 
+/**
+ * Thin progress bar at the very bottom of the screen (3px height).
+ * Color matches current palette accent via CSS variable.
+ */
 export function ProgressBar({
   slideIndex,
   stepIndex,
@@ -19,11 +23,12 @@ export function ProgressBar({
 
   return (
     <div
-      className="fixed bottom-0 left-0 right-0 h-1 bg-obsidian/80 z-30"
+      className="fixed bottom-0 left-0 right-0 z-30"
+      style={{ height: '3px', backgroundColor: 'rgba(0, 0, 0, 0.06)' }}
       aria-hidden
     >
       <div
-        className="h-full bg-ember/70 transition-all duration-300 ease-out"
+        className="h-full progress-bar-fill"
         style={{ width: `${Math.min(100, Math.max(0, overallProgress * 100))}%` }}
       />
     </div>
