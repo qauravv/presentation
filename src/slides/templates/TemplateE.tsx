@@ -25,6 +25,15 @@ export function TemplateE({ def, step }: Props) {
   const isBlendingVsParticulate = def.id === 'slide-5.3'
   const isBranchingVsLadder = def.id === 'slide-6.3'
   const isTiktaalik = def.id === 'slide-4.3'
+  const componentOwnsCaption = isMechanismFlowchart || isBlendingVsParticulate || isBranchingVsLadder
+
+  const captionStep = isEyeStages
+    ? 0
+    : isBacteriaResistance || isTiktaalik
+      ? 2
+      : content.panels
+        ? 2
+        : 1
 
   return (
     <div
@@ -36,7 +45,7 @@ export function TemplateE({ def, step }: Props) {
       {/* Title */}
       {content.title && (
         <div className="shrink-0" style={{ padding: '1.5rem 6% 0' }}>
-          <h2 className="text-xl sm:text-2xl lg:text-3xl font-heading font-semibold"
+          <h2 className="text-2xl sm:text-3xl lg:text-4xl font-heading font-semibold"
               style={{ color: 'var(--slide-heading)' }}>
             {content.title}
           </h2>
@@ -62,7 +71,7 @@ export function TemplateE({ def, step }: Props) {
         ) : content.panels && content.panels.length > 0 ? (
           <div className={`grid gap-4 sm:gap-5 ${panelGridClass(content.panels.length)} w-full`}>
             {content.panels.map((panel, i) => (
-              <BuildStep key={i} step={i > 0 ? 1 : 0} currentStep={step} duration={0.45} delay={i * 0.08}>
+              <BuildStep key={i} step={i > 0 ? 1 : 0} currentStep={step} duration={0.42} delay={i * 0.12}>
                 <div
                   className="rounded-xl text-center h-full flex flex-col justify-center"
                   style={{
@@ -102,8 +111,8 @@ export function TemplateE({ def, step }: Props) {
       </div>
 
       {/* Caption */}
-      {content.caption && (
-        <BuildStep step={content.panels ? 2 : 1} currentStep={step} duration={0.5}>
+      {content.caption && !componentOwnsCaption && (
+        <BuildStep step={captionStep} currentStep={step} duration={0.5}>
           <div className="shrink-0" style={{ padding: '0 6% 1.5rem' }}>
             {isBacteriaResistance ? (
               <div className="text-center">
@@ -120,13 +129,6 @@ export function TemplateE({ def, step }: Props) {
           </div>
         </BuildStep>
       )}
-
-      {/* Footer */}
-      <div className="shrink-0 flex justify-between items-center slide-footer"
-           style={{ padding: '0.5rem 6%' }}>
-        <span className="font-sans">{def.section} · {sectionName(def.section)}</span>
-        <span className="font-sans">{def.slideNum}</span>
-      </div>
     </div>
   )
 }
@@ -138,10 +140,3 @@ function panelGridClass(count: number): string {
   return 'grid-cols-2'
 }
 
-function sectionName(section: number): string {
-  const names: Record<number, string> = {
-    1: 'Bridge + Frame', 2: "Darwin's Logic", 3: 'The Eye',
-    4: 'The Evidence', 5: 'Inheritance', 6: 'Close',
-  }
-  return names[section] ?? ''
-}

@@ -101,14 +101,14 @@ export function FullFlowchart({ step = 0 }: { step?: number }) {
 
         {boxes.map((box, i) => {
           const y = i * (boxH + arrowH)
-          const delay = i * 0.15
+          const visible = step >= i
 
           return (
             <motion.g
               key={i}
               initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.4, delay: delay + 0.2, ease: [0.25, 0.1, 0.25, 1] }}
+              animate={{ opacity: visible ? 1 : 0, y: visible ? 0 : 10 }}
+              transition={{ duration: 0.42, ease: [0.25, 0.1, 0.25, 1] }}
             >
               {/* Box */}
               <rect
@@ -153,8 +153,8 @@ export function FullFlowchart({ step = 0 }: { step?: number }) {
                   strokeWidth="2.5"
                   markerEnd="url(#flow-arrow)"
                   initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  transition={{ duration: 0.3, delay: delay + 0.4 }}
+                  animate={{ opacity: step >= i + 1 ? 1 : 0 }}
+                  transition={{ duration: 0.35 }}
                 />
               )}
             </motion.g>
@@ -166,8 +166,8 @@ export function FullFlowchart({ step = 0 }: { step?: number }) {
       <motion.div
         className="mt-4 text-center"
         initial={{ opacity: 0 }}
-        animate={{ opacity: step >= 1 ? 1 : 0.8 }}
-        transition={{ duration: 0.5, delay: 1.2 }}
+        animate={{ opacity: step >= 5 ? 1 : 0 }}
+        transition={{ duration: 0.45 }}
       >
         <p className="text-lg sm:text-xl font-bold text-darwin-charcoal">
           Undirected input → Environmentally biased output

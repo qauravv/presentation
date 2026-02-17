@@ -14,6 +14,7 @@ export interface SlideProps {
 
 export interface SlideConfig {
   id: string
+  title?: string
   mode: SlideMode
   background: string
   totalSteps: number
@@ -55,7 +56,7 @@ export type CompressionTag =
 export interface TextBlock {
   type: 'text'
   text: string
-  style?: 'normal' | 'bold' | 'italic' | 'large' | 'small' | 'muted' | 'large-bold' | 'centered-large'
+  style?: 'normal' | 'bold' | 'italic' | 'large' | 'small' | 'muted' | 'large-bold' | 'centered-large' | 'thesis'
   step?: number
 }
 

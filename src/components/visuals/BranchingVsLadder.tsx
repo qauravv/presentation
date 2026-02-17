@@ -64,35 +64,40 @@ export function BranchingVsLadder() {
           </div>
 
           <svg viewBox="0 0 200 220" className="w-full mx-auto" style={{ maxHeight: '280px', maxWidth: '250px', display: 'block' }}>
-            {/* Trunk */}
+            {/* Trunk + major branches */}
             <line x1="100" y1="210" x2="100" y2="170" stroke="#C9A961" strokeWidth="2.5" />
+            <line x1="100" y1="170" x2="70" y2="150" stroke="#C9A961" strokeWidth="2" />
+            <line x1="100" y1="170" x2="130" y2="150" stroke="#C9A961" strokeWidth="2" />
 
-            {/* Main branches */}
-            <line x1="100" y1="170" x2="45" y2="120" stroke="#C9A961" strokeWidth="2" />
-            <line x1="100" y1="170" x2="155" y2="120" stroke="#C9A961" strokeWidth="2" />
+            {/* Mid-level branching */}
+            <line x1="70" y1="150" x2="35" y2="95" stroke="#C9A961" strokeWidth="1.8" />
+            <line x1="70" y1="150" x2="70" y2="95" stroke="#C9A961" strokeWidth="1.8" />
+            <line x1="70" y1="150" x2="95" y2="95" stroke="#C9A961" strokeWidth="1.8" />
+            <line x1="130" y1="150" x2="105" y2="95" stroke="#C9A961" strokeWidth="1.8" />
+            <line x1="130" y1="150" x2="130" y2="95" stroke="#C9A961" strokeWidth="1.8" />
+            <line x1="130" y1="150" x2="165" y2="95" stroke="#C9A961" strokeWidth="1.8" />
 
-            {/* Sub-branches left */}
-            <line x1="45" y1="120" x2="20" y2="55" stroke="#C9A961" strokeWidth="1.5" />
-            <line x1="45" y1="120" x2="55" y2="55" stroke="#C9A961" strokeWidth="1.5" />
-            <line x1="45" y1="120" x2="85" y2="55" stroke="#C9A961" strokeWidth="1.5" />
+            {/* Endpoint stems: ALL terminate at same vertical level */}
+            <line x1="35" y1="95" x2="15" y2="25" stroke="#C9A961" strokeWidth="1.2" />
+            <line x1="35" y1="95" x2="30" y2="25" stroke="#C9A961" strokeWidth="1.2" />
+            <line x1="70" y1="95" x2="50" y2="25" stroke="#C9A961" strokeWidth="1.2" />
+            <line x1="70" y1="95" x2="70" y2="25" stroke="#C9A961" strokeWidth="1.2" />
+            <line x1="95" y1="95" x2="90" y2="25" stroke="#C9A961" strokeWidth="1.2" />
+            <line x1="105" y1="95" x2="110" y2="25" stroke="#C9A961" strokeWidth="1.2" />
+            <line x1="130" y1="95" x2="130" y2="25" stroke="#C9A961" strokeWidth="1.2" />
+            <line x1="130" y1="95" x2="150" y2="25" stroke="#C9A961" strokeWidth="1.2" />
+            <line x1="165" y1="95" x2="170" y2="25" stroke="#C9A961" strokeWidth="1.2" />
 
-            {/* Sub-branches right */}
-            <line x1="155" y1="120" x2="115" y2="55" stroke="#C9A961" strokeWidth="1.5" />
-            <line x1="155" y1="120" x2="145" y2="55" stroke="#C9A961" strokeWidth="1.5" />
-            <line x1="155" y1="120" x2="170" y2="55" stroke="#C9A961" strokeWidth="1.5" />
-
-            {/* Far branches */}
-            <line x1="20" y1="55" x2="10" y2="25" stroke="#C9A961" strokeWidth="1" />
-            <line x1="20" y1="55" x2="30" y2="25" stroke="#C9A961" strokeWidth="1" />
-
-            {/* ALL tips at same Y level (y=25) — this is critical */}
+            {/* ALL tips at same Y coordinate */}
             {[
-              { x: 10, label: 'Bacteria' },
+              { x: 15, label: 'Bacteria' },
               { x: 30, label: 'Archaea' },
-              { x: 55, label: 'Fungi' },
-              { x: 85, label: 'Plants' },
-              { x: 115, label: 'Insects' },
-              { x: 145, label: 'Fish' },
+              { x: 50, label: 'Fungi' },
+              { x: 70, label: 'Plants' },
+              { x: 90, label: 'Insects' },
+              { x: 110, label: 'Fish' },
+              { x: 130, label: 'Reptiles' },
+              { x: 150, label: 'Birds' },
               { x: 170, label: 'Mammals' },
             ].map((tip, i) => (
               <g key={i}>
