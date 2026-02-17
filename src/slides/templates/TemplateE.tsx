@@ -2,9 +2,12 @@ import { BuildStep } from '../../components/BuildStep'
 import type { DarwinSlideDef, TemplateEContent } from '../../types'
 import { FullFlowchart, MiniFlowchart } from './MiniFlowchart'
 import { BacteriaPanels } from '../../components/visuals/BacteriaPanels'
-import { EyeStages } from '../../components/visuals/EyeStages'
-import { ExaptationFeather } from '../../components/visuals/ExaptationFeather'
-import { ConvergentEyes } from '../../components/visuals/ConvergentEyes'
+import { EyeStagesGallery } from '../../components/visuals/section3/EyeStagesGallery'
+import { ExaptationVisual } from '../../components/visuals/section3/ExaptationVisual'
+import { ConvergentEyesGrid } from '../../components/visuals/section3/ConvergentEyesGrid'
+import { EyeStages } from '../../components/visuals/EyeStages' // Keeping for reference/fallback if needed
+import { ExaptationFeather } from '../../components/visuals/ExaptationFeather' // Keeping for reference/fallback if needed
+import { ConvergentEyes } from '../../components/visuals/ConvergentEyes' // Keeping for reference/fallback if needed
 import { BlendingVsParticulate } from '../../components/visuals/BlendingVsParticulate'
 import { BranchingVsLadder } from '../../components/visuals/BranchingVsLadder'
 import { TiktaalikPanels } from '../../components/visuals/TiktaalikPanels'
@@ -54,7 +57,7 @@ export function TemplateE({ def, step }: Props) {
       {content.title && (
         <div className="shrink-0" style={{ padding: '1.1rem 6% 0' }}>
           <h2 className="text-2xl sm:text-3xl lg:text-4xl font-heading font-semibold"
-              style={{ color: 'var(--slide-heading)' }}>
+            style={{ color: 'var(--slide-heading)' }}>
             {content.title}
           </h2>
         </div>
@@ -69,11 +72,11 @@ export function TemplateE({ def, step }: Props) {
         ) : isBacteriaResistance ? (
           <BacteriaPanels step={step} />
         ) : isEyeStages ? (
-          <EyeStages step={step} />
+          <EyeStagesGallery step={step} />
         ) : isExaptation ? (
-          <ExaptationFeather step={step} />
+          <ExaptationVisual step={step} />
         ) : isConvergentEyes ? (
-          <ConvergentEyes step={step} />
+          <ConvergentEyesGrid step={step} />
         ) : isBlendingVsParticulate ? (
           <BlendingVsParticulate step={step} />
         ) : isBranchingVsLadder ? (
@@ -94,11 +97,11 @@ export function TemplateE({ def, step }: Props) {
                   }}
                 >
                   <p className="text-sm sm:text-base font-bold mb-2"
-                     style={{ color: 'var(--slide-heading)' }}>
+                    style={{ color: 'var(--slide-heading)' }}>
                     {panel.title}
                   </p>
                   <p className="text-xs sm:text-sm leading-relaxed"
-                     style={{ color: 'var(--slide-text)' }}>
+                    style={{ color: 'var(--slide-text)' }}>
                     {panel.description}
                   </p>
                 </div>
@@ -108,13 +111,13 @@ export function TemplateE({ def, step }: Props) {
         ) : (
           <BuildStep step={0} currentStep={step} duration={0.5}>
             <div className="rounded-xl text-center"
-                 style={{
-                   backgroundColor: 'rgba(255, 255, 255, 0.45)',
-                   border: '1px solid rgba(45, 45, 45, 0.08)',
-                   padding: '2rem',
-                 }}>
+              style={{
+                backgroundColor: 'rgba(255, 255, 255, 0.45)',
+                border: '1px solid rgba(45, 45, 45, 0.08)',
+                padding: '2rem',
+              }}>
               <p className="text-base sm:text-lg italic"
-                 style={{ color: 'var(--slide-text)', opacity: 0.7 }}>
+                style={{ color: 'var(--slide-text)', opacity: 0.7 }}>
                 {content.visualDescription}
               </p>
             </div>
@@ -123,7 +126,7 @@ export function TemplateE({ def, step }: Props) {
       </div>
 
       {/* Caption */}
-      {content.caption && !componentOwnsCaption && (
+      {content.caption && !componentOwnsCaption && !isEyeStages && !isExaptation && !isConvergentEyes && (
         <BuildStep step={captionStep} currentStep={step} duration={0.5}>
           <div className="shrink-0" style={{ padding: '0 6% 1.5rem' }}>
             {isBacteriaResistance ? (
@@ -134,7 +137,7 @@ export function TemplateE({ def, step }: Props) {
               </div>
             ) : (
               <p className="text-base sm:text-lg lg:text-xl font-bold text-center"
-                 style={{ color: 'var(--slide-heading)' }}>
+                style={{ color: 'var(--slide-heading)' }}>
                 {content.caption}
               </p>
             )}
