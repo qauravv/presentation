@@ -8,6 +8,11 @@ import { StratigraphicColumn } from '../../components/visuals/StratigraphicColum
 import { RadiometricTimeline } from '../../components/visuals/RadiometricTimeline'
 import { RealTimeEvolutionSplit } from '../../components/visuals/RealTimeEvolutionSplit'
 import { MicroMacroScale } from '../../components/visuals/MicroMacroScale'
+import { PaintMixingDissolver } from '../../components/visuals/PaintMixingDissolver'
+import { MendelDarwinTimeline } from '../../components/visuals/MendelDarwinTimeline'
+import { ModernSynthesisBridge } from '../../components/visuals/ModernSynthesisBridge'
+import { DiagnosticRevealPanel } from '../../components/visuals/DiagnosticRevealPanel'
+import { GeneticCodeVisual } from '../../components/visuals/GeneticCodeVisual'
 
 interface Props {
   def: DarwinSlideDef
@@ -122,6 +127,70 @@ export function TemplateB({ def, step }: Props) {
               >
                 {content.blocks[1] && 'text' in content.blocks[1] ? content.blocks[1].text : ''}
               </p>
+            </BuildStep>
+          </div>
+        </div>
+      </div>
+    )
+  }
+
+  /* ── Slide 6.1: The Unity of Life — DNA / genetic code anchor ── */
+  if (def.id === 'slide-6.1') {
+    return (
+      <div
+        className="w-full h-full flex flex-col slide-palette-bg relative"
+        data-palette={def.palette}
+      >
+        {def.showMiniFlowchart && <MiniFlowchart highlight={def.miniFlowchartHighlight} />}
+
+        {/* Title bar */}
+        <div
+          className="shrink-0 flex items-center"
+          style={{
+            minHeight: '16%',
+            backgroundColor: 'var(--slide-heading)',
+            padding: def.showMiniFlowchart ? '0 18% 0 6%' : '0 6%',
+          }}
+        >
+          <h2 className="text-2xl sm:text-3xl lg:text-4xl font-heading font-semibold text-white leading-snug tracking-[-0.01em]">
+            {titleText}
+          </h2>
+        </div>
+
+        {/* Content */}
+        <div
+          className="flex-1 min-h-0 overflow-hidden flex flex-col"
+          style={{
+            padding: def.showMiniFlowchart ? '1.7rem 18% 1.4rem 6%' : '1.7rem 6% 1.4rem',
+          }}
+        >
+          <div className="max-w-5xl mx-auto flex-1 flex flex-col gap-5 sm:gap-6">
+            {/* Top reasoning line(s) */}
+            <BuildStep step={0} currentStep={step} duration={0.5}>
+              <p className="text-[1.5rem] sm:text-[1.8rem] leading-[1.45] text-slide-text font-heading">
+                Nearly every living cell — bacteria, oak trees, jellyfish, humans — uses the same basic genetic code.
+                <span className="block text-[1.25rem] sm:text-[1.35rem] font-normal">
+                  Same molecule (DNA), same codon-to-amino-acid translation.
+                </span>
+              </p>
+            </BuildStep>
+
+            {/* Central genetic code visual */}
+            <BuildStep step={1} currentStep={step} duration={0.6}>
+              <GeneticCodeVisual step={step} />
+            </BuildStep>
+
+            {/* Prediction-test punchline */}
+            <BuildStep step={2} currentStep={step} duration={0.5}>
+              <div className="mt-1 flex flex-col items-center gap-2">
+                <p className="text-base sm:text-lg lg:text-xl font-bold gold-box inline-block text-center">
+                  If separately designed: no reason for identical machinery. If common ancestor: exactly what you&apos;d
+                  predict.
+                </p>
+                <p className="text-[1.1rem] sm:text-[1.2rem] font-semibold text-slide-heading text-center">
+                  The code itself is evidence.
+                </p>
+              </div>
             </BuildStep>
           </div>
         </div>
@@ -398,6 +467,208 @@ export function TemplateB({ def, step }: Props) {
                 </div>
               </BuildStep>
             ))}
+          </div>
+        </div>
+      </div>
+    )
+  }
+
+  /* ── Slide 5.2: Darwin's Unsolved Problem — Paint-Mixing Visual ── */
+  if (def.id === 'slide-5.2') {
+    return (
+      <div className="w-full h-full flex flex-col slide-palette-bg relative" data-palette={def.palette}>
+        {def.showMiniFlowchart && <MiniFlowchart highlight={def.miniFlowchartHighlight} />}
+        <div
+          className="shrink-0 flex items-center"
+          style={{
+            minHeight: '14%',
+            backgroundColor: 'var(--slide-heading)',
+            padding: def.showMiniFlowchart ? '0 18% 0 6%' : '0 6%',
+          }}
+        >
+          <h2 className="text-2xl sm:text-3xl lg:text-4xl font-heading font-semibold text-white leading-snug tracking-[-0.01em]">
+            {titleText}
+          </h2>
+        </div>
+        <div className="flex-1 min-h-0 flex flex-col overflow-hidden" style={{ padding: '1rem 6% 0.5rem' }}>
+          <BuildStep step={0} currentStep={step} duration={0.5}>
+            <p className="text-[1.25rem] sm:text-[1.4rem] leading-relaxed text-center max-w-3xl mx-auto mb-2" style={{ color: 'var(--slide-text)' }}>
+              In Darwin&rsquo;s era, traits were assumed to blend like mixing paint: tall + short = medium.
+            </p>
+          </BuildStep>
+          <div className="flex-1 flex items-center justify-center min-h-0">
+            <PaintMixingDissolver step={step} />
+          </div>
+          <BuildStep step={1} currentStep={step} duration={0.5}>
+            <p className="text-[1.35rem] sm:text-[1.55rem] font-bold text-center max-w-3xl mx-auto" style={{ color: 'var(--slide-heading)' }}>
+              If blending is true, any beneficial variant gets halved each generation. Within a few generations, it dissolves.
+            </p>
+          </BuildStep>
+          <BuildStep step={2} currentStep={step} duration={0.5}>
+            <div className="flex items-center justify-center gap-6 mt-2 mb-1">
+              <p className="text-base sm:text-lg lg:text-xl font-bold gold-box inline-block">
+                Selection requires variation to persist. Blending destroys it.
+              </p>
+            </div>
+          </BuildStep>
+          <BuildStep step={2} currentStep={step} duration={0.4} delay={0.2}>
+            <p className="text-[0.85rem] italic text-center mx-auto max-w-2xl" style={{ color: 'var(--slide-text)', opacity: 0.45, paddingTop: '0.25rem', marginBottom: '0.25rem' }}>
+              Fleeming Jenkin pointed this out in 1867. Darwin had no adequate answer.
+            </p>
+          </BuildStep>
+        </div>
+      </div>
+    )
+  }
+
+  /* ── Slide 5.4: The Missed Connection — Timeline Visual ── */
+  if (def.id === 'slide-5.4') {
+    return (
+      <div className="w-full h-full flex flex-col slide-palette-bg relative" data-palette={def.palette}>
+        {def.showMiniFlowchart && <MiniFlowchart highlight={def.miniFlowchartHighlight} />}
+        <div
+          className="shrink-0 flex items-center"
+          style={{
+            minHeight: '14%',
+            backgroundColor: 'var(--slide-heading)',
+            padding: def.showMiniFlowchart ? '0 18% 0 6%' : '0 6%',
+          }}
+        >
+          <h2 className="text-2xl sm:text-3xl lg:text-4xl font-heading font-semibold text-white leading-snug tracking-[-0.01em]">
+            {titleText}
+          </h2>
+        </div>
+        <div className="flex-1 min-h-0 flex flex-col items-center justify-center overflow-hidden" style={{ padding: '1rem 5%' }}>
+          <div className="w-full max-w-5xl">
+            <MendelDarwinTimeline step={step} />
+          </div>
+          <BuildStep step={2} currentStep={step} duration={0.6}>
+            <p className="text-[1.15rem] sm:text-[1.3rem] leading-relaxed text-center max-w-3xl italic mt-4" style={{ color: 'var(--slide-text)', opacity: 0.75 }}>
+              Mendel published one year before Jenkin&rsquo;s critique. Darwin almost certainly did not appreciate its significance. Both died without the connection being made.
+            </p>
+          </BuildStep>
+        </div>
+      </div>
+    )
+  }
+
+  /* ── Slide 5.5: The Modern Synthesis — Bridge Visual ── */
+  if (def.id === 'slide-5.5') {
+    return (
+      <div className="w-full h-full flex flex-col slide-palette-bg relative" data-palette={def.palette}>
+        {def.showMiniFlowchart && <MiniFlowchart highlight={def.miniFlowchartHighlight} />}
+        <div
+          className="shrink-0 flex items-center"
+          style={{
+            minHeight: '14%',
+            backgroundColor: 'var(--slide-heading)',
+            padding: def.showMiniFlowchart ? '0 18% 0 6%' : '0 6%',
+          }}
+        >
+          <h2 className="text-2xl sm:text-3xl lg:text-4xl font-heading font-semibold text-white leading-snug tracking-[-0.01em]">
+            {titleText}
+          </h2>
+        </div>
+        <div className="flex-1 min-h-0 flex flex-col overflow-hidden" style={{ padding: '1rem 5% 0.5rem' }}>
+          <BuildStep step={0} currentStep={step} duration={0.5}>
+            <p className="text-[1.15rem] sm:text-[1.3rem] leading-relaxed text-center max-w-4xl mx-auto mb-2" style={{ color: 'var(--slide-text)' }}>
+              In the 1920s&ndash;1940s, mathematicians and biologists formally showed that Darwinian selection operating on Mendelian inheritance produces exactly the patterns of adaptation Darwin described.
+            </p>
+          </BuildStep>
+          <div className="flex-1 flex items-center justify-center min-h-0">
+            <ModernSynthesisBridge step={step} />
+          </div>
+          <BuildStep step={2} currentStep={step} duration={0.6}>
+            <div className="text-center mt-2 mb-1">
+              <p className="text-base sm:text-lg lg:text-xl font-bold gold-box inline-block">
+                Undirected input → Environmentally biased output
+              </p>
+            </div>
+          </BuildStep>
+        </div>
+      </div>
+    )
+  }
+
+  /* ── Slide 5.7: Diagnostic Reveal — Option B Spotlight ── */
+  if (def.id === 'slide-5.7') {
+    return (
+      <div className="w-full h-full flex flex-col slide-palette-bg relative" data-palette={def.palette}>
+        {def.showMiniFlowchart && <MiniFlowchart highlight={def.miniFlowchartHighlight} />}
+        <div
+          className="shrink-0 flex items-center"
+          style={{
+            minHeight: '12%',
+            backgroundColor: 'var(--slide-heading)',
+            padding: def.showMiniFlowchart ? '0 18% 0 6%' : '0 6%',
+          }}
+        >
+          <h2 className="text-2xl sm:text-3xl lg:text-4xl font-heading font-semibold text-white leading-snug tracking-[-0.01em]">
+            {titleText}
+          </h2>
+        </div>
+        <div className="flex-1 min-h-0 overflow-hidden" style={{ padding: '0.75rem 5% 0.5rem' }}>
+          <DiagnosticRevealPanel step={step} />
+        </div>
+      </div>
+    )
+  }
+
+  /* ── Slide 6.8: Misconception Tracker Summary — poster echo ── */
+  if (def.id === 'slide-6.8') {
+    return (
+      <div
+        className="w-full h-full flex flex-col slide-palette-bg relative"
+        data-palette={def.palette}
+      >
+        <div
+          className="shrink-0 flex items-center"
+          style={{
+            minHeight: '16%',
+            backgroundColor: 'var(--slide-heading)',
+            padding: '0 6%',
+          }}
+        >
+          <h2 className="text-2xl sm:text-3xl lg:text-4xl font-heading font-semibold text-white leading-snug tracking-[-0.01em]">
+            {titleText}
+          </h2>
+        </div>
+
+        <div
+          className="flex-1 min-h-0 flex items-center justify-center overflow-hidden"
+          style={{ padding: '1.5rem 8%' }}
+        >
+          <div
+            className="w-full max-w-3xl rounded-2xl relative"
+            style={{
+              backgroundColor: 'rgba(245, 241, 232, 0.96)',
+              border: '1.5px solid rgba(82, 183, 136, 0.45)',
+              boxShadow:
+                '0 18px 38px rgba(0,0,0,0.12), 0 0 0 1px rgba(255,255,255,0.8)',
+              padding: '1.6rem 1.8rem 1.4rem',
+            }}
+          >
+            <div className="absolute -top-3 left-6 text-[0.7rem] tracking-[0.18em] uppercase font-semibold text-slide-text/60">
+              Misconception tracker
+            </div>
+            <div className="absolute -top-3 right-6 flex items-center gap-1.5">
+              <span
+                className="w-2 h-2 rounded-full"
+                style={{ backgroundColor: '#52B788' }}
+              />
+              <span
+                className="w-2 h-2 rounded-full"
+                style={{ backgroundColor: '#52B788', opacity: 0.6 }}
+              />
+              <span
+                className="w-2 h-2 rounded-full"
+                style={{ backgroundColor: '#52B788', opacity: 0.35 }}
+              />
+            </div>
+
+            <div className="mt-1 space-y-4">
+              <ContentBlockRenderer blocks={content.blocks} step={step} />
+            </div>
           </div>
         </div>
       </div>
